@@ -19,6 +19,8 @@ export type INavLink = {
     bio: string;
     imageId: string;
     imageUrl: URL | string;
+    docente: boolean;
+    curso: string;
     file: File[];
   };
   
@@ -46,7 +48,9 @@ export type INavLink = {
     username: string;
     email: string;
     imageUrl: string;
+    docente: boolean;
     bio: string;
+    curso: string;
   };
   
   export type INewUser = {
@@ -54,4 +58,6 @@ export type INavLink = {
     email: string;
     username: string;
     password: string;
+    docente: boolean;
+    curso:string;
   };

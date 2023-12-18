@@ -20,6 +20,8 @@ export async function createUserAccount(user: INewUser) {
             email: newAccount.email,
             username: user.username,
             imageUrl: avatarUrl,
+            docente: user.docente,
+            curso: user.curso,
         })
         return newUser;
     } catch (error) {
@@ -32,7 +34,9 @@ export async function saveUserToDB(user: {
     email: string;
     name: string;
     imageUrl: URL;
-    username?:string; 
+    username?:string;
+    docente?:boolean; 
+    curso:string;
 }){
     try {
         const newUser = await databases.createDocument(

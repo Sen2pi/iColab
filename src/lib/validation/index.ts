@@ -6,4 +6,6 @@ export const SignupValidation = z.object({
     username: z.string().min(2).max(50),
     email: z.string().email(),
     password: z.string().min(8, {message: "Password tem de ter pelo menos 8 caracteres!!"}),
+    docente: z.boolean().default(false),
+    curso: z.string().min(2).max(50),
   })
