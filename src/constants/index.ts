@@ -4,25 +4,16 @@ export const sidebarLinks = [
         route: '/',
         label: 'Inicio',
     },
+
     {
         imgURL: '/assets/icons/wallpaper.svg',
-        route: '/explorar',
-        label: 'Explorar',
-    },
-    {
-        imgURL: '/assets/icons/people.svg',
         route: '/disciplina',
         label: 'Disciplinas',
     },
     {
-        imgURL: '/assets/icons/bookmark.svg',
-        route: '/gravado',
-        label: 'Gravados',
-    },
-    {
-        imgURL: '/assets/icons/gallery-add.svg',
-        route: '/criar-grupo',
-        label: 'Criar Disciplina',
+        imgURL: '/assets/icons/people.svg',
+        route: '/Grupo',
+        label: 'Grupos',
     },
 ]
 export const bottombarLinks = [
