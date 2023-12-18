@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { useToast } from '@/components/ui/use-toast'
 import { useForm } from 'react-hook-form'
-import { SignupValidation as SigninValidation } from '@/lib/validation'
+import { SigninValidation } from '@/lib/validation'
 import { z } from 'zod'
 import Loader from '@/components/shared/Loader'
 import { useSignInAccountMutation } from '@/lib/react-query/queriesAndMutations'
