@@ -1,49 +1,49 @@
 export const sidebarLinks = [
     {
-        imagerUrl: '/assets/icons/home.svg',
-        path: '/',
-        label: 'Home',
+        imgURL: '/assets/icons/home.svg',
+        route: '/',
+        label: 'Inicio',
     },
     {
-        imagerUrl: '/assets/icons/wallpaper.svg',
-        path: '/explore',
-        label: 'Explore',
+        imgURL: '/assets/icons/wallpaper.svg',
+        route: '/explorar',
+        label: 'Explorar',
     },
     {
-        imagerUrl: '/assets/icons/people.svg',
-        path: '/all-users',
-        label: 'People',
+        imgURL: '/assets/icons/people.svg',
+        route: '/disciplina',
+        label: 'Disciplinas',
     },
     {
-        imagerUrl: '/assets/icons/bookmark.svg',
-        path: '/saved',
-        label: 'Saved',
+        imgURL: '/assets/icons/bookmark.svg',
+        route: '/gravado',
+        label: 'Gravados',
     },
     {
-        imagerUrl: '/assets/icons/gallery-add.svg',
-        path: '/create-post',
-        label: 'Create',
+        imgURL: '/assets/icons/gallery-add.svg',
+        route: '/criar-grupo',
+        label: 'Criar Disciplina',
     },
 ]
 export const bottombarLinks = [
     {
-        imagerUrl: '/assets/icons/home.svg',
-        path: '/',
+        imgURL: '/assets/icons/home.svg',
+        route: '/',
         label: 'Home',
     },
     {
-        imagerUrl: '/assets/icons/wallpaper.svg',
-        path: '/explore',
+        imgURL: '/assets/icons/wallpaper.svg',
+        route: '/explore',
         label: 'Explore',
     },
     {
-        imagerUrl: '/assets/icons/bookmark.svg',
-        path: '/saved',
+        imgURL: '/assets/icons/bookmark.svg',
+        route: '/saved',
         label: 'Saved',
     },
     {
-        imagerUrl: '/assets/icons/gallery-add.svg',
-        path: '/create-post',
+        imgURL: '/assets/icons/gallery-add.svg',
+        route: '/create-post',
         label: 'Create',
     },
 ]
