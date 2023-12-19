@@ -48,7 +48,7 @@ function App() {
             <Route element={<RootLayout/>}>
                 <Route index element={<Home/>}/>
                 <Route path="/disciplina" element={<Disciplina/>}/>
-                <Route path="/disciplina" element={<CriarDisciplina/>}/>
+                <Route path="/criar-disciplina" element={<CriarDisciplina/>}/>
                 <Route path="/disciplina/:id" element={<DisciplinaDetalhe/>}/>
                 <Route path="/disciplina/:id" element={<EditarDisciplina/>}/>
                 <Route path="/disciplina/:id" element={<ApagarDisciplina/>}/>

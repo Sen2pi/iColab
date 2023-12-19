@@ -24,16 +24,20 @@ export type INavLink = {
     file: File[];
   };
   
-  export type INewPost = {
-    userId: string;
-    caption: string;
-    file: File[];
-    location?: string;
-    tags?: string;
+  export type INewDisciplina = {
+    professor: string;
+    nome: string;
+    imageUrl: File[];
+    descricao: string;
+    ano: string;
+    inicio: string;
+    fim: string;
+    curso: string;
   };
   
-  export type IUpdatePost = {
-    postId: string;
+  export type IUpdateDisciplina = {
+    professorId: string;
+    DisciplinaId: string;
     caption: string;
     imageId: string;
     imageUrl: URL;

@@ -74,7 +74,7 @@ const SigninForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input type='text' placeholder='Email' className='shad-input' {...field} />
+                  <Input type='text' placeholder='Email XXXXXX@umaia.pt' className='shad-input' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
