@@ -24,3 +24,4 @@ export {default as EditarMensagem} from './EditarMensagem';
 export {default as ApagarMensagem} from './ApagarMensagem';
 export {default as Profile} from './Profile';
 export {default as EditarProfile} from './EditarProfile';
+export {default as MinhasDisciplinas} from './MinhasDisciplinas';

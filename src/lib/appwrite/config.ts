@@ -15,6 +15,7 @@ export const appwriteConfig ={
     inscricaoCollectionId: import.meta.env.VITE_APPWRITE_INSCRICAO_COLLECTIONS_ID,
     tarefaCollectionId: import.meta.env.VITE_APPWRITE_TAREFA_COLLECTIONS_ID,
     disciplinaCollectionId: import.meta.env.VITE_APPWRITE_DISCIPLINA_COLLECTIONS_ID,
+    savesCollectionId: import.meta.env.VITE_APPWRITE_SAVE_COLLECTIONS_ID
 }
 
 export const client = new Client();

@@ -32,6 +32,7 @@ import EditarMensagem from './_root/pages/EditarMensagem';
 import ApagarMensagem from './_root/pages/ApagarMensagem';
 import Profile from './_root/pages/Profile';
 import EditarProfile from './_root/pages/EditarProfile';
+import MinhasDisciplinas from './_root/pages/MinhasDisciplinas';
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
                 <Route path="/chat/:id/mensagem" element={<ApagarMensagem/>}/>
                 <Route path="/profile/:id/*" element={<Profile/>}/>
                 <Route path="/profile/:id" element={<EditarProfile/>}/>
+                <Route path="/minhasdisciplinas" element={<MinhasDisciplinas/>}/>
             </Route>
         </Routes>
         <Toaster/>

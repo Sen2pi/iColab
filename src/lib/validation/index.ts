@@ -31,10 +31,10 @@ export const SignupValidation = z.object({
 export const DisciplinaValidation = z.object({
   professor: z.string().min(0).max(50, { message: "Maximum 50 characters" }),
   nome: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
-  imageUrl: z.custom<File[]>(),
+  file: z.custom<File[]>(),
   descricao: z.string().min(1, { message: "This field is required" }).max(2200, { message: "Maximum 1000 characters." }),
   inicio: z.string(),
   curso: z.string(),
   fim: z.string(),
-  ano: z.number().min(2023,{message:" O minimo aceitavel é 2023 para o ano"}).max(9999),
+  ano: z.string().min(0,{message:" O minimo aceitavel é 2023 para o ano"}).max(4),
 });

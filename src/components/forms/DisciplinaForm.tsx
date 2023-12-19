@@ -3,15 +3,7 @@ import { Models } from "appwrite"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
+import { Form,  FormControl,  FormField,  FormItem,  FormLabel,  FormMessage,} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "../ui/textarea"
 import { useUserContext } from "@/context/AuthContext"
@@ -19,7 +11,8 @@ import FileUploader from "../shared/FileUploader"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "../ui/use-toast"
 import { DisciplinaValidation } from "@/lib/validation"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@radix-ui/react-select"
+import { useCreateDisciplina, useUpdateDisciplina } from "@/lib/react-query/queriesAndMutations"
+import Loader from "../shared/Loader"
 
 type DisciplinaFormProps = {
   disciplina?: Models.Document;
@@ -34,32 +27,32 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
   const form = useForm<z.infer<typeof DisciplinaValidation>>({
     resolver: zodResolver(DisciplinaValidation),
     defaultValues: {
-      professor: user ? user.id : "",
-      nome: disciplina ? disciplina.nome : "",
-      descricao: disciplina ? disciplina.descricao : "",
-      ano: disciplina ? disciplina.ano : "",
-      imageUrl: [],
+      professor: user ? user.id : undefined,
+      nome: disciplina ? disciplina.nome : "Programação",
+      descricao: disciplina ? disciplina.descricao : "A Programação serve para desenvolver o pensamento lógico o seu objectivo nesta disciplina vai ser a criaçao de interfaces graficas para os usuarios",
+      file: [],
+      ano: disciplina ? disciplina.ano.parseInt() : "2023",
       inicio: disciplina ? disciplina.inicio : "",
       fim: disciplina ? disciplina.fim : "",
-      curso: disciplina ? disciplina.curso : "",
+      curso: disciplina ? disciplina.curso : "Informática",
     },
   })
-  // Query
-  //const { mutateAsync: createDisciplina, isPending: isLoadingCreate } = useCreateDisciplina();
-  //const { mutateAsync: updateDisciplina, isPending: isLoadingUpdate } = useUpdateDisciplina();
+  //2 -  Query
+  const { mutateAsync: createDisciplina, isPending: isLoadingCreate } = useCreateDisciplina();
+  const { mutateAsync: updateDisciplina, isPending: isLoadingUpdate } = useUpdateDisciplina();
 
-  // Handler
+  //3 - Handler
   const handleSubmit = async (value: z.infer<typeof DisciplinaValidation>) => {
     // ACTION = UPDATE
     if (disciplina && action === "Update") {
       const updatedDisciplina = await updateDisciplina({
         ...value,
-        postId: disciplina.$id,
+        disciplinaId: disciplina.$id,
         imageId: disciplina.imageId,
         imageUrl: disciplina.imageUrl,
-        name: disciplina.name,
-        descricao: disciplina.descricao,
+        nome: disciplina.nome,
         ano: disciplina.ano,
+        descricao: disciplina.descricao,
         inicio: disciplina.inicio,
         fim: disciplina.fim,
         curso: disciplina.curso,
@@ -77,6 +70,7 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
     const newDisciplina = await createDisciplina({
       ...value,
       professor: user.id,
+      ano: parseInt(value.ano),
     });
 
     if (!newDisciplina) {
@@ -84,8 +78,9 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
         title: `${action} Falhou a criar a Disciplina, por favor tente novamente.`,
       });
     }
-    navigate("/");
+    navigate("/disciplina");
   };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-9 w-full max-w-5xl">
@@ -98,9 +93,6 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
               <FormControl>
                 <Input placeholder="Programação de Interfaces" className="shad-input" {...field} />
               </FormControl>
-              <FormDescription>
-                Insira o nome da disciplina.
-              </FormDescription>
               <FormMessage className="shad-form_message" />
             </FormItem>
           )}
@@ -114,28 +106,22 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
               <FormControl>
                 <Textarea placeholder="A Programação serve para desenvolver o pensamento lógico o seu objectivo nesta disciplina vai ser a criaçao de interfaces graficas para os usuarios" className="shad-textarea custom-scrollbar" {...field} />
               </FormControl>
-              <FormDescription>
-                Descreva a disciplina.
-              </FormDescription>
               <FormMessage className="shad-form_message" />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="imageUrl"
+          name="file"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label"></FormLabel>
+              <FormLabel className="shad-form_label">Insira a Imagem da sua disciplina</FormLabel>
               <FormControl>
                 <FileUploader
                   fieldChange={field.onChange}
                   mediaUrl={disciplina?.imageUrl}
                 />
               </FormControl>
-              <FormDescription>
-                Insira a imagem da disciplina
-              </FormDescription>
               <FormMessage className="shad-form_message" />
             </FormItem>
           )}
@@ -149,9 +135,6 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
               <FormControl>
                 <Input placeholder="2023" className="shad-input" {...field} />
               </FormControl>
-              <FormDescription>
-                Insira o nome da disciplina.
-              </FormDescription>
               <FormMessage className="shad-form_message" />
             </FormItem>
           )}
@@ -165,9 +148,6 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
               <FormControl>
                 <Input placeholder="2023-01-23" className="shad-input" {...field} />
               </FormControl>
-              <FormDescription>
-                Insira a data de inicio no formato AAAA-MM-DD da disciplina.
-              </FormDescription>
               <FormMessage className="shad-form_message" />
             </FormItem>
           )}
@@ -181,9 +161,6 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
               <FormControl>
                 <Input placeholder="2023-01-23" className="shad-input" {...field} />
               </FormControl>
-              <FormDescription>
-                Insira a data de fim no formato AAAA-MM-DD da disciplina.
-              </FormDescription>
               <FormMessage className="shad-form_message" />
             </FormItem>
           )}
@@ -192,27 +169,18 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
           control={form.control}
           name="curso"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow-sm ">
-              <FormLabel>Curso</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione o curso da Disciplina" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="Informática">Informática</SelectItem>
-                  <SelectItem value="Psicologia">Psicologia</SelectItem>
-                  <SelectItem value="Desporto">Informática</SelectItem>
-                </SelectContent>
-              </Select>
+            <FormItem>
+              <FormLabel className="shad-form_label">Curso</FormLabel>
+              <FormControl>
+                <Input placeholder="Informática" className="shad-input" {...field} />
+              </FormControl>
               <FormMessage className="shad-form_message" />
             </FormItem>
           )}
         />
         <div className="flex gap-4 items-center justify-end">
-          <Button type="button" className="shad-button_dark_4">Cancelar</Button>
-          <Button type="submit" className="shad-button_primary whitespace-nowrap">Criar</Button>
+          <Button type="button" className="shad-button_dark_4" onClick={()=>navigate(-1)}>Cancelar</Button>
+          <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={isLoadingCreate || isLoadingUpdate}>{(isLoadingCreate || isLoadingUpdate) && <Loader />}{action} Criar </Button>
         </div>
       </form>
     </Form>

@@ -12,7 +12,9 @@ export type INavLink = {
     route: string;
     label: string;
   };
-  
+  //================================================================================================
+  //===================================== USERS ====================================================
+  //================================================================================================
   export type IUpdateUser = {
     userId: string;
     name: string;
@@ -22,28 +24,6 @@ export type INavLink = {
     docente: boolean;
     curso: string;
     file: File[];
-  };
-  
-  export type INewDisciplina = {
-    professor: string;
-    nome: string;
-    imageUrl: File[];
-    descricao: string;
-    ano: string;
-    inicio: string;
-    fim: string;
-    curso: string;
-  };
-  
-  export type IUpdateDisciplina = {
-    professorId: string;
-    DisciplinaId: string;
-    caption: string;
-    imageId: string;
-    imageUrl: URL;
-    file: File[];
-    location?: string;
-    tags?: string;
   };
   
   export type IUser = {
@@ -64,4 +44,30 @@ export type INavLink = {
     password: string;
     docente: boolean;
     curso:string;
+  };
+  //================================================================================================
+  //===================================== DISCIPLINA ===============================================
+  //================================================================================================
+  export type INewDisciplina = {
+    professor: string;
+    nome: string;
+    descricao: string;
+    file: File[];
+    ano: number;
+    inicio: string;
+    fim: string;
+    curso: string;
+  };
+  
+  export type IUpdateDisciplina = {
+    disciplinaId: string;
+    nome: string;
+    imageId: string;
+    imageUrl: URL;
+    file: File[];
+    ano: number;
+    inicio: string;
+    fim: string;
+    descricao: string;
+    curso: string;
   };
