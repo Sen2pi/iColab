@@ -26,7 +26,6 @@ const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
     onDrop,
     accept: {
       "image/*": [ ".png", ".jpeg", ".jpg"],
-      "file/*": [ ".png", ".jpeg", ".jpg",".pdf", ".docx", ".xlsx", ".zip", ".ppt",".rar", ".pptx"]
     },
   });
 
