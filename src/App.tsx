@@ -51,8 +51,8 @@ function App() {
                 <Route path="/disciplina" element={<Disciplina/>}/>
                 <Route path="/criar-disciplina" element={<CriarDisciplina/>}/>
                 <Route path="/disciplina/:id" element={<DisciplinaDetalhe/>}/>
-                <Route path="/disciplina/:id" element={<EditarDisciplina/>}/>
-                <Route path="/disciplina/:id" element={<ApagarDisciplina/>}/>
+                <Route path="/editar-disciplina/:id" element={<EditarDisciplina/>}/>
+                <Route path="/apagar-disciplina/:id" element={<ApagarDisciplina/>}/>
                 <Route path="/grupo" element={<Grupo/>}/>
                 <Route path="/grupo" element={<CriarGrupo/>}/>
                 <Route path="/grupo/:id" element={<GrupoDetalhe/>}/>
