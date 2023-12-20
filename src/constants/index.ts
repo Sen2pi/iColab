@@ -8,7 +8,7 @@ export const sidebarLinks = [
     {
         imgURL: '/assets/icons/wallpaper.svg',
         route: '/disciplina',
-        label: 'Disciplinas',
+        label: 'Minhas Disciplinas',
     },
     {
         imgURL: '/assets/icons/people.svg',
@@ -26,7 +26,7 @@ export const bottombarLinks = [
     {
         imgURL: '/assets/icons/wallpaper.svg',
         route: '/disciplina',
-        label: 'Disciplinas',
+        label: 'Minhas Disciplinas',
     },
     {
         imgURL: '/assets/icons/people.svg',

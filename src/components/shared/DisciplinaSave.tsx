@@ -56,6 +56,10 @@ const DisciplinaSave = ({ disciplina, userId }: DisciplinaStatsProps) => {
                     className="cursor-pointer"
                     onClick={(e) => handleSaveDisciplina(e)}
                 />}
+                {isSavingDisciplina || isDeletingSaved ? <Loader/> : <p className="text-primary-600 subtle-semibold lg:small-regular">{isSaved? "Já se encontra inscrito":"Inscreva-se"}
+                    </p>}
+                
+
 
             </div>
 
