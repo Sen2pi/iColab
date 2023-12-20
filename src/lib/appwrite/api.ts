@@ -94,7 +94,6 @@ export async function saveUserToDB(user: {
         return error;
     }
 }
-
 // ============================================================
 // =================DISCIPLINA QUERIES=========================
 // ============================================================
@@ -127,6 +126,18 @@ export async function createDisciplina(disciplina: INewDisciplina) {
           inicio: disciplina.inicio,
           fim: disciplina.fim,
           curso: disciplina.curso,
+          /*  INewDisciplina Ordem:
+              professor: string;
+              nome: string;
+              descricao: string;
+              file: File[];
+              imageId: string;
+              imageUrl: URL | string;
+              ano: number;
+              inicio: string;
+              fim: string;
+              curso: string; 
+          */
         }
       );
       if(!newDisciplina){
@@ -166,7 +177,7 @@ export async function uploadFile(file: File) {
     }
 };
 
-export async function getFilePreview(fileId: string) {
+export function getFilePreview(fileId: string) {
   try {
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId, 
@@ -191,4 +202,37 @@ export async function deleteFile(fileId: string) {
       console.log(error);
     }
 
+}
+//=================================================================
+//=====================SAVES ======================================
+//=================================================================
+export async function saveDisciplina(disciplinaId: string, userId: string) {
+  try {
+    const savedDisciplina = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.savesCollectionId,
+      ID.unique(),
+      {
+          users: userId,
+          disciplina: disciplinaId,
+      }
+    )
+      if(!savedDisciplina) throw Error;
+      return savedDisciplina;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function deleteSavedDisciplina(savedRecordId: string) {
+  try {
+    const statusCode = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.savesCollectionId,
+      savedRecordId,
+    )
+      if(!statusCode) throw Error;
+      return {status: "ok"};
+  } catch (error) {
+    console.log(error);
+  }
 }

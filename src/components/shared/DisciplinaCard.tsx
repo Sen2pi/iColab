@@ -2,6 +2,7 @@ import { useUserContext } from "@/context/AuthContext";
 import { formatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
+import DisciplinaSave from "./DisciplinaSave";
 
 type DisciplinaCardProps = {
     disciplina: Models.Document;
@@ -34,16 +35,15 @@ const DisciplinaCard = ({disciplina}: DisciplinaCardProps) => {
         <Link to={`/disciplina/${disciplina.$id}`}>
             <div className="small-medium lg:base-medium py-5">
                 <p>
-                    {disciplina.descricao}
+                    {disciplina.nome}
                 </p>
 
             </div>
-        </Link>
-        <div>
             <img src={disciplina.imageUrl || '/assets/icons/profile-placeholder.svg'} className="post-card_img" alt="post image" />
-        </div>
+        </Link>
+        <DisciplinaSave disciplina={disciplina} userId={user.id} />
     </div>
-  )
-}
+  );
+};
 
 export default DisciplinaCard

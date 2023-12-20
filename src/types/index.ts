@@ -52,9 +52,9 @@ export type INavLink = {
     professor: string;
     nome: string;
     descricao: string;
+    file: File[];
     imageId: string;
     imageUrl: URL | string;
-    file: File[];
     ano: number;
     inicio: string;
     fim: string;
