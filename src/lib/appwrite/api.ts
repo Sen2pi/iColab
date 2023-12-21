@@ -150,6 +150,7 @@ export async function createDisciplina(disciplina: INewDisciplina) {
         return error;
     }
 }
+
 export async function updateDisciplina(disciplina: IUpdateDisciplina) {
   const hasFileToUpdate = disciplina.file.length > 0;
   try {
@@ -199,8 +200,14 @@ export async function updateDisciplina(disciplina: IUpdateDisciplina) {
       }
     );
     if(!updatedDisciplina){
+      if(hasFileToUpdate){
+        await deleteFile(image.imageId);
+      }
+      throw Error; 
+    }
+
+    if(hasFileToUpdate){
       await deleteFile(disciplina.imageId);
-      throw Error;  
     }
     return updatedDisciplina;
   } catch (error) {
@@ -208,6 +215,7 @@ export async function updateDisciplina(disciplina: IUpdateDisciplina) {
       return error;
   }
 }
+
 export async function getRecentDisciplinas() {
   const disciplinas = await databases.listDocuments(
     appwriteConfig.databaseId,
@@ -240,6 +248,21 @@ export async function deleteDisciplina(disciplinaId: string, imageId: string) {
       disciplinaId,
     )
     return {status:'ok'}
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function searchDisciplinas(searchTerm: string) {
+  try {
+    const disciplinas = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.disciplinaCollectionId,
+      [Query.search("caption", searchTerm)]
+    );
+
+    if (!disciplinas) throw Error;
+
+    return disciplinas;
   } catch (error) {
     console.log(error);
   }

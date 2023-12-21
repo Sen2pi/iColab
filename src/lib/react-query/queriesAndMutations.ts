@@ -1,17 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createDisciplina, createUserAccount, deleteSavedDisciplina, getCurrentUser, getDisciplinaById, getRecentDisciplinas, saveDisciplina, signInAccount, signOutAccount } from '../appwrite/api'
-import { INewDisciplina, INewUser } from '@/types'
+import { createDisciplina, createUserAccount, deleteDisciplina, deleteSavedDisciplina, getCurrentUser, getDisciplinaById, getRecentDisciplinas, saveDisciplina, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina } from '../appwrite/api'
+import { INewDisciplina, INewUser, IUpdateDisciplina } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 
 
 // ============================================================
 // Auth QUERIES
 // ============================================================
-export const useCreateUserAccountMutation = () => {
-    return useMutation({
-        mutationFn: (user: INewUser) => createUserAccount(user),
-    })
-};
+
 export const useSignInAccountMutation = () => {
     return useMutation({
         mutationFn: (user: { email: string; password: string; }) => signInAccount(user),
@@ -31,6 +27,11 @@ export const useGetCurrentUser = () => {
         queryKey: [QUERY_KEYS.GET_CURRENT_USER],
         queryFn: getCurrentUser
     })
+};
+export const useCreateUserAccountMutation = () => {
+  return useMutation({
+      mutationFn: (user: INewUser) => createUserAccount(user),
+  })
 };
 
 // ============================================================
@@ -62,7 +63,40 @@ export const useGetDisciplinaById = (disciplinaId: string) => {
     queryFn: () => getDisciplinaById(disciplinaId),
     enabled: !!disciplinaId
   })
+};
+
+export const useUpdateDisciplina = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn:(disciplina : IUpdateDisciplina) => updateDisciplina(disciplina),
+    onSuccess: () => { 
+      queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_DISCIPLINA_BY_ID],
+        })
+    }
+  })
 }
+
+export const useDeleteDisciplina = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({  
+    mutationFn: ({disciplinaId, imageId}:{disciplinaId: string, imageId:string}) => deleteDisciplina(disciplinaId, imageId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_DISCIPLINAS]
+      })
+    }
+  })
+};
+export const useSearchDisciplinas = (searchTerm: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.SEARCH_DISCIPLINAS, searchTerm],
+    queryFn: () => searchDisciplinas(searchTerm),
+    enabled: !!searchTerm,
+  });
+};
+
 //===============================================================
 // SAVES DISCIPLINA QUERIES
 //===============================================================
