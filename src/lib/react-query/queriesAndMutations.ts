@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createDisciplina, createUserAccount, deleteSavedDisciplina, getCurrentUser, getRecentDisciplinas, saveDisciplina, signInAccount, signOutAccount } from '../appwrite/api'
+import { createDisciplina, createUserAccount, deleteSavedDisciplina, getCurrentUser, getDisciplinaById, getRecentDisciplinas, saveDisciplina, signInAccount, signOutAccount } from '../appwrite/api'
 import { INewDisciplina, INewUser } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 
@@ -55,6 +55,14 @@ export const useGetRecentDisciplinas = () => {
         queryFn: getRecentDisciplinas,
     })
 };
+
+export const useGetDisciplinaById = (disciplinaId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_DISCIPLINA_BY_ID, disciplinaId],
+    queryFn: () => getDisciplinaById(disciplinaId),
+    enabled: !!disciplinaId
+  })
+}
 //===============================================================
 // SAVES DISCIPLINA QUERIES
 //===============================================================

@@ -1,5 +1,5 @@
 import{ID, Query} from 'appwrite'
-import { INewDisciplina, INewUser } from "@/types";
+import { INewDisciplina, INewUser, IUpdateDisciplina } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
   // ============================================================
 // AUTH QUERIES
@@ -150,7 +150,64 @@ export async function createDisciplina(disciplina: INewDisciplina) {
         return error;
     }
 }
+export async function updateDisciplina(disciplina: IUpdateDisciplina) {
+  const hasFileToUpdate = disciplina.file.length > 0;
+  try {
+    let image = {
+      imageUrl: disciplina.imageUrl,
+      imageId: disciplina.imageId,
+    }
+    if(hasFileToUpdate) {
+      //Upload do ficheiro :
+      const uploadedFile = await uploadFile(disciplina.file[0]);
+      if(!uploadedFile) throw Error;
+  
+      //Obter o url do ficheiro :
+      const fileUrl = getFilePreview(uploadedFile.$id);
+      if(!fileUrl) {
+        deleteFile(uploadedFile.$id);  
+        throw Error;
+      }
 
+      image= {...image, imageUrl: fileUrl, imageId: uploadedFile.$id}
+    }
+    //gravar a disciplina no banco de dados :
+    const updatedDisciplina = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.disciplinaCollectionId,
+      disciplina.disciplinaId,
+      {
+        nome: disciplina.nome,
+        descricao: disciplina.descricao,
+        imageId: image.imageId,
+        imageUrl: image.imageUrl,
+        ano: disciplina.ano,
+        inicio: disciplina.inicio,
+        fim: disciplina.fim,
+        curso: disciplina.curso,
+        /*  IUpdateDisciplina Ordem:
+            nome: string;
+            descricao: string;
+            imageId: string;
+            imageUrl: URL;
+            file: File[];
+            ano: number;
+            inicio: string;
+            fim: string;
+            curso: string;
+        */
+      }
+    );
+    if(!updatedDisciplina){
+      await deleteFile(disciplina.imageId);
+      throw Error;  
+    }
+    return updatedDisciplina;
+  } catch (error) {
+      console.log(error);
+      return error;
+  }
+}
 export async function getRecentDisciplinas() {
   const disciplinas = await databases.listDocuments(
     appwriteConfig.databaseId,
@@ -159,6 +216,33 @@ export async function getRecentDisciplinas() {
   );
   if(!disciplinas) throw Error;
   return disciplinas;
+}
+
+export async function getDisciplinaById(disciplinaId: string) {
+  try {
+    const disciplina = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.disciplinaCollectionId,
+      disciplinaId,
+    );
+    return disciplina;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deleteDisciplina(disciplinaId: string, imageId: string) {
+  if(!disciplinaId || !imageId) throw Error;
+  try {
+    await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.disciplinaCollectionId,
+      disciplinaId,
+    )
+    return {status:'ok'}
+  } catch (error) {
+    console.log(error);
+  }
 }
 //======================================================
 //======================FILES ==========================

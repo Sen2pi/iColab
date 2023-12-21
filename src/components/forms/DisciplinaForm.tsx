@@ -16,7 +16,7 @@ import Loader from "../shared/Loader"
 
 type DisciplinaFormProps = {
   disciplina?: Models.Document;
-  action: "Create" | "Update";
+  action: 'Create' | 'Update';
 };
 
 const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
