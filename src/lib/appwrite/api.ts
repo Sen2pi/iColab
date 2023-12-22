@@ -122,7 +122,7 @@ export async function createDisciplina(disciplina: INewDisciplina) {
           descricao: disciplina.descricao,
           imageId: uploadedFile.$id,
           imageUrl: fileUrl,
-          ano: disciplina.ano,
+          ano: parseInt(disciplina.ano),
           inicio: disciplina.inicio,
           fim: disciplina.fim,
           curso: disciplina.curso,
@@ -182,7 +182,7 @@ export async function updateDisciplina(disciplina: IUpdateDisciplina) {
         descricao: disciplina.descricao,
         imageId: image.imageId,
         imageUrl: image.imageUrl,
-        ano: disciplina.ano,
+        ano: parseInt(disciplina.ano),
         inicio: disciplina.inicio,
         fim: disciplina.fim,
         curso: disciplina.curso,
@@ -209,7 +209,9 @@ export async function updateDisciplina(disciplina: IUpdateDisciplina) {
     if(hasFileToUpdate){
       await deleteFile(disciplina.imageId);
     }
-    return updatedDisciplina;
+    return {...updatedDisciplina,
+      $id: disciplina.disciplinaId,
+    }
   } catch (error) {
       console.log(error);
       return error;
@@ -257,7 +259,7 @@ export async function searchDisciplinas(searchTerm: string) {
     const disciplinas = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.disciplinaCollectionId,
-      [Query.search("caption", searchTerm)]
+      [Query.search("nome", searchTerm)]
     );
 
     if (!disciplinas) throw Error;

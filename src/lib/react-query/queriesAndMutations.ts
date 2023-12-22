@@ -33,7 +33,6 @@ export const useCreateUserAccountMutation = () => {
       mutationFn: (user: INewUser) => createUserAccount(user),
   })
 };
-
 // ============================================================
 // Disciplina QUERIES
 // ============================================================
@@ -69,10 +68,9 @@ export const useUpdateDisciplina = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn:(disciplina : IUpdateDisciplina) => updateDisciplina(disciplina),
-    onSuccess: () => { 
-      queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.GET_DISCIPLINA_BY_ID],
-        })
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['disciplina', data.id]);
+    }
     }
   })
 }

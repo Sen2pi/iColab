@@ -1,10 +1,13 @@
 import DisciplinaForm from "@/components/forms/DisciplinaForm"
+import Loader from "@/components/shared/Loader";
 import { useGetDisciplinaById } from "@/lib/react-query/queriesAndMutations";
 import { useParams } from "react-router-dom";
 
 const EditarDisciplina = () => {
   const { id } = useParams();
   const {data: disciplina, isPending} = useGetDisciplinaById( id || '');
+  if( isPending) return <Loader/>
+
   return (
     <div className="flex flex-1">
        <div className="common-container">

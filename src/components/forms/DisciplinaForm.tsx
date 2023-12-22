@@ -11,7 +11,7 @@ import FileUploader from "../shared/FileUploader"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "../ui/use-toast"
 import { DisciplinaValidation } from "@/lib/validation"
-import { useCreateDisciplina } from "@/lib/react-query/queriesAndMutations"
+import { useCreateDisciplina, useUpdateDisciplina } from "@/lib/react-query/queriesAndMutations"
 import Loader from "../shared/Loader"
 
 type DisciplinaFormProps = {
@@ -31,31 +31,41 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
       nome: disciplina ? disciplina.nome : "Programação",
       descricao: disciplina ? disciplina.descricao : "A Programação serve para desenvolver o pensamento lógico o seu objectivo nesta disciplina vai ser a criaçao de interfaces graficas para os usuarios",
       file: [],
-      ano: disciplina ? disciplina.ano.parseInt() : "2023",
+      ano: disciplina ? disciplina.ano : "",
       inicio: disciplina ? disciplina.inicio : "",
       fim: disciplina ? disciplina.fim : "",
       curso: disciplina ? disciplina.curso : "Informática",
     },
   })
   //2 -  Query
-  const { mutateAsync: createDisciplina, isPending: isLoadingCreate } = useCreateDisciplina();
+  const { mutateAsync: createDisciplina, isPending: isLoadingCreate } 
+  = useCreateDisciplina();
+  const { mutateAsync: updateDisciplina, isPending: isLoadingUpdate } 
+  = useUpdateDisciplina();
 
   //3 - Handler
-  const handleSubmit = async (value: z.infer<typeof DisciplinaValidation>) => {
+  const handleSubmit = async (value: z.infer<typeof DisciplinaValidation>) => { 
+    // ACTION = UPDATE
+    if (disciplina && action === "Update") {
+      const updatedDisciplina = await updateDisciplina({
+        ...value,
+        disciplinaId: disciplina.id,
+        imageId: disciplina.imageId,
+        imageUrl: disciplina.imageUrl,
+      });
+
+      if (!updatedDisciplina) {
+        toast({
+          title: `${action} Falhou ao atualizar a Disciplina.`,
+        });
+      }
+      return navigate(`/disciplina/${disciplina.$id}`);
+    }
 
     // ACTION = CREATE
     const newDisciplina = await createDisciplina({
       ...value,
       professor:user.id ,
-      nome: value.nome,
-      descricao: value.descricao,
-      ano: parseInt(value.ano),
-      file: value.file,
-      imageId: disciplina? disciplina.imageId : "",
-      imageUrl: disciplina? disciplina.imageUrl : "",
-      inicio: value.inicio,
-      fim: value.fim,
-      curso: value.curso,
     });
 
     if (!newDisciplina) {
@@ -63,7 +73,7 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
         title: `${action} Falhou a criar a Disciplina, por favor tente novamente.`,
       });
     }
-    navigate("/disciplina");
+    navigate("/");
   };
 
   return (
@@ -165,7 +175,7 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
         />
         <div className="flex gap-4 items-center justify-end">
           <Button type="button" className="shad-button_dark_4" onClick={()=>navigate(-1)}>Cancelar</Button>
-          <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={isLoadingCreate }>{(isLoadingCreate) && <Loader />}{action} Criar </Button>
+          <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={isLoadingCreate || isLoadingUpdate }>{(isLoadingCreate || isLoadingUpdate) && <Loader />}{action}</Button>
         </div>
       </form>
     </Form>

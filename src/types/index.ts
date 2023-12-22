@@ -53,9 +53,7 @@ export type INavLink = {
     nome: string;
     descricao: string;
     file: File[];
-    imageId: string;
-    imageUrl: URL | string;
-    ano: number;
+    ano: string;
     inicio: string;
     fim: string;
     curso: string;
@@ -64,11 +62,11 @@ export type INavLink = {
   export type IUpdateDisciplina = {
     disciplinaId: string;
     nome: string;
-    descricao: string;
+    descricao?: string;
     imageId: string;
     imageUrl: URL;
     file: File[];
-    ano: number;
+    ano: string;
     inicio: string;
     fim: string;
     curso: string;
