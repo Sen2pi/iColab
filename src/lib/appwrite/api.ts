@@ -1,6 +1,7 @@
 import{ID, Query} from 'appwrite'
-import { INewDisciplina, INewUser, IUpdateDisciplina } from "@/types";
+import { INewDisciplina, INewModulo, INewUser, IUpdateDisciplina, IUpdateModulo } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
+import { useLocation, useParams } from 'react-router-dom';
   // ============================================================
 // AUTH QUERIES
 // ============================================================
@@ -97,7 +98,16 @@ export async function saveUserToDB(user: {
 // ============================================================
 // =================DISCIPLINA QUERIES=========================
 // ============================================================
+export function getDisciplinaIdFromURL(): string | null {
+  const pathSegments = window.location.pathname.split('/');
+  const disciplinaIndex = pathSegments.indexOf('editar-disciplina');
+  
+  if (disciplinaIndex !== -1 && disciplinaIndex < pathSegments.length - 1) {
+    return pathSegments[disciplinaIndex + 1];
+  }
 
+  return null;
+}
 
 export async function createDisciplina(disciplina: INewDisciplina) {
     try {
@@ -154,6 +164,7 @@ export async function createDisciplina(disciplina: INewDisciplina) {
 export async function updateDisciplina(disciplina: IUpdateDisciplina) {
   const hasFileToUpdate = disciplina.file.length > 0;
   try {
+    const disciplinaId = getDisciplinaIdFromURL();
     let image = {
       imageUrl: disciplina.imageUrl,
       imageId: disciplina.imageId,
@@ -172,6 +183,7 @@ export async function updateDisciplina(disciplina: IUpdateDisciplina) {
 
       image= {...image, imageUrl: fileUrl, imageId: uploadedFile.$id}
     }
+    disciplina.disciplinaId = disciplinaId? disciplinaId : disciplina.disciplinaId;
     //gravar a disciplina no banco de dados :
     const updatedDisciplina = await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -209,9 +221,8 @@ export async function updateDisciplina(disciplina: IUpdateDisciplina) {
     if(hasFileToUpdate){
       await deleteFile(disciplina.imageId);
     }
-    return {...updatedDisciplina,
-      $id: disciplina.disciplinaId,
-    }
+    
+    return updatedDisciplina
   } catch (error) {
       console.log(error);
       return error;
@@ -265,6 +276,156 @@ export async function searchDisciplinas(searchTerm: string) {
     if (!disciplinas) throw Error;
 
     return disciplinas;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//======================================================
+//=====================MODULOS==========================
+//======================================================
+export async function getRecentModulos() {
+  const modulos = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.moduloCollectionId,
+    [Query.orderDesc('$createdAt'), Query.limit(20)]
+  );
+  if(!modulos) throw Error;
+  return modulos;
+}
+export async function createModulo(modulo: INewModulo) {
+  try {
+    //Upload do ficheiro :
+    const uploadedFile = await uploadFile(modulo.file[0]);
+    if(!uploadedFile) throw Error;
+
+    //Obter o url do ficheiro :
+    const fileUrl = getFilePreview(uploadedFile.$id);
+    if(!fileUrl) {
+      deleteFile(uploadedFile.$id);  
+      throw Error;
+    }
+    //gravar a disciplina no banco de dados :
+    const newModulo = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.moduloCollectionId,
+      ID.unique(),
+      {
+        disciplinas: modulo.disciplinas,
+        nome: modulo.nome,
+        descricao: modulo.descricao,
+        imageId: uploadedFile.$id,
+        imageUrl: fileUrl,
+        /*  INewModulo Ordem:
+            disciplinas: string;
+            nome: string;
+            file: File[];
+            descricao: string;
+            completed: boolean;
+        */
+      }
+    );
+    if(!newModulo){
+      await deleteFile(uploadedFile.$id);
+      throw Error;  
+    }
+    return newModulo;
+  } catch (error) {
+      console.log(error);
+      return error;
+  }
+}
+export async function deleteModulo(moduloId: string, fileId: string) {
+  if(!moduloId || !fileId) throw Error;
+  try {
+    await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.moduloCollectionId,
+      moduloId,
+    )
+    return {status:'ok'}
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function updateModulo(modulo: IUpdateModulo) {
+  const hasFileToUpdate = modulo.file.length > 0;
+  try {
+    const moduloId = getModuloIdFromURL();
+    let file = {
+      fileUrl: modulo.fileUrl,
+      fileId: modulo.fileId,
+    }
+    if(hasFileToUpdate) {
+      //Upload do ficheiro :
+      const uploadedFile = await uploadFile(modulo.file[0]);
+      if(!uploadedFile) throw Error;
+  
+      //Obter o url do ficheiro :
+      const fileUrl = getFilePreview(uploadedFile.$id);
+      if(!fileUrl) {
+        deleteFile(uploadedFile.$id);  
+        throw Error;
+      }
+
+      file= {...file, fileUrl: fileUrl, fileId: uploadedFile.$id}
+    }
+    modulo.moduloId = moduloId? moduloId : modulo.moduloId;
+    //gravar a disciplina no banco de dados :
+    const updatedModulo = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.moduloCollectionId,
+      modulo.moduloId,
+      {
+        nome: modulo.nome,
+        descricao: modulo.descricao,
+        fileId: file.fileId,
+        fileUrl: file.fileUrl,
+        /*  IUpdateModulo Ordem:
+            moduloId: string;
+            nome: string;
+            descricao?: string;
+            fileId: string;
+            filrUrl: URL;
+            file: File[];
+        */
+      }
+    );
+    if(!updatedModulo){
+      if(hasFileToUpdate){
+        await deleteFile(file.fileId);
+      }
+      throw Error; 
+    }
+
+    if(hasFileToUpdate){
+      await deleteFile(modulo.fileId);
+    }
+    
+    return updatedModulo
+  } catch (error) {
+      console.log(error);
+      return error;
+  }
+}
+export function getModuloIdFromURL(): string | null {
+  const pathSegments = window.location.pathname.split('/');
+  const moduloIndex = pathSegments.indexOf('editar-modulo');
+  
+  if (moduloIndex !== -1 && moduloIndex < pathSegments.length - 1) {
+    return pathSegments[moduloIndex + 1];
+  }
+
+  return null;
+}
+export async function getModuloById(moduloId: string) {
+  try {
+    const modulo = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.moduloCollectionId,
+      moduloId,
+    );
+    return modulo;
   } catch (error) {
     console.log(error);
   }

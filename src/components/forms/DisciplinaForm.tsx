@@ -31,7 +31,7 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
       nome: disciplina ? disciplina.nome : "Programação",
       descricao: disciplina ? disciplina.descricao : "A Programação serve para desenvolver o pensamento lógico o seu objectivo nesta disciplina vai ser a criaçao de interfaces graficas para os usuarios",
       file: [],
-      ano: disciplina ? disciplina.ano : "",
+      ano: disciplina ? disciplina.ano.toString() : "",
       inicio: disciplina ? disciplina.inicio : "",
       fim: disciplina ? disciplina.fim : "",
       curso: disciplina ? disciplina.curso : "Informática",

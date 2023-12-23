@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createDisciplina, createUserAccount, deleteDisciplina, deleteSavedDisciplina, getCurrentUser, getDisciplinaById, getRecentDisciplinas, saveDisciplina, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina } from '../appwrite/api'
 import { INewDisciplina, INewUser, IUpdateDisciplina } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
+import { useState } from 'react';
 
 
 // ============================================================
@@ -67,10 +68,12 @@ export const useGetDisciplinaById = (disciplinaId: string) => {
 export const useUpdateDisciplina = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn:(disciplina : IUpdateDisciplina) => updateDisciplina(disciplina),
+    mutationFn:(disciplina: IUpdateDisciplina) => updateDisciplina(disciplina),
     onSuccess: (data) => {
-      queryClient.invalidateQueries(['disciplina', data.id]);
-    }
+      console.log('Data:', data);
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_DISCIPLINA_BY_ID, data]
+      });
     }
   })
 }
