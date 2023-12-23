@@ -15,6 +15,14 @@ export enum QUERY_KEYS {
     GET_USER_DISCIPLINAS = 'getUserDisciplinas',
     GET_FILE_PREVIEW = 'getFilePreview',
   
+    //MODULO KEYS 
+    GET_MODULOS = 'getDisciplinas',
+    GET_INFINITE_MODULOS = 'getInfiniteDisciplinas',
+    GET_RECENT_MODULOS = 'getRecentDisciplinas',
+    GET_MODULO_BY_ID = 'getDisciplinaById',
+    GET_DISCIPLINA_MODULOS = 'getUserDisciplinas',
+  
+
     //  SEARCH KEYS
     SEARCH_DISCIPLINAS = 'getSearchDisciplinas',
   }

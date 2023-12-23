@@ -28,7 +28,7 @@ const DisciplinaCard = ({disciplina}: DisciplinaCardProps) => {
                     </div>
                 </div>
             </div>
-            <Link to={`/editar-disciplina/${disciplina.$id}`} className={`${user.id !== disciplina.professor.$id && "hidden"}`}>
+            <Link to={`/criar-modulo-disciplina/${disciplina.$id}`} className={`${user.id !== disciplina.professor.$id && "hidden"}`}>
                 <img src={'/assets/icons/edit.svg'} alt="edit" className="w-12 lg:h-12"/>
             </Link>
         </div>

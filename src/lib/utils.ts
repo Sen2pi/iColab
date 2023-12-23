@@ -1,11 +1,22 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-
+import axios from 'axios'
+import fileDownload from 'js-file-download'
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
+
+export const downloadFile =
+    (url:string, filename:string) => {
+    axios.get(url, {
+      responseType: 'blob',
+    })
+    .then((res) => {
+      fileDownload(res.data, filename)
+    })
+  }
 
 export function formatDateString(dateString: string) {
   const options: Intl.DateTimeFormatOptions = {

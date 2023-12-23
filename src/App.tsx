@@ -33,6 +33,9 @@ import ApagarMensagem from './_root/pages/ApagarMensagem';
 import Profile from './_root/pages/Profile';
 import EditarProfile from './_root/pages/EditarProfile';
 import MinhasDisciplinas from './_root/pages/MinhasDisciplinas';
+import EditarModulo from './_root/pages/EditarModulo';
+import CriarModulo from './_root/pages/CriarModulo';
+
 
 function App() {
   return (
@@ -62,6 +65,8 @@ function App() {
                 <Route path="/tarefa/:id" element={<TarefaDetalhe/>}/>
                 <Route path="/tarefa/:id" element={<EditarTarefa/>}/>
                 <Route path="/tarefa/:id" element={<ApagarTarefa/>}/>
+                <Route path="disciplina/:id/editar-modulo/:id_mod" element={<EditarModulo/>}/>
+                <Route path="disciplina/:id/criar-modulo-disciplina/:id" element={<CriarModulo/>}/>
                 <Route path="/tarefa/:id/requesito" element={<Requesito/>}/>
                 <Route path="/tarefa/:id/requesito/:id" element={<ApagarRequesito/>}/>
                 <Route path="/tarefa/:id/requesito/:id" element={<EditarRequesito/>}/>

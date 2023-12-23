@@ -4,7 +4,7 @@ import { Models } from "appwrite";
 import DisciplinaCard from "@/components/shared/DisciplinaCard";
 
 const Home = () => {
-  const {data: disciplinas, isPending: isDisciplinaLoading, isError: isErrorDisciplina} = useGetRecentDisciplinas(); 
+  const {data: disciplinas, isPending: isDisciplinaLoading} = useGetRecentDisciplinas(); 
   return (
     <div className='flex flex-1'>
       <div className='home-container'>

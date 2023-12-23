@@ -38,3 +38,9 @@ export const DisciplinaValidation = z.object({
   fim: z.string(),
   curso: z.string(),
 });
+export const ModuloValidation = z.object({
+  disciplinas: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
+  nome: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
+  descricao: z.string().min(1, { message: "This field is required" }).max(2200, { message: "Maximum 1000 characters." }),
+  file: z.custom<File[]>(),
+});

@@ -24,10 +24,17 @@ const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: {
-      "image/*": [ ".png", ".jpeg", ".jpg"],
-    },
-  });
+    accept:{
+    "image/jpeg": [".jpeg"],
+    "image/png": [".png"],
+    "image/jpg": [".jpg"],
+    
+    "application/zip": [".zip"],
+    "application/docx": [".docx"],
+    "application/pdf": [".pdf"],
+    "application/pptx": [".pptx"],
+
+  }});
 
   return (
     <div
@@ -38,7 +45,7 @@ const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
       {fileUrl ? (
         <>
           <div className="flex flex-1 justify-center w-full p-5 lg:p-10">
-            <img src={fileUrl} alt="image" className="file_uploader-img" />
+            <img src={fileUrl} alt={"image" || "application"} className="file_uploader-img" />
           </div>
           <p className="file_uploader-label">Clique ou arraste uma foto para substituir.</p>
         </>

@@ -1,8 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createDisciplina, createUserAccount, deleteDisciplina, deleteSavedDisciplina, getCurrentUser, getDisciplinaById, getRecentDisciplinas, saveDisciplina, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina } from '../appwrite/api'
-import { INewDisciplina, INewUser, IUpdateDisciplina } from '@/types'
+import { createDisciplina, createModulo, createUserAccount, deleteDisciplina, deleteModulo, deleteSavedDisciplina, getCurrentUser, getDisciplinaById, getModuloById, getRecentDisciplinas, getRecentModulos, saveDisciplina, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateModulo } from '../appwrite/api'
+import { INewDisciplina, INewModulo, INewUser, IUpdateDisciplina, IUpdateModulo } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
-import { useState } from 'react';
 
 
 // ============================================================
@@ -32,6 +31,13 @@ export const useGetCurrentUser = () => {
 export const useCreateUserAccountMutation = () => {
   return useMutation({
       mutationFn: (user: INewUser) => createUserAccount(user),
+  })
+};
+export const useGetUseraById = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
+    queryFn: () => getDisciplinaById(userId),
+    enabled: !!userId
   })
 };
 // ============================================================
@@ -96,6 +102,58 @@ export const useSearchDisciplinas = (searchTerm: string) => {
     queryFn: () => searchDisciplinas(searchTerm),
     enabled: !!searchTerm,
   });
+};
+// ============================================================
+// Modulos QUERIES
+// ============================================================
+export const useCreateModulo = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+      mutationFn: (modulo: INewModulo) => createModulo(modulo),
+      onSuccess: () => {
+          queryClient.invalidateQueries({
+              queryKey: [QUERY_KEYS.GET_RECENT_MODULOS]
+          });
+      },
+  });
+};
+
+export const useDeleteModulo = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({  
+    mutationFn: ({moduloId, fileId}:{moduloId: string, fileId:string}) => deleteModulo(moduloId, fileId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_MODULOS]
+      })
+    }
+  })
+};
+export const useUpdateModulo = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn:(modulo: IUpdateModulo) => updateModulo(modulo),
+    onSuccess: (data) => {
+      console.log('Data:', data);
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MODULO_BY_ID, data]
+      });
+    }
+  })
+}
+export const useGetModuloById = (moduloId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_MODULO_BY_ID, moduloId],
+    queryFn: () => getModuloById(moduloId),
+    enabled: !!moduloId
+  })
+};
+export const useGetRecentModulos = () => {
+  return useQuery({
+      queryKey: [QUERY_KEYS.GET_RECENT_MODULOS],
+      queryFn: getRecentModulos,
+  })
 };
 
 //===============================================================

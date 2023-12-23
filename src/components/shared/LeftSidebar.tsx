@@ -1,10 +1,11 @@
 import { sidebarLinks } from '@/constants';
 import { useUserContext } from '@/context/AuthContext';
-import { useSignOutAccountMutation } from '@/lib/react-query/queriesAndMutations';
 import { INavLink } from '@/types';
 import { useEffect } from 'react'
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { Button } from '../ui/button';
+import { useSignOutAccountMutation } from '@/lib/react-query/queriesAndMutations';
+
 
 const LeftSidebar = () => {
   const { mutate: signOut, isSuccess } = useSignOutAccountMutation()
@@ -63,7 +64,7 @@ const LeftSidebar = () => {
         </ul>
       </div>
       <Button variant="ghost" className='shad-button_ghost' onClick={()=>signOut()}>
-            <img src="assets/icons/logout.svg" alt="logout" />
+            <img src="/assets/icons/logout.svg" alt="logout" />
             <p className='small-medium lg:base-medium'>Desconnectar-se</p>
       </Button>
     </nav>
