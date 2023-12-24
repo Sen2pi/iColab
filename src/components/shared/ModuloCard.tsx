@@ -20,7 +20,7 @@ const ModuloCard = ({ modulo }: ModuloCardProps) => {
         <div className="post-card w-full">
             <div className="flex-between">
                 <div className="flex flex-ln items-center ml-5 mr-5">
-                    <Link to={`/modulo/${modulo.$id}`} >
+                    <Link to={`/disciplina/${id}`} >
                         <p>{modulo.nome}</p>
                     </Link>                    
                     <div className="flex-center text-center text-light-3">
@@ -33,11 +33,12 @@ const ModuloCard = ({ modulo }: ModuloCardProps) => {
                     <ul className="flex-center ml-3 mr-3 ">
                         <p className="flex text-center ">{modulo.descricao}</p>
                         <div className="flex w-full items-end ml-3 mr-3 ">
+                            
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
                                         <button onClick={() => downloadFile(modulo.fileUrl, "iColab" + modulo.filename)}>
-                                            <img className=" shadcn-btn flex ml-2 mr-2" src="/assets/icons/download.png" alt="download" width={40} height={40} />
+                                            <img className="shadcn-btn flex ml-2 mr-2" src="/assets/icons/download.png" alt="download" width={40} height={40} />
                                         </button>
                                     </TooltipTrigger>
                                     <TooltipContent className="shadcn-tooltip-content">

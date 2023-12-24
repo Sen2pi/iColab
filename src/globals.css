@@ -146,6 +146,14 @@
   .home-creators {
     @apply hidden xl:flex flex-col w-72 2xl:w-465 px-6 py-10 gap-10  overflow-scroll custom-scrollbar;
   }
+  .vl {
+    border-left: 6px solid rgb(92, 2, 119);
+    height: 500px;
+    position: absolute;
+    left: 50%;
+    margin-left: -3px;
+    top: 0;
+  }
   /* Post Details */
   .post_details-container {
     @apply flex flex-col flex-1 gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar items-center;
