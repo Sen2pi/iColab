@@ -1,12 +1,12 @@
 export const sidebarLinks = [
     {
-        imgURL: '/assets/icons/home.svg',
+        imgURL: '/assets/icons/home.png',
         route: '/',
         label: 'Inicio',
     },
 
     {
-        imgURL: '/assets/icons/wallpaper.svg',
+        imgURL: '/assets/icons/minhas.png',
         route: '/disciplina',
         label: 'Minhas Disciplinas',
     },
@@ -18,13 +18,13 @@ export const sidebarLinks = [
 ]
 export const bottombarLinks = [
     {
-        imgURL: '/assets/icons/home.svg',
+        imgURL: '/assets/icons/home.png',
         route: '/',
         label: 'Inicio',
     },
 
     {
-        imgURL: '/assets/icons/wallpaper.svg',
+        imgURL: '/assets/icons/minhas.png',
         route: '/disciplina',
         label: 'Minhas Disciplinas',
     },
@@ -36,7 +36,7 @@ export const bottombarLinks = [
 ]
 export const sidebarLinksDisciplina = [
     {
-        imgURL: '/assets/icons/home.svg',
+        imgURL: '/assets/icons/home.png',
         route: '/',
         label: 'Inicio',
     },
@@ -46,12 +46,12 @@ export const sidebarLinksDisciplina = [
         label: 'Grupos',
     },
     {
-        imgURL: '/assets/icons/home.svg',
+        imgURL: '/assets/icons/home.png',
         route: '/modulos',
         label: 'Modulos',
     },
     {
-        imgURL: '/assets/icons/home.svg',
+        imgURL: '/assets/icons/disciplina.png',
         route: '/notas',
         label: 'Notas',
     },

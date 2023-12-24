@@ -17,31 +17,31 @@ const ModuloCard = ({ modulo }: ModuloCardProps) => {
     return (
 
         <div className="post-card">
-            <div className="flex-between">
-                <div className="flex flex-ln items-center gap-8">
-                    <Link to={`/modulo/${modulo.$id}`}>
+            <div className="flex-between w-full">
+                <div className="flex flex-ln items-center ml-5 mr-5">
+                    <Link to={`/modulo/${modulo.$id}`} className="flex text-left mr-5 ml-5">
                         <p>{modulo.nome}</p>
                     </Link>
-                    <div className="flex flex-ln">
-                        <div className="flex-center gap-8 text-light-3">
+                    <div className="flex ">
+                        <div className="flex-center text-center text-light-3">
                             <p className="subtle-semibold lg:small-regular">
                                 {formatDateString(modulo.$createdAt)}
                             </p>
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-ln items-center gap-8 small-mediumlg:base-medium py-5">
-                    <ul className="flex flex-ln items-center gap-2">
-                        <p className="flex flex-ln items-center gap-2">{modulo.descricao}</p>
-                        <div className="flex flex-ln items-center gap-2">
+                <div className=" flex-center w-full small-medium lg:base-medium py-3">
+                    <ul className="flex ml-3 mr-3 ">
+                        <p className="flex text-center ">{modulo.descricao}</p>
+                        <div className="flex ml-3 mr-3 ">
                             <button onClick={() => downloadFile(modulo.fileUrl, "iColab" + modulo.filename)}>
-                                <img src="/assets/icons/download.png" alt="download" />
+                                <img className=" shadcn-btn flex ml-2 mr-2" src="/assets/icons/download.png" alt="download" width={35} height={35}  />
                             </button>
                             <Link to={modulo.fileUrl} target="_blank" download>
-                                <img className="" src="/assets/icons/search.svg" width={60} height={60} />
+                                <img className="flex ml-2 mr-2" src="/assets/icons/search.svg" width={35} height={35} />
                             </Link>
                             <Link to={`editar-modulo-disciplina/${id}/editar-modulo-disciplina/${modulo.$id}`} className={`${modulo.disciplinas.$id !== id && "hidden" || disciplina?.professor.$id !== user.id && "hidden"}`}>
-                                <img className="" src="/assets/icons/edit.svg" width={60} height={60} />
+                                <img className="flex ml-2 mr-2" src="/assets/icons/edit.svg" width={35} height={35} />
                             </Link>
                         </div>
                     </ul>
