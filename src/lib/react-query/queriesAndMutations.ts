@@ -1,5 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createDisciplina, createModulo, createUserAccount, deleteDisciplina, deleteModulo, deleteSavedDisciplina, getCurrentUser, getDisciplinaById, getModuloById, getRecentDisciplinas, getRecentModulos, getUserById, saveDisciplina, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateModulo } from '../appwrite/api'
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { createDisciplina, createModulo, createUserAccount, deleteDisciplina, deleteModulo, deleteSavedDisciplina, getCurrentUser, getDisciplinaById, getInfiniteDisciplinas, getModuloById, getRecentDisciplinas, getRecentModulos, getRecentSaves, getUserById, saveDisciplina, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateModulo } from '../appwrite/api'
 import { INewDisciplina, INewModulo, INewUser, IUpdateDisciplina, IUpdateModulo } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 
@@ -103,6 +103,7 @@ export const useSearchDisciplinas = (searchTerm: string) => {
     enabled: !!searchTerm,
   });
 };
+
 // ============================================================
 // Modulos QUERIES
 // ============================================================
@@ -196,3 +197,11 @@ export const useDeleteSavedDisciplina = () => {
       },
     });
 };
+
+export const useGetRecentSaves = () => {
+  return useQuery({
+      queryKey: [QUERY_KEYS.GET_RECENT_SAVES],
+      queryFn: getRecentSaves,
+  })
+};
+

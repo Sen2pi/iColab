@@ -61,7 +61,7 @@ const DisciplinaCard = ({disciplina}: DisciplinaCardProps) => {
             </div>
             <img src={disciplina.imageUrl || '/assets/icons/profile-placeholder.svg'} className="post-card_img"  alt="post image" />
         </Link>
-        <DisciplinaSave disciplina={disciplina} userId={user?.id} />
+        <DisciplinaSave disciplina={disciplina} userId={user?.$id || ""} />
     </div>
   );
 };

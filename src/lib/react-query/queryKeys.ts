@@ -21,7 +21,14 @@ export enum QUERY_KEYS {
     GET_RECENT_MODULOS = 'getRecentDisciplinas',
     GET_MODULO_BY_ID = 'getDisciplinaById',
     GET_DISCIPLINA_MODULOS = 'getUserDisciplinas',
-  
+
+    //SAVES KEYS
+    GET_SAVES = 'getSaves',
+    GET_INFINITE_SAVES = 'getInfiniteSaves',
+    GET_RECENT_SAVES = 'getRecentSaves',
+    GET_SAVE_BY_ID = 'getSaveById',
+    GET_USER_SAVES = 'getUserSaves',
+
 
     //  SEARCH KEYS
     SEARCH_DISCIPLINAS = 'getSearchDisciplinas',

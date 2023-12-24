@@ -51,7 +51,7 @@ function App() {
             {/* private route */}
             <Route element={<RootLayout/>}>
                 <Route index element={<Home/>}/>
-                <Route path="/disciplina" element={<Disciplina/>}/>
+                <Route path="/disciplina" element={<MinhasDisciplinas/>}/>
                 <Route path="/criar-disciplina" element={<CriarDisciplina/>}/>
                 <Route path="/disciplina/:id" element={<DisciplinaDetalhe/>}/>
                 <Route path="/editar-disciplina/:id" element={<EditarDisciplina/>}/>

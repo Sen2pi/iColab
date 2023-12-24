@@ -1,6 +1,7 @@
 import { ID, Query } from 'appwrite'
 import { INewDisciplina, INewModulo, INewUser, IUpdateDisciplina, IUpdateModulo } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
+import { useParams } from 'react-router-dom';
 
 
 
@@ -171,7 +172,7 @@ export async function createDisciplina(disciplina: INewDisciplina) {
 export async function updateDisciplina(disciplina: IUpdateDisciplina) {
   const hasFileToUpdate = disciplina.file.length > 0;
   try {
-    const disciplinaId = getDisciplinaIdFromURL();
+    const {id} = useParams();
     let image = {
       imageUrl: disciplina.imageUrl,
       imageId: disciplina.imageId,
@@ -190,7 +191,7 @@ export async function updateDisciplina(disciplina: IUpdateDisciplina) {
 
       image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id }
     }
-    disciplina.disciplinaId = disciplinaId ? disciplinaId : disciplina.disciplinaId;
+    disciplina.disciplinaId = id ? id : disciplina.disciplinaId;
     //gravar a disciplina no banco de dados :
     const updatedDisciplina = await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -240,7 +241,7 @@ export async function getRecentDisciplinas() {
   const disciplinas = await databases.listDocuments(
     appwriteConfig.databaseId,
     appwriteConfig.disciplinaCollectionId,
-    [Query.orderDesc('$createdAt'), Query.limit(20)]
+    [Query.orderDesc('$createdAt'), Query.limit(200)]
   );
   if (!disciplinas) throw Error;
   return disciplinas;
@@ -277,7 +278,7 @@ export async function searchDisciplinas(searchTerm: string) {
     const disciplinas = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.disciplinaCollectionId,
-      [Query.search("nome", searchTerm)]
+      [Query.search('nome', searchTerm)]
     );
 
     if (!disciplinas) throw Error;
@@ -288,6 +289,23 @@ export async function searchDisciplinas(searchTerm: string) {
   }
 }
 
+export async function getInfiniteDisciplinas({pageParam}: {pageParam: number}) {
+    const queries: any[] = [Query.orderDesc('$updatedAt'), Query.limit(20)]
+    if (pageParam) {
+      queries.push(Query.cursorAfter(pageParam.toString()))
+    }
+    try{
+      const disciplinas = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.disciplinaCollectionId,
+        queries
+      );
+      if (!disciplinas) throw Error;
+      return disciplinas;
+    }catch (error) {
+      console.log(error);
+    }
+}
 //======================================================
 //=====================MODULOS==========================
 //======================================================
@@ -515,4 +533,13 @@ export async function deleteSavedDisciplina(savedRecordId: string) {
   } catch (error) {
     console.log(error);
   }
+}
+export async function getRecentSaves() {
+  const saves = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.savesCollectionId,
+    [Query.orderDesc('$createdAt'), Query.limit(200)]
+  );
+  if (!saves) throw Error;
+  return saves;
 }
