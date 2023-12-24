@@ -65,8 +65,8 @@ function App() {
                 <Route path="/tarefa/:id" element={<TarefaDetalhe/>}/>
                 <Route path="/tarefa/:id" element={<EditarTarefa/>}/>
                 <Route path="/tarefa/:id" element={<ApagarTarefa/>}/>
-                <Route path="disciplina/:id/editar-modulo/:id_mod" element={<EditarModulo/>}/>
-                <Route path="disciplina/:id/criar-modulo-disciplina/:id" element={<CriarModulo/>}/>
+                <Route path="disciplina/:id/editar-modulo/:id_m" element={<EditarModulo/>}/>
+                <Route path="/disciplina/:id/criar-modulo-disciplina/:id" element={<CriarModulo/>}/>
                 <Route path="/tarefa/:id/requesito" element={<Requesito/>}/>
                 <Route path="/tarefa/:id/requesito/:id" element={<ApagarRequesito/>}/>
                 <Route path="/tarefa/:id/requesito/:id" element={<EditarRequesito/>}/>

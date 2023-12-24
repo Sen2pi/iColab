@@ -4,8 +4,8 @@ import {  useGetModuloById } from '@/lib/react-query/queriesAndMutations';
 import { useParams } from 'react-router-dom';
 
 const EditarModulo = () => {
-  const { id } = useParams();
-  const {data: modulo, isPending} = useGetModuloById( id || '');
+  const { id_m } = useParams();
+  const {data: modulo, isPending} = useGetModuloById( id_m || '');
   if( isPending) return <Loader/>
 
   return (

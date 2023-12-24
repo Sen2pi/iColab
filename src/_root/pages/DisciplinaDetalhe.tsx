@@ -5,6 +5,12 @@ import { useGetCurrentUser, useGetDisciplinaById, useGetRecentModulos } from "@/
 import { formatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
 import { Link, useParams } from "react-router-dom"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 const DisciplinaDetalhe = () => {
   const { data: modulos, isPending: isModuloLoading } = useGetRecentModulos();
@@ -28,7 +34,7 @@ const DisciplinaDetalhe = () => {
               <div className="flex-col items-center text-justify mb-4 mt-1 ">
                 {disciplina?.descricao}
               </div>
-                  <hr className="border w-full border-dark-4/80"/>
+              <hr className="border w-full border-dark-4/80" />
               <div className="flex gap-6 items-center">
                 <Link to={`/profile/${disciplina?.professor.$id}`} className="flex ">
                   <img src={disciplina?.professor?.imageUrl || '/assets/icons/profile-placeholder.svg'}
@@ -43,14 +49,32 @@ const DisciplinaDetalhe = () => {
                     </p>
                   </div>
                   <div className="flex-center ml-5 mt-3">
-                    <Link to={`/editar-disciplina/${disciplina?.$id}`} className={`${user?.$id !== disciplina?.professor.$id && 'hidden'}`}>
-                      <img src="/assets/icons/edit.svg" width={24} height={24} />
-                    </Link>
-                    <Button onClick={handleDeleteDisciplina}
-                      variant="ghost"
-                      className={`ghost_details-delete_btn ${user?.$id !== disciplina?.professor.$id && 'hidden'}`}>
-                      <img src="/assets/icons/delete.svg" alt="" />
-                    </Button>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Link to={`/editar-disciplina/${disciplina?.$id}`} className={`${user?.$id !== disciplina?.professor.$id && 'hidden'}`}>
+                            <img src="/assets/icons/edit.svg" width={24} height={24} />
+                          </Link>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p className="small-medium lg:base-medium">Editar Disciplina</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button onClick={handleDeleteDisciplina}
+                            variant="ghost"
+                            className={`ghost_details-delete_btn ${user?.$id !== disciplina?.professor.$id && 'hidden'}`}>
+                            <img src="/assets/icons/delete.svg" alt="" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p className="small-medium lg:base-medium">Remover Disciplina</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
                 </Link>
               </div>
@@ -72,9 +96,18 @@ const DisciplinaDetalhe = () => {
                 })}
               </ul>
             )}
-          <Link to={`criar-modulo-disciplina/${id}`} className={`${user?.$id !== disciplina?.professor.$id && "hidden"}`}>
-            <img className="flex mb-5" src="/assets/icons/edit.svg" width={35} height={35} />
-          </Link>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link to={`criar-modulo-disciplina/${id}`} className={`${user?.$id !== disciplina?.professor.$id && "hidden"}`}>
+                  <img className="flex mb-5" src="/assets/icons/create.png" width={35} height={35} aria-placeholder="Criar" />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="small-medium lg:base-medium">Criar Módulo</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
 

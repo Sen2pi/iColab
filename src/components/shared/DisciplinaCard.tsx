@@ -3,6 +3,7 @@ import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 import DisciplinaSave from "./DisciplinaSave";
 import { useGetCurrentUser } from "@/lib/react-query/queriesAndMutations";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@radix-ui/react-tooltip";
 
 type DisciplinaCardProps = {
     disciplina: Models.Document;
@@ -14,9 +15,18 @@ const DisciplinaCard = ({disciplina}: DisciplinaCardProps) => {
     <div className="post-card">
         <div className="flex-between">
             <div className="flex items-center gap-3">
-                <Link to={`/profile/${disciplina.professor.$id}`}>
-                <img src={disciplina?.professor?.imageUrl || '/assets/icons/profile-placeholder.svg'} alt="professor" className="rounded-full w-12 lg:h-12"/>
-                </Link>
+            <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>    
+                            <Link to={`/profile/${disciplina.professor.$id}`}>
+                            <img src={disciplina?.professor?.imageUrl || '/assets/icons/profile-placeholder.svg'} alt="professor" className="rounded-full w-12 lg:h-12"/>
+                            </Link>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p className="small-medium lg:base-medium">Ir para Prefil</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                 <div className="flex flex-col">
                     <p className="base-medium lg:body-bold text-light-1">
                         {disciplina.professor.name}
@@ -29,10 +39,18 @@ const DisciplinaCard = ({disciplina}: DisciplinaCardProps) => {
                 </div>
                 
             </div>
-            
-            <Link to={`/criar-modulo-disciplina/${disciplina.$id}`} className={`${user?.$id !== disciplina.professor.$id && "hidden"}`}>
-                <img src={'/assets/icons/edit.svg'} alt="edit" className="w-12 lg:h-12"/>
-            </Link>
+            <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>              
+                            <Link to={`/criar-modulo-disciplina/${disciplina.$id}`} className={`${user?.$id !== disciplina.professor.$id && "hidden"}`}>
+                                <img src={'/assets/icons/edit.svg'} alt="edit" className="w-12 lg:h-12"/>
+                            </Link>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p className="small-medium lg:base-medium">Editar Disciplina</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
         </div>
         <Link to={`/disciplina/${disciplina.$id}`}>
             <div className="small-medium lg:base-medium py-5">
