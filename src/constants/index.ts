@@ -11,9 +11,9 @@ export const sidebarLinks = [
         label: 'Minhas Disciplinas',
     },
     {
-        imgURL: '/assets/icons/people.svg',
-        route: '/Grupo',
-        label: 'Grupos',
+        imgURL: '/assets/icons/bookmark.svg',
+        route: '/notas',
+        label: 'A Minha Pauta',
     },
 ]
 export const bottombarLinks = [
