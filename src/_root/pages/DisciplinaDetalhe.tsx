@@ -1,6 +1,6 @@
 import Loader from "@/components/shared/Loader";
 import ModuloCard from "@/components/shared/ModuloCard";
-import { useGetDisciplinaById, useGetRecentModulos } from "@/lib/react-query/queriesAndMutations";
+import { useGetCurrentUser, useGetDisciplinaById, useGetRecentModulos } from "@/lib/react-query/queriesAndMutations";
 import { formatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
 import { Link, useParams } from "react-router-dom"
@@ -8,7 +8,8 @@ import { Link, useParams } from "react-router-dom"
 const DisciplinaDetalhe = () => {
   const { data: modulos, isPending: isModuloLoading } = useGetRecentModulos();
   const { id } = useParams();
-  const { data: disciplina, isPending } = useGetDisciplinaById(id || '');
+  const { data: user } = useGetCurrentUser();
+  const { data: disciplina, isPending } = useGetDisciplinaById(id as string);
   return (
     <div className="post_details-container">
       {isPending ? <Loader /> : (
@@ -43,14 +44,15 @@ const DisciplinaDetalhe = () => {
           (<Loader />) : (
             <ul className="flex flex-ln gap-5 w-full">
               {modulos?.documents.map((modulo: Models.Document) => {
-               if(modulo.disciplinas.$id == id){
+               try {
+               if(modulo.disciplinas.$id == id)
                   return <ModuloCard modulo={modulo} key={modulo.nome} />;
-              }else return ;
+               } catch (error) {}
               })}
 
             </ul>
           )}
-        <Link to={`criar-modulo-disciplina/${id}`} >
+        <Link to={`criar-modulo-disciplina/${id}`} className={`${user?.$id !== disciplina?.professor.$id && "hidden"}`}>
           <img className="" src="/assets/icons/edit.svg" width={60} height={60} />
         </Link>
         <div>

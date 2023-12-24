@@ -1,3 +1,5 @@
+import { useUserContext } from "@/context/AuthContext";
+import { useGetDisciplinaById } from "@/lib/react-query/queriesAndMutations";
 import { downloadFile, formatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
 import { Link, useParams } from "react-router-dom";
@@ -10,6 +12,8 @@ type ModuloCardProps = {
 
 const ModuloCard = ({ modulo }: ModuloCardProps) => {
     const { id } = useParams();
+    const {data: disciplina}  = useGetDisciplinaById(modulo.disciplinas.$id);
+    const { user } = useUserContext();
     return (
 
         <div className="post-card">
@@ -36,7 +40,7 @@ const ModuloCard = ({ modulo }: ModuloCardProps) => {
                             <Link to={modulo.fileUrl} target="_blank" download>
                                 <img className="" src="/assets/icons/search.svg" width={60} height={60} />
                             </Link>
-                            <Link to={`editar-modulo-disciplina/${id}/editar-modulo-disciplina/${modulo.$id}`} className={`${modulo.disciplinas !== id && "hidden"}`}>
+                            <Link to={`editar-modulo-disciplina/${id}/editar-modulo-disciplina/${modulo.$id}`} className={`${modulo.disciplinas.$id !== id && "hidden" || disciplina?.professor.$id !== user.id && "hidden"}`}>
                                 <img className="" src="/assets/icons/edit.svg" width={60} height={60} />
                             </Link>
                         </div>

@@ -1,14 +1,14 @@
-import { useUserContext } from "@/context/AuthContext";
 import { formatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 import DisciplinaSave from "./DisciplinaSave";
+import { useGetCurrentUser } from "@/lib/react-query/queriesAndMutations";
 
 type DisciplinaCardProps = {
     disciplina: Models.Document;
 }
 const DisciplinaCard = ({disciplina}: DisciplinaCardProps) => {
-    const {user}= useUserContext();
+    const {data: user} = useGetCurrentUser();
     if(!disciplina.professor) return;
   return (
     <div className="post-card">
@@ -27,8 +27,10 @@ const DisciplinaCard = ({disciplina}: DisciplinaCardProps) => {
                         </p>
                     </div>
                 </div>
+                
             </div>
-            <Link to={`/criar-modulo-disciplina/${disciplina.$id}`} className={`${user.id !== disciplina.professor.$id && "hidden"}`}>
+            
+            <Link to={`/criar-modulo-disciplina/${disciplina.$id}`} className={`${user?.$id !== disciplina.professor.$id && "hidden"}`}>
                 <img src={'/assets/icons/edit.svg'} alt="edit" className="w-12 lg:h-12"/>
             </Link>
         </div>
@@ -41,7 +43,7 @@ const DisciplinaCard = ({disciplina}: DisciplinaCardProps) => {
             </div>
             <img src={disciplina.imageUrl || '/assets/icons/profile-placeholder.svg'} className="post-card_img"  alt="post image" />
         </Link>
-        <DisciplinaSave disciplina={disciplina} userId={user.id} />
+        <DisciplinaSave disciplina={disciplina} userId={user?.id} />
     </div>
   );
 };

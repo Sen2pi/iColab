@@ -104,7 +104,8 @@ export async function getUserById(userId: string) {
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
       userId,
-    );
+    )
+    
     return user;
   } catch (error) {
     console.log(error);
