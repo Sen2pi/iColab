@@ -17,6 +17,7 @@ export const appwriteConfig ={
     disciplinaCollectionId: import.meta.env.VITE_APPWRITE_DISCIPLINA_COLLECTIONS_ID,
     savesCollectionId: import.meta.env.VITE_APPWRITE_SAVE_COLLECTIONS_ID,
     moduloCollectionId: import.meta.env.VITE_APPWRITE_MODULO_COLLECTION_ID,
+    notaCollectionId: import.meta.env.VITE_APPWRITE_NOTA_COLLECTION_ID,
 }
 
 export const client = new Client().setProject(appwriteConfig.projectId).setEndpoint(appwriteConfig.url)
