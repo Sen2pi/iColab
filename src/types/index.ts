@@ -54,8 +54,8 @@ export type INavLink = {
     descricao: string;
     file: File[];
     ano: string;
-    inicio: string;
-    fim: string;
+    inicio: Date;
+    fim: Date;
     curso: string;
   };
 
@@ -63,13 +63,13 @@ export type INavLink = {
   export type IUpdateDisciplina = {
     disciplinaId: string;
     nome: string;
-    descricao?: string;
+    descricao: string;
     imageId: string;
     imageUrl: URL;
     file: File[];
     ano: string;
-    inicio: string;
-    fim: string;
+    inicio: Date;
+    fim: Date;
     curso: string;
   };
   //======================================
@@ -91,4 +91,42 @@ export type INavLink = {
     fileId: string;
     fileUrl: URL;
     file: File[];
+  };
+
+   //=====================================
+  //===========GRUPOS====================
+  //======================================
+  export type INewGrupo = {
+    disciplina: string;
+    nome: string;
+    lider?: string;
+    tema: string;
+    prazo: string;
+    descricao: string;
+  };
+
+  export type IUpdateGrupo = {
+    grupoId: string;
+    nome?: string;
+    lider?: string;
+    tema?: string;
+    descricao?: string;
+    nota?: number;
+  };
+   //=====================================
+  //===========TAREFAS====================
+  //======================================
+  export type INewTarefa = {
+    grupo: string;
+    nome: string;
+    date: string;
+    data_de_fim:string;
+  };
+
+  export type IUpdateTarefa = {
+      tarefaId: string;
+      nome: string;
+      date: string;
+      data_de_fim:string;
+      concluido: string;
   };

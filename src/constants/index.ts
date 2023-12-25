@@ -1,6 +1,6 @@
 export const sidebarLinks = [
     {
-        imgURL: '/assets/icons/home.png',
+        imgURL: '/assets/icons/home.svg',
         route: '/',
         label: 'Inicio',
     },
@@ -18,7 +18,7 @@ export const sidebarLinks = [
 ]
 export const bottombarLinks = [
     {
-        imgURL: '/assets/icons/home.png',
+        imgURL: '/assets/icons/home.svg',
         route: '/',
         label: 'Inicio',
     },
@@ -30,31 +30,66 @@ export const bottombarLinks = [
     },
     {
         imgURL: '/assets/icons/people.svg',
-        route: '/Grupo',
+        route: '/disciplina/:id/grupos',
         label: 'Grupos',
     },
 ]
 export const sidebarLinksDisciplina = [
     {
-        imgURL: '/assets/icons/home.png',
+        
+        imgURL: '/assets/icons/home.svg',
         route: '/',
         label: 'Inicio',
     },
     {
         imgURL: '/assets/icons/people.svg',
-        route: '/Grupo',
+        route: '/disciplina/:id/grupos/:g',
         label: 'Grupos',
     },
     {
-        imgURL: '/assets/icons/home.png',
-        route: '/modulos',
-        label: 'Modulos',
-    },
-    {
         imgURL: '/assets/icons/disciplina.png',
-        route: '/notas',
+        route: '/disciplina/:id/notas/',
         label: 'Notas',
     },
 
-    
+
+]
+export const sidebarLinksGrupo = [
+    {
+        imgURL: '/assets/icons/home.svg',
+        route: '/',
+        label: 'Inicio',
+    },
+    {
+        imgURL: '/assets/icons/disciplina.png',
+        route: '/disciplina/:id/grupo/:id_g/tarefas',
+        label: 'Tarefas',
+    },
+    {
+        imgURL: '/assets/icons/disciplina.png',
+        route: '/disciplina/:id/grupo/:id_g/ficheiros',
+        label: 'Ficheiros',
+    },
+    {
+        imgURL: '/assets/icons/chat.svg',
+        route: '/disciplina/:id/grupo/:id_g/chat',
+        label: 'Chat',
+    },
+    {
+        imgURL: '/assets/icons/disciplina.png',
+        route: '/disciplina/:id/grupo/:id_g/historico',
+        label: 'Historico',
+    },
+]
+export const sidebarLinksGrupos = [
+    {
+        imgURL: '/assets/icons/home.svg',
+        route: '/',
+        label: 'Inicio',
+    },
+    {
+        imgURL: '/assets/icons/people.svg',
+        route: '/disciplina/:id/grupos/:g',
+        label: 'Grupos',
+    },
 ]

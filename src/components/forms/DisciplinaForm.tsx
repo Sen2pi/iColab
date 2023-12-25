@@ -3,7 +3,7 @@ import { Models } from "appwrite"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { Button } from "@/components/ui/button"
-import { Form,  FormControl,  FormField,  FormItem,  FormLabel,  FormMessage,} from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "../ui/textarea"
 import { useUserContext } from "@/context/AuthContext"
@@ -13,6 +13,11 @@ import { useToast } from "../ui/use-toast"
 import { DisciplinaValidation } from "@/lib/validation"
 import { useCreateDisciplina, useUpdateDisciplina } from "@/lib/react-query/queriesAndMutations"
 import Loader from "../shared/Loader"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { Calendar } from "../ui/calendar"
+import { cn } from "@/lib/utils"
+import { CalendarIcon } from "@radix-ui/react-icons"
+import { format } from "date-fns"
 
 type DisciplinaFormProps = {
   disciplina?: Models.Document;
@@ -38,13 +43,13 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
     },
   })
   //2 -  Query
-  const { mutateAsync: createDisciplina, isPending: isLoadingCreate } 
-  = useCreateDisciplina();
-  const { mutateAsync: updateDisciplina, isPending: isLoadingUpdate } 
-  = useUpdateDisciplina();
+  const { mutateAsync: createDisciplina, isPending: isLoadingCreate }
+    = useCreateDisciplina();
+  const { mutateAsync: updateDisciplina, isPending: isLoadingUpdate }
+    = useUpdateDisciplina();
 
   //3 - Handler
-  const handleSubmit = async (value: z.infer<typeof DisciplinaValidation>) => { 
+  const handleSubmit = async (value: z.infer<typeof DisciplinaValidation>) => {
     // ACTION = UPDATE
     if (disciplina && action === "Update") {
       const updatedDisciplina = await updateDisciplina({
@@ -52,6 +57,8 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
         disciplinaId: disciplina.id,
         imageId: disciplina.imageId,
         imageUrl: disciplina.imageUrl,
+        inicio: value.inicio,
+        fim: value.fim,
       });
 
       if (!updatedDisciplina) {
@@ -65,7 +72,7 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
     // ACTION = CREATE
     const newDisciplina = await createDisciplina({
       ...value,
-      professor:user.id ,
+      professor: user.id,
     });
 
     if (!newDisciplina) {
@@ -138,12 +145,40 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
           control={form.control}
           name="inicio"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="shad-form_label">Data de Inicio</FormLabel>
-              <FormControl>
-                <Input placeholder="2023-01-23" className="shad-input" {...field} />
-              </FormControl>
-              <FormMessage className="shad-form_message" />
+            <FormItem className="flex flex-col">
+              <FormLabel>Data de Inicio</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Escolha uma Data</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto bg-black p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) =>
+                      date > new Date("2030-01-01") || date < new Date("1900-01-01")
+                    }
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -151,12 +186,40 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
           control={form.control}
           name="fim"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="shad-form_label">Data de Fim</FormLabel>
-              <FormControl>
-                <Input placeholder="2023-01-23" className="shad-input" {...field} />
-              </FormControl>
-              <FormMessage className="shad-form_message" />
+            <FormItem className="flex flex-col">
+              <FormLabel>Data de Fim</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                       )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Selecione uma data</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0 bg-black" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) =>
+                      date > new Date("2030-01-01") || date < new Date("1900-01-01")
+                    }
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -174,8 +237,8 @@ const DisciplinaForm = ({ disciplina, action }: DisciplinaFormProps) => {
           )}
         />
         <div className="flex gap-4 items-center justify-end">
-          <Button type="button" className="shad-button_dark_4" onClick={()=>navigate(-1)}>Cancelar</Button>
-          <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={isLoadingCreate || isLoadingUpdate }>{(isLoadingCreate || isLoadingUpdate) && <Loader />}{action}</Button>
+          <Button type="button" className="shad-button_dark_4" onClick={() => navigate(-1)}>Cancelar</Button>
+          <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={isLoadingCreate || isLoadingUpdate}>{(isLoadingCreate || isLoadingUpdate) && <Loader />}{action}</Button>
         </div>
       </form>
     </Form>

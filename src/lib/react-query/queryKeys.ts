@@ -16,12 +16,19 @@ export enum QUERY_KEYS {
     GET_FILE_PREVIEW = 'getFilePreview',
   
     //MODULO KEYS 
-    GET_MODULOS = 'getDisciplinas',
-    GET_INFINITE_MODULOS = 'getInfiniteDisciplinas',
-    GET_RECENT_MODULOS = 'getRecentDisciplinas',
-    GET_MODULO_BY_ID = 'getDisciplinaById',
-    GET_DISCIPLINA_MODULOS = 'getUserDisciplinas',
+    GET_MODULOS = 'getModulos',
+    GET_INFINITE_MODULOS = 'getInfiniteModulos',
+    GET_RECENT_MODULOS = 'getRecentModulos',
+    GET_MODULO_BY_ID = 'getModuloaById',
+    GET_DISCIPLINA_MODULOS = 'getDisciplinaModulos',
 
+    //GRUPO KEYS 
+    GET_GRUPOS = 'getGrupos',
+    GET_INFINITE_GRUPOS = 'getInfiniteGrupos',
+    GET_RECENT_GRUPOS = 'getRecentGrupos',
+    GET_GRUPO_BY_ID = 'getGrupoById',
+    GET_DISCIPLINA_GRUPOS = 'getDisciplinaGrupos',
+  
     //SAVES KEYS
     GET_SAVES = 'getSaves',
     GET_INFINITE_SAVES = 'getInfiniteSaves',

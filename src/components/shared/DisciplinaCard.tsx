@@ -42,7 +42,7 @@ const DisciplinaCard = ({disciplina}: DisciplinaCardProps) => {
             <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>              
-                            <Link to={`/criar-modulo-disciplina/${disciplina.$id}`} className={`${user?.$id !== disciplina.professor.$id && "hidden"}`}>
+                            <Link to={`/editar-disciplina/${disciplina.$id}`} className={`${user?.$id !== disciplina.professor.$id && "hidden"}`}>
                                 <img src={'/assets/icons/edit.svg'} alt="edit" className="w-12 lg:h-12"/>
                             </Link>
                         </TooltipTrigger>

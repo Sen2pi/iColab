@@ -34,6 +34,9 @@ import EditarProfile from './_root/pages/EditarProfile';
 import MinhasDisciplinas from './_root/pages/MinhasDisciplinas';
 import EditarModulo from './_root/pages/EditarModulo';
 import CriarModulo from './_root/pages/CriarModulo';
+import Notas from './_root/pages/Notas';
+import CriarRequesito from './_root/pages/CriarRequesito';
+import Historico from './_root/pages/Historico';
 
 
 function App() {
@@ -55,26 +58,39 @@ function App() {
                 <Route path="/disciplina/:id" element={<DisciplinaDetalhe/>}/>
                 <Route path="/editar-disciplina/:id" element={<EditarDisciplina/>}/>
                 <Route path="/apagar-disciplina/:id" element={<ApagarDisciplina/>}/>
-                <Route path="/grupo" element={<Grupo/>}/>
-                <Route path="/grupo" element={<CriarGrupo/>}/>
-                <Route path="/grupo/:id" element={<GrupoDetalhe/>}/>
-                <Route path="/grupo/:id" element={<EditarGrupo/>}/>
-                <Route path="/tarefa" element={<Tarefa/>}/>
-                <Route path="/tarefa" element={<CriarTarefa/>}/>
-                <Route path="/tarefa/:id" element={<TarefaDetalhe/>}/>
-                <Route path="/tarefa/:id" element={<EditarTarefa/>}/>
-                <Route path="/tarefa/:id" element={<ApagarTarefa/>}/>
+                <Route path="disciplina/:id/notas/" element={<Notas/>}/>
+
                 <Route path="disciplina/:id/editar-modulo/:id_m" element={<EditarModulo/>}/>
                 <Route path="/disciplina/:id/criar-modulo-disciplina/:id" element={<CriarModulo/>}/>
-                <Route path="/tarefa/:id/requesito" element={<Requesito/>}/>
-                <Route path="/tarefa/:id/requesito/:id" element={<ApagarRequesito/>}/>
-                <Route path="/tarefa/:id/requesito/:id" element={<EditarRequesito/>}/>
-                <Route path="/ficheiro" element={<Ficheiro/>}/>
-                <Route path="/ficheiro" element={<EnviarFicheiro/>}/>
-                <Route path="/ficheiro/:id" element={<ApagarFicheiro/>}/>
-                <Route path="/chat/:id/group" element={<Chat/>}/>
-                <Route path="/chat/:id/mensagem" element={<EditarMensagem/>}/>
-                <Route path="/chat/:id/mensagem" element={<ApagarMensagem/>}/>
+
+                <Route path="disciplina/:id/grupos/:g" element={<Grupo/>}/>
+                <Route path="disciplina/:id/criar-grupo/:id" element={<CriarGrupo/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g" element={<GrupoDetalhe/>}/>
+                <Route path="/disciplina/:id/editar-modulo-disciplina/:id_g" element={<EditarGrupo/>}/>
+
+                <Route path="/disciplina/:id/grupo/:id_g/chat" element={<Chat/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/chat/:id_c/mensagem/:id_m" element={<EditarMensagem/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/chat/:id_c/mensagem/:id_m" element={<ApagarMensagem/>}/>
+
+                <Route path="/disciplina/:id/grupo/:id_g/historico" element={<Historico/>}/>
+
+                <Route path="/disciplina/:id/grupo/:id_g/ficheiros" element={<Ficheiro/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/criar-ficheiro" element={<EnviarFicheiro/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/ficheiro/:id_f" element={<ApagarFicheiro/>}/>
+                
+                <Route path="/disciplina/:id/grupo/:id_g/tarefas" element={<Tarefa/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/criar-tarefa" element={<CriarTarefa/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/tarefa/:id_t" element={<TarefaDetalhe/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/editar-tarefa/:id_t" element={<EditarTarefa/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/tarefa/:id_t" element={<ApagarTarefa/>}/>
+
+
+                <Route path="/disciplina/:id/grupo/:id_g/tarefa/:id_t/requesitos" element={<Requesito/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/tarefa/:id_t/criar-requesito/" element={<CriarRequesito/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/tarefa/:id_t/apagar-requesito/:id_r" element={<ApagarRequesito/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/tarefa/:id_t/editar-requesito/:id_r" element={<EditarRequesito/>}/>
+
+
                 <Route path="/profile/:id/*" element={<Profile/>}/>
                 <Route path="/profile/:id" element={<EditarProfile/>}/>
                 <Route path="/minhasdisciplinas" element={<MinhasDisciplinas/>}/>

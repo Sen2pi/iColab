@@ -1,6 +1,6 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createDisciplina, createModulo, createUserAccount, deleteDisciplina, deleteModulo, deleteSavedDisciplina, getCurrentUser, getDisciplinaById, getInfiniteDisciplinas, getModuloById, getRecentDisciplinas, getRecentModulos, getRecentSaves, getUserById, saveDisciplina, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateModulo } from '../appwrite/api'
-import { INewDisciplina, INewModulo, INewUser, IUpdateDisciplina, IUpdateModulo } from '@/types'
+import {  useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { createDisciplina, createGrupo, createModulo, createUserAccount, deleteDisciplina, deleteGrupo, deleteModulo, deleteSavedDisciplina, getCurrentUser, getDisciplinaById, getModuloById, getRecentDisciplinas, getRecentGrupos, getRecentModulos, getRecentSaves, getUserById, saveDisciplina, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateGrupo, updateModulo } from '../appwrite/api'
+import { INewDisciplina, INewGrupo, INewModulo, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 
 
@@ -76,7 +76,7 @@ export const useUpdateDisciplina = () => {
   return useMutation({
     mutationFn:(disciplina: IUpdateDisciplina) => updateDisciplina(disciplina),
     onSuccess: (data) => {
-      console.log('Data:', data);
+      console.log(data);
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_DISCIPLINA_BY_ID, data]
       });
@@ -136,7 +136,6 @@ export const useUpdateModulo = () => {
   return useMutation({
     mutationFn:(modulo: IUpdateModulo) => updateModulo(modulo),
     onSuccess: (data) => {
-      console.log('Data:', data);
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_MODULO_BY_ID, data]
       });
@@ -154,6 +153,60 @@ export const useGetRecentModulos = () => {
   return useQuery({
       queryKey: [QUERY_KEYS.GET_RECENT_MODULOS],
       queryFn: getRecentModulos,
+  })
+};
+// ============================================================
+// Grupos QUERIES
+// ============================================================
+export const useCreateGrupo = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+      mutationFn: (grupo: INewGrupo) => createGrupo(grupo),
+      onSuccess: () => {
+          queryClient.invalidateQueries({
+              queryKey: [QUERY_KEYS.GET_RECENT_GRUPOS]
+          });
+      },
+  });
+};
+
+export const useDeleteGrupo = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({  
+    mutationFn: ({grupoId}:{grupoId: string}) => deleteGrupo(grupoId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_GRUPOS]
+      })
+    }
+  })
+};
+
+export const useUpdateGrupo = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn:(grupo: IUpdateGrupo) => updateGrupo(grupo),
+    onSuccess: (data) => {
+      console.log('Data:', data);
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_GRUPO_BY_ID, data]
+      });
+    }
+  })
+}
+
+export const useGetGrupoById = (grupoId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_GRUPO_BY_ID, grupoId],
+    queryFn: () => getModuloById(grupoId),
+    enabled: !!grupoId
+  })
+};
+export const useGetRecentGrupos = () => {
+  return useQuery({
+      queryKey: [QUERY_KEYS.GET_RECENT_GRUPOS],
+      queryFn: getRecentGrupos,
   })
 };
 

@@ -15,7 +15,7 @@ const EditarDisciplina = () => {
             <img src="/assets/icons/add-post.svg" width={36} height={36} alt="add" />
             <h2 className="h3-bold md:h2-bold text-left w-full">Editar Disciplina</h2>
           </div>
-          <DisciplinaForm action="Update" disciplina={disciplina} />
+          <DisciplinaForm  disciplina={disciplina} action="Update"/>
        </div>
     </div>
   )

@@ -1,25 +1,23 @@
-import { sidebarLinks, sidebarLinksDisciplina } from '@/constants';
-import { useUserContext } from '@/context/AuthContext';
+import { sidebarLinks, sidebarLinksDisciplina, sidebarLinksGrupo, sidebarLinksGrupos } from '@/constants';
 import { INavLink } from '@/types';
 import { useEffect } from 'react';
 import { Link, NavLink, useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Button } from '../ui/button';
-import { useSignOutAccountMutation } from '@/lib/react-query/queriesAndMutations';
+import { useGetCurrentUser, useGetDisciplinaById, useSignOutAccountMutation } from '@/lib/react-query/queriesAndMutations';
+
 
 const LeftSidebar = () => {
   const { mutate: signOut, isSuccess } = useSignOutAccountMutation();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { user } = useUserContext();
-  const { id: disciplinaId } = useParams();
-
-  let profOuAluno = user.docente ? 'Professor' : 'Aluno';
-
+  const { data: user } = useGetCurrentUser();
+  const { id: disciplinaId, g: grupos, id_g: grupo } = useParams();
+  let profOuAluno = user?.docente ? 'Professor' : 'Aluno';
   useEffect(() => {
     if (isSuccess) navigate(0);
   }, [isSuccess]);
 
-  const sidebarToDisplay = disciplinaId ? sidebarLinksDisciplina : sidebarLinks;
+  const sidebarToDisplay = disciplinaId ? (grupos ? (grupo ? sidebarLinksGrupo : sidebarLinksGrupos) : sidebarLinksDisciplina) : sidebarLinks;
 
   return (
     <nav className="leftsidebar">
@@ -29,19 +27,22 @@ const LeftSidebar = () => {
           <p>iColab</p>
         </Link>
 
-        <Link to={`/profile/${user.id}`} className="flex gap-3 items-center">
+        <Link to={`/profile/${user?.$id}`} className="flex gap-3 items-center">
           <img
-            src={user.imageUrl || '/assets/images/profile-default.png'}
+            src={user?.imageUrl || '/assets/images/profile-default.png'}
             alt="profile"
             className="h-16 w-16 rounded-full"
           />
           <div className="flex flex-col">
-            <p className="body-bold">{user.name}</p>
-            <p className="small-regular text-light-3">{user.email}</p>
+            <p className="body-bold">{user?.name}</p>
+            <p className="small-regular text-light-3">{user?.email}</p>
             <p className="small-regular text-light-3">{profOuAluno}</p>
-            <p className="small-regular text-light-3">{user.curso}</p>
+            <p className="small-regular text-light-3">{user?.curso}</p>
           </div>
         </Link>
+        <Button variant="ghost" className="shad-button_ghost" onClick={() => navigate(-1)}>
+          <img src="/assets/icons/back.svg" alt="back" width={50} height={50} />Voltar
+        </Button>
 
         <ul className="flex flex-col gap-6">
           {sidebarToDisplay.map((link: INavLink) => {

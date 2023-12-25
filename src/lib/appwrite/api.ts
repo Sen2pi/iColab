@@ -1,5 +1,5 @@
 import { ID, Query } from 'appwrite'
-import { INewDisciplina, INewModulo, INewUser, IUpdateDisciplina, IUpdateModulo } from "@/types";
+import { INewDisciplina, INewGrupo, INewModulo, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
 import { useParams } from 'react-router-dom';
 
@@ -106,7 +106,7 @@ export async function getUserById(userId: string) {
       appwriteConfig.userCollectionId,
       userId,
     )
-    
+
     return user;
   } catch (error) {
     console.log(error);
@@ -141,8 +141,8 @@ export async function createDisciplina(disciplina: INewDisciplina) {
         imageId: uploadedFile.$id,
         imageUrl: fileUrl,
         ano: parseInt(disciplina.ano),
-        inicio: disciplina.inicio,
-        fim: disciplina.fim,
+        inicio: disciplina.inicio.toDateString(),
+        fim: disciplina.fim.toDateString(),
         curso: disciplina.curso,
         /*  INewDisciplina Ordem:
             professor: string;
@@ -172,7 +172,7 @@ export async function createDisciplina(disciplina: INewDisciplina) {
 export async function updateDisciplina(disciplina: IUpdateDisciplina) {
   const hasFileToUpdate = disciplina.file.length > 0;
   try {
-    const {id} = useParams();
+    const disciplinaId = getDiscyplinaIdFromURL();
     let image = {
       imageUrl: disciplina.imageUrl,
       imageId: disciplina.imageId,
@@ -191,7 +191,7 @@ export async function updateDisciplina(disciplina: IUpdateDisciplina) {
 
       image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id }
     }
-    disciplina.disciplinaId = id ? id : disciplina.disciplinaId;
+    disciplina.disciplinaId = disciplinaId? disciplinaId : disciplina.disciplinaId;
     //gravar a disciplina no banco de dados :
     const updatedDisciplina = await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -203,20 +203,9 @@ export async function updateDisciplina(disciplina: IUpdateDisciplina) {
         imageId: image.imageId,
         imageUrl: image.imageUrl,
         ano: parseInt(disciplina.ano),
-        inicio: disciplina.inicio,
-        fim: disciplina.fim,
+        inicio: disciplina.inicio.toDateString(),
+        fim: disciplina.fim.toDateString(),
         curso: disciplina.curso,
-        /*  IUpdateDisciplina Ordem:
-            nome: string;
-            descricao: string;
-            imageId: string;
-            imageUrl: URL;
-            file: File[];
-            ano: number;
-            inicio: string;
-            fim: string;
-            curso: string;
-        */
       }
     );
     if (!updatedDisciplina) {
@@ -246,7 +235,16 @@ export async function getRecentDisciplinas() {
   if (!disciplinas) throw Error;
   return disciplinas;
 }
+export function getDiscyplinaIdFromURL(): string | null {
+  const pathSegments = window.location.pathname.split('/');
+  const moduloIndex = pathSegments.indexOf('editar-disciplina');
 
+  if (moduloIndex !== -1 && moduloIndex < pathSegments.length - 1) {
+    return pathSegments[moduloIndex + 1];
+  }
+
+  return null;
+}
 export async function getDisciplinaById(disciplinaId: string) {
   try {
     const disciplina = await databases.getDocument(
@@ -289,22 +287,22 @@ export async function searchDisciplinas(searchTerm: string) {
   }
 }
 
-export async function getInfiniteDisciplinas({pageParam}: {pageParam: number}) {
-    const queries: any[] = [Query.orderDesc('$updatedAt'), Query.limit(20)]
-    if (pageParam) {
-      queries.push(Query.cursorAfter(pageParam.toString()))
-    }
-    try{
-      const disciplinas = await databases.listDocuments(
-        appwriteConfig.databaseId,
-        appwriteConfig.disciplinaCollectionId,
-        queries
-      );
-      if (!disciplinas) throw Error;
-      return disciplinas;
-    }catch (error) {
-      console.log(error);
-    }
+export async function getInfiniteDisciplinas({ pageParam }: { pageParam: number }) {
+  const queries: any[] = [Query.orderDesc('$updatedAt'), Query.limit(20)]
+  if (pageParam) {
+    queries.push(Query.cursorAfter(pageParam.toString()))
+  }
+  try {
+    const disciplinas = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.disciplinaCollectionId,
+      queries
+    );
+    if (!disciplinas) throw Error;
+    return disciplinas;
+  } catch (error) {
+    console.log(error);
+  }
 }
 //======================================================
 //=====================MODULOS==========================
@@ -457,6 +455,103 @@ export async function getModuloById(moduloId: string) {
     console.log(error);
   }
 }
+
+//======================================================
+//======================GRUPOS =========================
+//======================================================
+export async function getRecentGrupos() {
+  const grupos = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.grupoCollectionId,
+    [Query.orderDesc('$createdAt'), Query.limit(20)],
+
+    );
+  if (!grupos) throw Error;
+  return grupos;
+}
+export async function createGrupo(grupo: INewGrupo) {
+  try {
+
+    //gravar a disciplina no banco de dados :
+    const newGrupo = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.grupoCollectionId,
+      ID.unique(),
+      {
+        disciplina: grupo.disciplina,
+        lider: grupo.lider,
+        tema: grupo.tema,
+        prazo: grupo.prazo,
+        descricao: grupo.descricao,
+        concluido: false,
+      }
+    );
+    if (!newGrupo) {
+      throw Error;
+    }
+    return newGrupo;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+export async function deleteGrupo(grupoId: string) {
+  if (!grupoId ) throw Error;
+  try {
+    await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.grupoCollectionId,
+      grupoId,
+    )
+    return { status: 'ok' }
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function updateGrupo(grupo: IUpdateGrupo) {
+  try {
+    const id_g = useParams();
+    
+    grupo.grupoId = id_g.toString() ? id_g.toString() : grupo.grupoId;
+    //gravar a disciplina no banco de dados :
+    const updatedGrupo = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.grupoCollectionId,
+      grupo.grupoId,
+      {
+        nome: grupo.nome,
+        descricao: grupo.descricao,
+        nota: grupo.nota,
+        tema: grupo.tema,
+        lider: grupo.lider,
+      }
+    );
+    return updatedGrupo
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+export async function getGrupoById(grupoId: string) {
+  try {
+    const grupo = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.grupoCollectionId,
+      grupoId,
+    );
+    return grupo;
+  } catch (error) {
+    console.log(error);
+  }
+}
+//======================================================
+//======================TAREFAS ========================
+//======================================================
+
+//======================================================
+//======================REQUESITOS =====================
+//======================================================
+
 //======================================================
 //======================FILES ==========================
 //======================================================

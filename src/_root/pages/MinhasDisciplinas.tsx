@@ -16,7 +16,7 @@ const MinhasDisciplinas = () => {
             <Loader />
           ) : (
             <ul className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
-              {saves?.documents.map((save: Models.Document) => ( user?.$id && save.disciplina.professor.$id) && (
+              {saves?.documents.map((save: Models.Document) => ( user?.$id == save.users.$id && 'hidden') && (
                 <DisciplinaCard disciplina={save.disciplina} key={save.disciplina.nome} />
               ))}
             </ul>
