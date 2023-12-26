@@ -6,6 +6,8 @@ export enum QUERY_KEYS {
     GET_CURRENT_USER = 'getCurrentUser',
     GET_USERS = 'getUsers',
     GET_USER_BY_ID = 'getUserById',
+    GET_USER_BY_NUMERO = 'getUserByNumero',
+    GET_RECENT_USERS = 'getRecentUsers',
   
     // DISCIPLINA KEYS
     GET_DISCIPLINAS = 'getDisciplinas',
@@ -19,7 +21,7 @@ export enum QUERY_KEYS {
     GET_MODULOS = 'getModulos',
     GET_INFINITE_MODULOS = 'getInfiniteModulos',
     GET_RECENT_MODULOS = 'getRecentModulos',
-    GET_MODULO_BY_ID = 'getModuloaById',
+    GET_MODULO_BY_ID = 'getModuloById',
     GET_DISCIPLINA_MODULOS = 'getDisciplinaModulos',
 
     //GRUPO KEYS 
@@ -35,7 +37,12 @@ export enum QUERY_KEYS {
     GET_RECENT_SAVES = 'getRecentSaves',
     GET_SAVE_BY_ID = 'getSaveById',
     GET_USER_SAVES = 'getUserSaves',
-
+   //INSCRICOES KEYS
+    GET_INSCRICOES = 'getSaves',
+    GET_INFINITE_INSCRICOES = 'getInfiniteInscricoes',
+    GET_RECENT_INSCRICOES = 'getRecentInscricoes',
+    GET_INSCRICAO_BY_ID = 'getInscricaoById',
+    GET_USER_INSCRICOES = 'getUserInscricoes',
 
     //  SEARCH KEYS
     SEARCH_DISCIPLINAS = 'getSearchDisciplinas',

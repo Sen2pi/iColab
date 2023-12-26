@@ -1,7 +1,7 @@
 import { ID, Query } from 'appwrite'
-import { INewDisciplina, INewGrupo, INewModulo, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo } from "@/types";
+import { INewDisciplina, INewGrupo, INewModulo, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateUser } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
-import { useParams } from 'react-router-dom';
+import { useGetUserByNumero } from '../react-query/queriesAndMutations';
 
 
 
@@ -108,6 +108,29 @@ export async function getUserById(userId: string) {
     )
 
     return user;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function getRecentUsers() {
+  const users = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.userCollectionId,
+    [Query.orderDesc('numero'), Query.limit(200)]
+  );
+  if (!users) throw Error;
+  return users;
+}
+export async function getUserByNumero(numero: string) {
+  try {
+    const userId = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      [
+          Query.equal('numero', [numero.toUpperCase()]),
+      ]
+  );
+    return userId.documents[0].$id;
   } catch (error) {
     console.log(error);
   }
@@ -463,7 +486,7 @@ export async function getRecentGrupos() {
   const grupos = await databases.listDocuments(
     appwriteConfig.databaseId,
     appwriteConfig.grupoCollectionId,
-    [Query.orderDesc('$createdAt'), Query.limit(20)],
+    [Query.orderDesc('nome'), Query.limit(20)],
 
     );
   if (!grupos) throw Error;
@@ -471,19 +494,25 @@ export async function getRecentGrupos() {
 }
 export async function createGrupo(grupo: INewGrupo) {
   try {
-
-    //gravar a disciplina no banco de dados :
     const newGrupo = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.grupoCollectionId,
       ID.unique(),
       {
         disciplina: grupo.disciplina,
-        lider: grupo.lider,
+        nome: grupo.nome,
         tema: grupo.tema,
-        prazo: grupo.prazo,
+        prazo: grupo.prazo.toDateString(),
         descricao: grupo.descricao,
-        concluido: false,
+        lider: grupo.lider,
+        /*
+          disciplina: string;
+          nome: string;
+          lider: string;
+          tema: string;
+          prazo: Date;
+          descricao: string;
+        */
       }
     );
     if (!newGrupo) {
@@ -510,9 +539,7 @@ export async function deleteGrupo(grupoId: string) {
 }
 export async function updateGrupo(grupo: IUpdateGrupo) {
   try {
-    const id_g = useParams();
-    
-    grupo.grupoId = id_g.toString() ? id_g.toString() : grupo.grupoId;
+    const liderId = getUserByNumero(grupo.lider)
     //gravar a disciplina no banco de dados :
     const updatedGrupo = await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -544,6 +571,7 @@ export async function getGrupoById(grupoId: string) {
     console.log(error);
   }
 }
+
 //======================================================
 //======================TAREFAS ========================
 //======================================================
@@ -637,4 +665,63 @@ export async function getRecentSaves() {
   );
   if (!saves) throw Error;
   return saves;
+}
+
+//=================================================================
+//===================== INSCRICOES ======================================
+//=================================================================
+export async function saveGrupo(grupoId: string, userId: string) {
+  try {
+    const savedGrupo = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.inscricaoCollectionId,
+      ID.unique(),
+      {
+        inscrito: userId,
+        grupo: grupoId,
+      }
+    )
+    if (!savedGrupo) throw Error;
+    return savedGrupo;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function deleteSavedGrupo(savedRecordId: string) {
+  try {
+    const statusCode = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.inscricaoCollectionId,
+      savedRecordId,
+    )
+    if (!statusCode) throw Error;
+    return { status: "ok" };
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function getRecentInscricoes() {
+  const inscricoes = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.inscricaoCollectionId,
+    [Query.orderDesc('$createdAt'), Query.limit(200)]
+  );
+  if (!inscricoes) throw Error;
+  return inscricoes;
+}
+export async function getGrupoInscrito(userId: string) {
+  try {
+    const user = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.inscricaoCollectionId,
+      [
+          Query.equal('inscrito', [userId]),
+          Query.limit(1),
+      ]
+  );
+    console.log(user);
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
 }

@@ -99,19 +99,20 @@ export type INavLink = {
   export type INewGrupo = {
     disciplina: string;
     nome: string;
-    lider?: string;
+    lider: string;
     tema: string;
-    prazo: string;
+    prazo: Date;
     descricao: string;
   };
 
   export type IUpdateGrupo = {
     grupoId: string;
     nome?: string;
-    lider?: string;
+    lider: string;
     tema?: string;
     descricao?: string;
-    nota?: number;
+    nota: number;
+    prazo: Date;
   };
    //=====================================
   //===========TAREFAS====================

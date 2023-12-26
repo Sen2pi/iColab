@@ -58,19 +58,17 @@ function App() {
                 <Route path="/disciplina/:id" element={<DisciplinaDetalhe/>}/>
                 <Route path="/editar-disciplina/:id" element={<EditarDisciplina/>}/>
                 <Route path="/apagar-disciplina/:id" element={<ApagarDisciplina/>}/>
-                <Route path="disciplina/:id/notas/" element={<Notas/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/notas" element={<Notas/>}/>
 
-                <Route path="disciplina/:id/editar-modulo/:id_m" element={<EditarModulo/>}/>
+                <Route path="/disciplina/:id/editar-modulo/:id_m" element={<EditarModulo/>}/>
                 <Route path="/disciplina/:id/criar-modulo-disciplina/:id" element={<CriarModulo/>}/>
 
-                <Route path="disciplina/:id/grupos/:g" element={<Grupo/>}/>
-                <Route path="disciplina/:id/criar-grupo/:id" element={<CriarGrupo/>}/>
+                <Route path="/disciplina/:id/grupos" element={<Grupo/>}/>
+                <Route path="/disciplina/:id/criar-grupo" element={<CriarGrupo/>}/>
                 <Route path="/disciplina/:id/grupo/:id_g" element={<GrupoDetalhe/>}/>
-                <Route path="/disciplina/:id/editar-modulo-disciplina/:id_g" element={<EditarGrupo/>}/>
+                <Route path="/disciplina/:id/editar-grupo/:id_g" element={<EditarGrupo/>}/>
 
-                <Route path="/disciplina/:id/grupo/:id_g/chat" element={<Chat/>}/>
-                <Route path="/disciplina/:id/grupo/:id_g/chat/:id_c/mensagem/:id_m" element={<EditarMensagem/>}/>
-                <Route path="/disciplina/:id/grupo/:id_g/chat/:id_c/mensagem/:id_m" element={<ApagarMensagem/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/chat/:id_c" element={<Chat/>}/>
 
                 <Route path="/disciplina/:id/grupo/:id_g/historico" element={<Historico/>}/>
 

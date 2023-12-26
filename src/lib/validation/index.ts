@@ -61,6 +61,8 @@ export const GrupoValidation = z.object({
   nome: z.string().min(5, { message: "Minimum 5 characters." }).max(200, { message: "Maximum 200 caracters" }),
   descricao: z.string().min(1, { message: "This field is required" }).max(2200, { message: "Maximum 1000 characters." }),
   tema:z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2200 caracters" }),
-  nota: z.number().min(1, { message: "Min 1 Max 20" }).max(20,{ message: "Nota tem de ser de 1-20"}),
-  prazo: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2200 caracters" }),
+  prazo: z.date({
+    required_error: "O prazo final de entrega é necessario",
+  }),
+  lider: z.string().min(5, { message: "Minimum 5 characters"}),
 });

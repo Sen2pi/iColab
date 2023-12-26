@@ -20,6 +20,36 @@ const DisciplinaDetalhe = () => {
   const handleDeleteDisciplina = () => { }
   return (
     <div className="post_details-container">
+      <div className="post_details-card ">
+        <div className="flex-center w-full h-full items-center   text-violet-400">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link to={`/disciplina/${id}/grupos`} className="py-2 px-8">
+                <img src="/assets/icons/people.svg" width={50} height={50} aria-placeholder="Criar" />
+                <p>Grupos</p>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="subtle-semibold lg:small-regular">Grupos</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link to={`disciplina/${id}/notas`} >
+                <img src="/assets/icons/grades.png" width={50} height={50} aria-placeholder="Criar" />
+                <p>Notas</p>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="subtle-semibold lg:small-regular">Notas</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        </div>
+      </div>
       {isPending ? <Loader /> : (
         <div className="post_details-card">
           <img src={disciplina?.imageUrl}

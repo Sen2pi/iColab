@@ -1,9 +1,9 @@
-import { sidebarLinks, sidebarLinksDisciplina, sidebarLinksGrupo, sidebarLinksGrupos } from '@/constants';
+import { sidebarLinks, sidebarLinksDisciplina,  } from '@/constants';
 import { INavLink } from '@/types';
 import { useEffect } from 'react';
 import { Link, NavLink, useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Button } from '../ui/button';
-import { useGetCurrentUser, useGetDisciplinaById, useSignOutAccountMutation } from '@/lib/react-query/queriesAndMutations';
+import { useGetCurrentUser, useSignOutAccountMutation } from '@/lib/react-query/queriesAndMutations';
 
 
 const LeftSidebar = () => {
@@ -11,13 +11,13 @@ const LeftSidebar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { data: user } = useGetCurrentUser();
-  const { id: disciplinaId, g: grupos, id_g: grupo } = useParams();
+  const { id: disciplinaId } = useParams();
   let profOuAluno = user?.docente ? 'Professor' : 'Aluno';
   useEffect(() => {
     if (isSuccess) navigate(0);
   }, [isSuccess]);
 
-  const sidebarToDisplay = disciplinaId ? (grupos ? (grupo ? sidebarLinksGrupo : sidebarLinksGrupos) : sidebarLinksDisciplina) : sidebarLinks;
+  const sidebarToDisplay = disciplinaId ?  sidebarLinksDisciplina : sidebarLinks;
 
   return (
     <nav className="leftsidebar">
