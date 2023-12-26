@@ -26,7 +26,6 @@ const UserCard = ({ user }: UserCardProps) => {
                             <p className="small-regular text-light-3">{user?.numero}</p>
                             <p className="small-regular text-light-3">{user?.curso}</p>
                         </div>
-                        <hr className="border w-full border-dark-4/80" />
                     </div>
                 </Link>
                 
