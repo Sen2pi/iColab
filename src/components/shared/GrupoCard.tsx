@@ -57,18 +57,25 @@ const GrupoCard = ({ grupo }: GrupoCardProps) => {
         </p>
       </div>
       <div className="post_details-card">
-        <div className='flex-between flex-col w-full items-center '>
-          <h2 className='h4-bold md:h3-bold text-left p-2'>Alunos</h2>
-          {isSaveLoading && !inscricoes?
-            (<Loader />) : (
-              <ul className="profile-inner_container grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
-                {inscricoes?.documents.map((inscrito: Models.Document) => (
-                  user?.$id === inscrito.inscrito.$id && grupo.$id === inscrito.grupo.$id && (
-                    <UserCard user={inscrito.inscrito} key={inscrito.$createdAt} />
-                  )
-                ))}
-              </ul>
-            )}
+        <div className='w-full h-full '>
+          <div className="text-center h4-bold md:h3-bold p-2">
+            <h2>Alunos</h2>
+            <hr className="border w-full border-dark-4/80" />
+          </div>
+          <div className="profile-container flex-center">
+            {isSaveLoading && !inscricoes?
+              (<Loader />) : (
+                <ul >
+                  {inscricoes?.documents.map((inscrito: Models.Document) => (
+                    
+                    grupo.$id === inscrito.grupo.$id && (
+                      <UserCard user={inscrito.inscrito} key={inscrito.$createdAt} />
+                      
+                    )
+                  ))}
+                </ul>
+              )}
+          </div>
         </div>
       </div>
       </Link>

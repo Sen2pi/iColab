@@ -70,7 +70,7 @@ function App() {
 
                 <Route path="/disciplina/:id/grupo/:id_g/chat/:id_c" element={<Chat/>}/>
 
-                <Route path="/disciplina/:id/grupo/:id_g/historico" element={<Historico/>}/>
+                <Route path="/disciplina/:id/grupo/:id_g/historico/:id_h" element={<Historico/>}/>
 
                 <Route path="/disciplina/:id/grupo/:id_g/ficheiros" element={<Ficheiro/>}/>
                 <Route path="/disciplina/:id/grupo/:id_g/criar-ficheiro" element={<EnviarFicheiro/>}/>
