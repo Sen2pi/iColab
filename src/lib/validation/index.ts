@@ -54,6 +54,20 @@ export const ModuloValidation = z.object({
 });
 
 // ============================================================
+// Ficheiro
+// ============================================================
+export const FicheiroValidation = z.object({
+    remetente: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
+    requisito: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
+    grupo: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
+    nome: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
+    data: z.date({
+      required_error: "O prazo final de entrega é necessario",
+    }),
+    file: z.custom<File[]>(),
+});
+
+// ============================================================
 // Grupo
 // ============================================================
 export const GrupoValidation = z.object({

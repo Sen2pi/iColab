@@ -1,5 +1,5 @@
 import { ID, Query } from 'appwrite'
-import { INewDisciplina, INewFicheiro, INewGrupo, INewMensagem, INewModulo, INewUser, IUpdateDisciplina, IUpdateFicheiro, IUpdateGrupo, IUpdateModulo } from "@/types";
+import { INewDisciplina, INewFicheiro, INewGrupo, INewMensagem, INewModulo, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
 
 
@@ -605,35 +605,30 @@ export async function createFicheiro(ficheiro: INewFicheiro) {
       deleteFile(uploadedFile.$id);
       throw Error;
     }
+    const extensao = uploadedFile.name.split('.').pop();
+    console.log(ficheiro.nome);
     //gravar a disciplina no banco de dados :
-    const newficheiro = await databases.createDocument(
+    const newFicheiro = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.ficheiroCollectionId,
       ID.unique(),
       {
         remetente: ficheiro.remetente,
         grupo: ficheiro.grupo,
-        requesito: ficheiro.requesito,
-        data: ficheiro.data.toDateString(),
+        requesito: ficheiro.requesito || "",
         nome: ficheiro.nome,
-        extensao: uploadedFile.name.split('.').pop(),
+        data: ficheiro.data.toDateString(),
         fileId: uploadedFile.$id,
         fileUrl: fileUrl,
         filename: uploadedFile.name,
-        /*  INewModulo Ordem:
-            disciplinas: string;
-            nome: string;
-            file: File[];
-            descricao: string;
-            completed: boolean;
-        */
+        extensao: extensao,
       }
     );
-    if (!newficheiro) {
+    if (!newFicheiro) {
       await deleteFile(uploadedFile.$id);
       throw Error;
     }
-    return newficheiro;
+    return newFicheiro;
   } catch (error) {
     console.log(error);
     return error;
@@ -652,64 +647,7 @@ export async function deleteFicheiro(ficheiroId: string, fileId: string) {
     console.log(error);
   }
 }
-export async function updateFicheiro(ficheiro: IUpdateFicheiro) {
-  const hasFileToUpdate = ficheiro.file.length > 0;
-  try {
-    let file = {
-      fileUrl: ficheiro.fileUrl,
-      fileId: ficheiro.fileId,
-    }
-    if (hasFileToUpdate) {
-      //Upload do ficheiro :
-      const uploadedFile = await uploadFile(ficheiro.file[0]);
-      if (!uploadedFile) throw Error;
 
-      //Obter o url do ficheiro :
-      const fileUrl = getFilePreview(uploadedFile.$id);
-      if (!fileUrl) {
-        deleteFile(uploadedFile.$id);
-        throw Error;
-      }
-
-      file = { ...file, fileUrl: fileUrl, fileId: uploadedFile.$id }
-    }
-    //gravar a disciplina no banco de dados :
-    const updatedFicheiro = await databases.updateDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.ficheiroCollectionId,
-      ficheiro.ficheiroId,
-      {
-        nome: ficheiro.nome,
-        descricao: ficheiro.data,
-        fileId: file.fileId,
-        fileUrl: file.fileUrl,
-        /*  IUpdateModulo Ordem:
-            moduloId: string;
-            nome: string;
-            descricao?: string;
-            fileId: string;
-            filrUrl: URL;
-            file: File[];
-        */
-      }
-    );
-    if (!updatedFicheiro) {
-      if (hasFileToUpdate) {
-        await deleteFile(file.fileId);
-      }
-      throw Error;
-    }
-
-    if (hasFileToUpdate) {
-      await deleteFile(file.fileId);
-    }
-
-    return updatedFicheiro
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
-}
 export async function uploadFile(file: File) {
   try {
     const uploadedFile = await storage.createFile(
