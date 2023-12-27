@@ -139,3 +139,25 @@ export type INavLink = {
     remetente: string;
     mensagem: string;
   };
+
+  //=====================================
+  //===========FICHEIRO==================
+  //===================================== 
+  export type INewFicheiro = {
+    remetente: string;
+    grupo: string;
+    requesito: string;
+    nome: string;
+    data: Date;
+    file: File[];
+    extensao: string;
+  };
+
+  export type IUpdateFicheiro = {
+    ficheiroId: string;
+    nome: string;
+    data?: string;
+    fileId: string;
+    fileUrl: URL;
+    file: File[];
+  };

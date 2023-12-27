@@ -350,7 +350,6 @@
 }
 
 .message--body{
-  padding: 0.5em 0;
   color: var(--textColorSecondary);
   background-color: var(--themeColorMain);
   padding: 1em;

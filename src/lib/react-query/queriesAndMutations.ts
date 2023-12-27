@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createDisciplina, createGrupo, createMensagem, createModulo, createUserAccount, deleteDisciplina, deleteGrupo, deleteModulo, deleteSavedDisciplina, deleteSavedGrupo, getChatById, getCurrentUser, getDisciplinaById, getGrupoById, getModuloById, getRecentDisciplinas, getRecentGrupos, getRecentInscricoes, getRecentMensagens, getRecentModulos, getRecentSaves, getRecentUsers, getSaveById, getUserById, getUserByNumero, saveDisciplina, saveGrupo, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateGrupo, updateModulo } from '../appwrite/api'
-import { INewDisciplina, INewGrupo, INewMensagem, INewModulo, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo } from '@/types'
+import { createDisciplina, createFicheiro, createGrupo, createMensagem, createModulo, createUserAccount, deleteDisciplina, deleteFicheiro, deleteGrupo, deleteModulo, deleteSavedDisciplina, deleteSavedGrupo, getChatById, getCurrentUser, getDisciplinaById, getFicheiroById, getGrupoById, getModuloById, getRecentDisciplinas, getRecentFicheiros, getRecentGrupos, getRecentInscricoes, getRecentMensagens, getRecentModulos, getRecentSaves, getRecentUsers, getSaveById, getUserById, getUserByNumero, saveDisciplina, saveGrupo, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateFicheiro, updateGrupo, updateModulo } from '../appwrite/api'
+import { INewDisciplina, INewFicheiro, INewGrupo, INewMensagem, INewModulo, INewUser, IUpdateDisciplina, IUpdateFicheiro, IUpdateGrupo, IUpdateModulo } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 
 
@@ -354,4 +354,55 @@ export const useCreateMensagem = () => {
       });
     },
   });
+};
+
+//===============================================================
+// Ficheiros QUERIES
+//===============================================================
+export const useCreateFicheiro = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (ficheiro: INewFicheiro) => createFicheiro(ficheiro),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_FICHEIROS]
+      });
+    },
+  });
+};
+
+export const useDeleteFicheiro = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ ficheiroId, fileId }: { ficheiroId: string, fileId: string }) => deleteFicheiro(ficheiroId, fileId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_FICHEIROS]
+      })
+    }
+  })
+};
+export const useUpdateFicheiro = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (ficheiro: IUpdateFicheiro) => updateFicheiro(ficheiro),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MODULO_BY_ID, data]
+      });
+    }
+  })
+}
+export const useGetFicheiroById = (ficheiroId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_FICHEIRO_BY_ID, ficheiroId],
+    queryFn: () => getFicheiroById(ficheiroId),
+    enabled: !!ficheiroId
+  })
+};
+export const useGetRecentFicheiros = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_RECENT_FICHEIROS],
+    queryFn: getRecentFicheiros,
+  })
 };

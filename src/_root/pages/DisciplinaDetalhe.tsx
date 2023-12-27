@@ -18,6 +18,7 @@ const DisciplinaDetalhe = () => {
   const { data: user } = useGetCurrentUser();
   const { data: disciplina, isPending } = useGetDisciplinaById(id as string);
   const handleDeleteDisciplina = () => { }
+  
   return (
     <div className="post_details-container">
       <div className="post_details-card ">

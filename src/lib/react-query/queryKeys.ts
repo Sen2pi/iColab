@@ -53,6 +53,13 @@ export enum QUERY_KEYS {
     GET_INSCRICAO_BY_ID = 'getInscricaoById',
     GET_USER_INSCRICOES = 'getUserInscricoes',
 
+    //FICHEIROS KEYS 
+    GET_FICHEIROS = 'getFicheiros',
+    GET_INFINITE_FICHEIROS = 'getInfiniteFicheiros',
+    GET_RECENT_FICHEIROS = 'getRecentFicheiros',
+    GET_FICHEIRO_BY_ID = 'getFicheiroById',
+    GET_GRUPO_FICHEIROS = 'getDisciplinaFicheiros',
+
     //  SEARCH KEYS
     SEARCH_DISCIPLINAS = 'getSearchDisciplinas',
   }

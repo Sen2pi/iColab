@@ -1,5 +1,5 @@
 import { ID, Query } from 'appwrite'
-import { INewDisciplina, INewGrupo, INewMensagem, INewModulo, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo } from "@/types";
+import { INewDisciplina, INewFicheiro, INewGrupo, INewMensagem, INewModulo, INewUser, IUpdateDisciplina, IUpdateFicheiro, IUpdateGrupo, IUpdateModulo } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
 
 
@@ -572,6 +572,7 @@ export async function getGrupoById(grupoId: string) {
   }
 }
 
+
 //======================================================
 //======================TAREFAS ========================
 //======================================================
@@ -583,7 +584,132 @@ export async function getGrupoById(grupoId: string) {
 //======================================================
 //======================FILES ==========================
 //======================================================
+export async function getRecentFicheiros() {
+  const ficheiros = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.ficheiroCollectionId,
+    [Query.orderDesc('$createdAt'), Query.limit(20)]
+  );
+  if (!ficheiros) throw Error;
+  return ficheiros;
+}
+export async function createFicheiro(ficheiro: INewFicheiro) {
+  try {
+    //Upload do ficheiro :
+    const uploadedFile = await uploadFile(ficheiro.file[0]);
+    if (!uploadedFile) throw Error;
 
+    //Obter o url do ficheiro :
+    const fileUrl = getFilePreview(uploadedFile.$id);
+    if (!fileUrl) {
+      deleteFile(uploadedFile.$id);
+      throw Error;
+    }
+    //gravar a disciplina no banco de dados :
+    const newficheiro = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.ficheiroCollectionId,
+      ID.unique(),
+      {
+        remetente: ficheiro.remetente,
+        grupo: ficheiro.grupo,
+        requesito: ficheiro.requesito,
+        data: ficheiro.data.toDateString(),
+        nome: ficheiro.nome,
+        extensao: uploadedFile.name.split('.').pop(),
+        fileId: uploadedFile.$id,
+        fileUrl: fileUrl,
+        filename: uploadedFile.name,
+        /*  INewModulo Ordem:
+            disciplinas: string;
+            nome: string;
+            file: File[];
+            descricao: string;
+            completed: boolean;
+        */
+      }
+    );
+    if (!newficheiro) {
+      await deleteFile(uploadedFile.$id);
+      throw Error;
+    }
+    return newficheiro;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+export async function deleteFicheiro(ficheiroId: string, fileId: string) {
+  if (!ficheiroId || !fileId) throw Error;
+  try {
+    await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.ficheiroCollectionId,
+      ficheiroId,
+    )
+    return { status: 'ok' }
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function updateFicheiro(ficheiro: IUpdateFicheiro) {
+  const hasFileToUpdate = ficheiro.file.length > 0;
+  try {
+    let file = {
+      fileUrl: ficheiro.fileUrl,
+      fileId: ficheiro.fileId,
+    }
+    if (hasFileToUpdate) {
+      //Upload do ficheiro :
+      const uploadedFile = await uploadFile(ficheiro.file[0]);
+      if (!uploadedFile) throw Error;
+
+      //Obter o url do ficheiro :
+      const fileUrl = getFilePreview(uploadedFile.$id);
+      if (!fileUrl) {
+        deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+
+      file = { ...file, fileUrl: fileUrl, fileId: uploadedFile.$id }
+    }
+    //gravar a disciplina no banco de dados :
+    const updatedFicheiro = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.ficheiroCollectionId,
+      ficheiro.ficheiroId,
+      {
+        nome: ficheiro.nome,
+        descricao: ficheiro.data,
+        fileId: file.fileId,
+        fileUrl: file.fileUrl,
+        /*  IUpdateModulo Ordem:
+            moduloId: string;
+            nome: string;
+            descricao?: string;
+            fileId: string;
+            filrUrl: URL;
+            file: File[];
+        */
+      }
+    );
+    if (!updatedFicheiro) {
+      if (hasFileToUpdate) {
+        await deleteFile(file.fileId);
+      }
+      throw Error;
+    }
+
+    if (hasFileToUpdate) {
+      await deleteFile(file.fileId);
+    }
+
+    return updatedFicheiro
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
 export async function uploadFile(file: File) {
   try {
     const uploadedFile = await storage.createFile(
@@ -597,7 +723,18 @@ export async function uploadFile(file: File) {
     console.log(error);
   }
 };
-
+export async function getFicheiroById(ficheiroId: string) {
+  try {
+    const ficheiro = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.ficheiroCollectionId,
+      ficheiroId,
+    );
+    return ficheiro;
+  } catch (error) {
+    console.log(error);
+  }
+}
 export function getFilePreview(fileId: string) {
   try {
     const fileUrl = storage.getFilePreview(
@@ -674,6 +811,25 @@ export async function getSaveById(saveId: string) {
       saveId,
     );
     return save;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function getUserSave(userId: string, disciplinaId: string) {
+  try {
+    const saves = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.savesCollectionId,
+      [
+        Query.equal('users', userId),
+        Query.equal('disciplina', disciplinaId),
+        Query.limit(1),
+      ]
+    );
+
+    const firstSave = saves.documents[0].$id.toString();
+    console.log(firstSave);
+    return firstSave;
   } catch (error) {
     console.log(error);
   }

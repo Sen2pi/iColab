@@ -17,17 +17,17 @@ const MensagemCard = ({ mensagem }: MensagemCardProps) => {
                 </div>
                 <div>
                     <p className="message--header">{user?.name}</p>
-                    <hr className="border w-full px-1 border-light-4/80" />
+                    <hr className="border w-full border-light-4/80" />
                     <div className={"message--body" + (mensagem.remetente.$id === user?.$id ? ' message--body--owner' : '')}>
                         <span>{mensagem.mensagem}</span>
                     </div>
                     <span className="message-timestamp">{multiFormatDateString(mensagem.$createdAt)}</span>
-                </div>
-                <div>
-                    {user?.$id === mensagem.remetente && (
-                        <Button className="delete--btn" onClick={() => { deleteMenssagem(mensagem.$id) }}>
-                            <img src="/assets/icons/delete.svg" alt="" /></Button>
-                    )}
+                    <div>
+                        {user?.$id === mensagem?.remetente?.$id && (
+                            <Button className="delete--btn flex-col" onClick={() => deleteMenssagem(mensagem?.$id)}>Apagar
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </div>
     )
