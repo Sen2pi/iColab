@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createDisciplina, createGrupo, createModulo, createUserAccount, deleteDisciplina, deleteGrupo, deleteModulo, deleteSavedDisciplina, deleteSavedGrupo, getCurrentUser, getDisciplinaById, getGrupoById, getModuloById, getRecentDisciplinas, getRecentGrupos, getRecentInscricoes, getRecentModulos, getRecentSaves, getRecentUsers, getUserById, getUserByNumero, saveDisciplina, saveGrupo, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateGrupo, updateModulo } from '../appwrite/api'
-import { INewDisciplina, INewGrupo, INewModulo, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo } from '@/types'
+import { createDisciplina, createGrupo, createMensagem, createModulo, createUserAccount, deleteDisciplina, deleteGrupo, deleteModulo, deleteSavedDisciplina, deleteSavedGrupo, getChatById, getCurrentUser, getDisciplinaById, getGrupoById, getModuloById, getRecentDisciplinas, getRecentGrupos, getRecentInscricoes, getRecentMensagens, getRecentModulos, getRecentSaves, getRecentUsers, getSaveById, getUserById, getUserByNumero, saveDisciplina, saveGrupo, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateGrupo, updateModulo } from '../appwrite/api'
+import { INewDisciplina, INewGrupo, INewMensagem, INewModulo, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 
 
@@ -270,7 +270,13 @@ export const useGetRecentSaves = () => {
     queryFn: getRecentSaves,
   })
 };
-
+export const useGetSaveById = (saveId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_SAVE_BY_ID, saveId],
+    queryFn: () => getSaveById(saveId),
+    enabled: !!saveId
+  })
+};
 //===============================================================
 // INSCRIÇOES QUERIES
 //===============================================================
@@ -317,4 +323,35 @@ export const useGetRecentInscricoes = () => {
     queryKey: [QUERY_KEYS.GET_RECENT_INSCRICOES],
     queryFn: getRecentInscricoes,
   })
+};
+//===============================================================
+// Chats QUERIES
+//===============================================================
+
+export const useGetRecentMensagens = (chatId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_RECENT_MENSAGENS],
+    queryFn: () => getRecentMensagens(chatId),
+    enabled: !!chatId
+    })
+};
+
+export const useGetChatById = (chatId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CHAT_BY_ID, chatId],
+    queryFn: () => getChatById(chatId),
+    enabled: !!chatId
+  })
+};
+
+export const useCreateMensagem = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (mensagem: INewMensagem) => createMensagem(mensagem),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_MENSAGENS]
+      });
+    },
+  });
 };

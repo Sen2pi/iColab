@@ -27,8 +27,6 @@ import Ficheiro from './_root/pages/Ficheiro';
 import EnviarFicheiro from './_root/pages/EnviarFicheiro';
 import ApagarFicheiro from './_root/pages/ApagarFicheiro';
 import Chat from './_root/pages/Chat';
-import EditarMensagem from './_root/pages/EditarMensagem';
-import ApagarMensagem from './_root/pages/ApagarMensagem';
 import Profile from './_root/pages/Profile';
 import EditarProfile from './_root/pages/EditarProfile';
 import MinhasDisciplinas from './_root/pages/MinhasDisciplinas';

@@ -1,7 +1,6 @@
 import { ID, Query } from 'appwrite'
-import { INewDisciplina, INewGrupo, INewModulo, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateUser } from "@/types";
+import { INewDisciplina, INewGrupo, INewMensagem, INewModulo, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
-import { useGetUserByNumero } from '../react-query/queriesAndMutations';
 
 
 
@@ -494,6 +493,7 @@ export async function getRecentGrupos() {
 }
 export async function createGrupo(grupo: INewGrupo) {
   try {
+    
     const newGrupo = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.grupoCollectionId,
@@ -513,8 +513,9 @@ export async function createGrupo(grupo: INewGrupo) {
           prazo: Date;
           descricao: string;
         */
-      }
+      },
     );
+    createChat(newGrupo.$id)
     if (!newGrupo) {
       throw Error;
     }
@@ -539,7 +540,6 @@ export async function deleteGrupo(grupoId: string) {
 }
 export async function updateGrupo(grupo: IUpdateGrupo) {
   try {
-    const liderId = getUserByNumero(grupo.lider)
     //gravar a disciplina no banco de dados :
     const updatedGrupo = await databases.updateDocument(
       appwriteConfig.databaseId,
@@ -666,9 +666,20 @@ export async function getRecentSaves() {
   if (!saves) throw Error;
   return saves;
 }
-
+export async function getSaveById(saveId: string) {
+  try {
+    const save = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.savesCollectionId,
+      saveId,
+    );
+    return save;
+  } catch (error) {
+    console.log(error);
+  }
+}
 //=================================================================
-//===================== INSCRICOES ======================================
+//===================== INSCRICOES ================================
 //=================================================================
 export async function saveGrupo(grupoId: string, userId: string) {
   try {
@@ -721,6 +732,104 @@ export async function getGrupoInscrito(userId: string) {
   );
     console.log(user);
     return user;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//=================================================================
+//=========================== Chat ================================
+//=================================================================
+
+export async function getChatById(chatId: string){
+  const chat = await databases.getDocument(
+    appwriteConfig.databaseId,
+    appwriteConfig.chatCollectionId,
+    chatId,
+  )
+  if (!chat) throw Error;
+  return chat;
+}
+
+export async function getRecentMensagens( chatId: string) {
+  const mensagens = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.mensagemCollectionId,
+    [
+      Query.equal("chat", chatId),
+      Query.orderAsc('$createdAt'), Query.limit(200),
+    ]
+  );
+  if (!mensagens) throw Error;
+  return mensagens;
+}
+export async function getMensagemById(mensagemId: string) { 
+  try {
+    const mensagem = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.chatCollectionId,
+      [
+          Query.equal('mensagens', [mensagemId]),
+          Query.limit(1),
+      ]
+  );
+    console.log(mensagem);
+    return mensagem;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function createChat(grupoId: string) {
+  try {
+    const newChat = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.chatCollectionId,
+      ID.unique(),
+      {
+       grupo: grupoId
+      }
+    );
+    if (!newChat) {
+      throw Error;
+    }
+    return newChat;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
+export async function createMensagem(mensagem: INewMensagem) {
+  try {
+    const newMensagem = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.mensagemCollectionId,
+      ID.unique(),
+      {
+       chat: mensagem.chat,
+       remetente: mensagem.remetente,
+       mensagem: mensagem.mensagem
+      }
+    );
+    if (!newMensagem) {
+      throw Error;
+    }
+    return newMensagem;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+export async function deleteMenssagem(mensagemId: string) {
+  try {
+    const statusCode = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.mensagemCollectionId,
+      mensagemId,
+    )
+    if (!statusCode) throw Error;
+    return { status: "ok" };
   } catch (error) {
     console.log(error);
   }

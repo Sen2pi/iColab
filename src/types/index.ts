@@ -131,3 +131,11 @@ export type INavLink = {
       data_de_fim:string;
       concluido: string;
   };
+  //=====================================
+  //===========CHAT======================
+  //=====================================
+  export type INewMensagem = {
+    chat: string;
+    remetente: string;
+    mensagem: string;
+  };

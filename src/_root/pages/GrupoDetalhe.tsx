@@ -13,7 +13,7 @@ import { Models } from "appwrite";
 
 const GrupoDetalhe = () => {
   const { data: inscricoes, isPending: isSaveLoading } = useGetRecentInscricoes();
-  const { id: id, id_g: id_g, id_c: id_c, id_h: id_h } = useParams();
+  const { id: id, id_g: id_g} = useParams();
   const { data: user } = useGetCurrentUser();
   const { data: grupo, isPending } = useGetGrupoById(id_g || " ");
   const handleDeleteGrupo = () => { }
@@ -24,7 +24,7 @@ const GrupoDetalhe = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link to={`/disciplina/${id}/grupo/${id_g}/chat/${id_c}`} className="py-2 px-8">
+                <Link to={`/disciplina/${id}/grupo/${id_g}/chat/${grupo?.chats?.$id}`} className="py-2 px-8">
                   <img src="/assets/icons/chat.svg" width={50} height={50} />
                   <p>Chat</p>
                 </Link>
@@ -37,7 +37,7 @@ const GrupoDetalhe = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link to={`/disciplina/${id}/grupo/${id_g}/historico/${id_h}`} className="py-2 px-8">
+                <Link to={`/disciplina/${id}/grupo/${id_g}/historico/${grupo?.historico?.$id}`} className="py-2 px-8">
                   <img src="/assets/icons/history.png"  width={50} height={50}  />
                   <p>Histórico</p>
                 </Link>

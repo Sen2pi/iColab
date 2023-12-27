@@ -37,6 +37,15 @@ export enum QUERY_KEYS {
     GET_RECENT_SAVES = 'getRecentSaves',
     GET_SAVE_BY_ID = 'getSaveById',
     GET_USER_SAVES = 'getUserSaves',
+
+    //CHAT KEYS
+    GET_MENSAGENS = 'getMensagens',
+    GET_INFINITE_MENSAGENS = 'getInfiniteMensagens',
+    GET_RECENT_MENSAGENS = 'getRecentMenssagens',
+    GET_CHAT_BY_ID = 'getChatById',
+    GET_MENSAGEM_BY_ID = 'getMensagemById',
+    GET_CHAT_MENSAGENS = 'getChatMensagens',
+
    //INSCRICOES KEYS
     GET_INSCRICOES = 'getSaves',
     GET_INFINITE_INSCRICOES = 'getInfiniteInscricoes',

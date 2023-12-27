@@ -67,7 +67,6 @@ const GrupoForm = ({ grupo, action }: GrupoFormProps) => {
       return navigate(-1);
     }
     // ACTION = CREATE
-    console.log(value.lider);
       const newGrupo = await createGrupo({
         ...value,
         disciplina: id ? id : "",
