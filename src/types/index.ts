@@ -117,19 +117,47 @@ export type INavLink = {
    //=====================================
   //===========TAREFAS====================
   //======================================
-  export type INewTarefa = {
+  export type INewTarefa ={
     grupo: string;
-    nome: string;
-    date: string;
-    data_de_fim:string;
-  };
+    date: Date;
+    concluido?: boolean;
+    atribuido: string;
+    columnId: string;
+    content: string;
+  }
 
   export type IUpdateTarefa = {
-      tarefaId: string;
-      nome: string;
-      date: string;
-      data_de_fim:string;
-      concluido: string;
+    tarefaId: string;
+    date: Date;
+    concluido?: boolean;
+    atribuido: string;
+    columnId: string;
+    content: string;
+  };
+
+  export type TarefaF = {
+    id: string;
+    columnId: string;
+    content: string;
+    date: string; // You might want to use Date type here depending on your needs
+  };
+
+  //=====================================
+  //===========REQUESITOS================
+  //=====================================
+  export type INewRequesito ={
+    title: string;
+    grupo: string;
+    user: string,
+  }
+  export type Requesito = {
+    title: string;
+    grupo: string;
+    user: string, // You might want to use Date type here depending on your needs
+  };
+  export type IUpdateRequesito = {
+    requesitoId: string;
+    title: string;
   };
   //=====================================
   //===========CHAT======================
@@ -151,4 +179,29 @@ export type INavLink = {
     data: Date;
     file: File[];
   };
+  //=====================================
+  //===========HISTORICO==================
+  //===================================== 
+  export type INewHistorico = {
+    mensagem: string;
+    user: string;
+    grupo: string;
+    acao: string;
+  };
+
+//=====================================
+//===========KANBAN====================
+//=====================================
+export type Column = {
+  id: string;
+  title: string;
+};
+
+export type Task = {
+  id: string;
+  columnId: string;
+  content: string;
+  date: string;
+};
+
 

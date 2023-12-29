@@ -10,8 +10,8 @@ const Ficheiro = () => {
   const { data: ficheiros, isPending: isFicheiroLoading } = useGetRecentFicheiros();
   const { id: id, id_g: id_g} = useParams();
   return (
-    <div>
-      <div className="post_details-card">
+    <div className='px-2 py-2 w-full'>
+      <div className="room--container h-full">
         <div className='flex flex-col w-full items-center gap-3'>
           <h2 className='h3-bold md:h2-bold text-left p-2'>Ficheiros</h2>
           {isFicheiroLoading && !ficheiros ?

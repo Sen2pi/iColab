@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createDisciplina, createFicheiro, createGrupo, createMensagem, createModulo, createUserAccount, deleteDisciplina, deleteFicheiro, deleteGrupo, deleteModulo, deleteSavedDisciplina, deleteSavedGrupo, getChatById, getCurrentUser, getDisciplinaById, getFicheiroById, getGrupoById, getModuloById, getRecentDisciplinas, getRecentFicheiros, getRecentGrupos, getRecentInscricoes, getRecentMensagens, getRecentModulos, getRecentSaves, getRecentUsers, getSaveById, getUserById, getUserByNumero, saveDisciplina, saveGrupo, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateFicheiro, updateGrupo, updateModulo } from '../appwrite/api'
-import { INewDisciplina, INewFicheiro, INewGrupo, INewMensagem, INewModulo, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo } from '@/types'
+import { createDisciplina, createFicheiro, createGrupo, createHistorico, createMensagem, createModulo, createRequesito, createTarefa, createUserAccount, deleteDisciplina, deleteFicheiro, deleteGrupo, deleteHistorico, deleteModulo, deleteRequesito, deleteSavedDisciplina, deleteSavedGrupo, deleteTarefa, getChatById, getCurrentUser, getDisciplinaById, getFicheiroById, getGrupoById, getInscricaoById, getMensagemById, getModuloById, getRecentDisciplinas, getRecentFicheiros, getRecentGrupos, getRecentHistoricos, getRecentInscricoes, getRecentMensagens, getRecentModulos, getRecentRequesitos, getRecentSaves, getRecentTarefas, getRecentUsers, getRequesitoById, getSaveById, getTarefaById, getUserById, getUserByNumero, getUserRequesitos, getUserTarefas, saveDisciplina, saveGrupo, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateGrupo, updateModulo } from '../appwrite/api'
+import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 
 
@@ -324,6 +324,14 @@ export const useGetRecentInscricoes = () => {
     queryFn: getRecentInscricoes,
   })
 };
+
+export const useGetInscricaoById = (incricaoId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_INSCRICAO_BY_ID, incricaoId],
+    queryFn: () => getInscricaoById(incricaoId),
+    enabled: !!incricaoId
+  })
+};
 //===============================================================
 // Chats QUERIES
 //===============================================================
@@ -341,6 +349,13 @@ export const useGetChatById = (chatId: string) => {
     queryKey: [QUERY_KEYS.GET_CHAT_BY_ID, chatId],
     queryFn: () => getChatById(chatId),
     enabled: !!chatId
+  })
+};
+export const useGetMensagemById = (mensagemId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_MENSAGEM_BY_ID, mensagemId],
+    queryFn: () => getMensagemById(mensagemId),
+    enabled: !!mensagemId
   })
 };
 
@@ -394,5 +409,134 @@ export const useGetRecentFicheiros = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_RECENT_FICHEIROS],
     queryFn: getRecentFicheiros,
+  })
+};
+
+//===============================================================
+// Historicos QUERIES
+//===============================================================
+
+export const useGetRecentHistoricos = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_RECENT_HISTORICOS],
+    queryFn: getRecentHistoricos,
+  })
+};
+
+export const useCreateHistorico = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (historico: INewHistorico) => createHistorico(historico),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_HISTORICOS]
+      });
+    },
+  });
+};
+export const useDeleteHistorico = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ hsitoricoId}: { hsitoricoId: string }) => deleteHistorico(hsitoricoId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_HISTORICOS]
+      })
+    }
+  })
+};
+
+//===============================================================
+// Tarefas QUERIES
+//===============================================================
+export const useCreateTarefa = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (tarefa: INewTarefa) => createTarefa(tarefa),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_TAREFAS]
+      });
+    },
+  });
+};
+
+export const useDeleteTarefa = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ tarefaId}: { tarefaId: string}) => deleteTarefa(tarefaId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_TAREFAS]
+      })
+    }
+  })
+};
+
+export const useGetTarefaById = (tarefaId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_TAREFA_BY_ID, tarefaId],
+    queryFn: () => getTarefaById(tarefaId),
+    enabled: !!tarefaId
+  })
+};
+export const useGetRecentTarefas = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_RECENT_TAREFAS],
+    queryFn: getRecentTarefas,
+  })
+};
+export const useGetUserTarefas = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_TAREFA_BY_ID, userId],
+    queryFn: () => getUserTarefas(userId),
+    enabled: !!userId
+  })
+};
+//===============================================================
+// Requisitos QUERIES
+//===============================================================
+export const useCreateRequesito = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (requesito: INewRequesito) => createRequesito(requesito),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_REQUESITOS]
+      });
+    },
+  });
+};
+
+export const useDeleteRequesito = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ requesitoId  }: { requesitoId: string}) => deleteRequesito(requesitoId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_REQUESITOS]
+      })
+    }
+  })
+};
+
+export const useGetRequesitoById = (requesitoId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_FICHEIRO_BY_ID, requesitoId],
+    queryFn: () => getRequesitoById(requesitoId),
+    enabled: !!requesitoId
+  })
+};
+export const useGetRecentRequesitos = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_RECENT_REQUESITOS],
+    queryFn: getRecentRequesitos,
+  })
+};
+export const useGetUserRequesitos = (requesitoId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_REQUESITO_BY_ID, requesitoId],
+    queryFn: () => getUserRequesitos(requesitoId),
+    enabled: !!requesitoId
   })
 };

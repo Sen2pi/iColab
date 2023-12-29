@@ -47,9 +47,9 @@ export const DisciplinaValidation = z.object({
 // Modulo
 // ============================================================
 export const ModuloValidation = z.object({
-  disciplinas: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
-  nome: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
-  descricao: z.string().min(1, { message: "This field is required" }).max(2200, { message: "Maximum 1000 characters." }),
+  disciplinas: z.string().min(0, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
+  nome: z.string().min(0, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
+  descricao: z.string().min(0, { message: "This field is required" }).max(2200, { message: "Maximum 1000 characters." }),
   file: z.custom<File[]>(),
 });
 
@@ -57,10 +57,10 @@ export const ModuloValidation = z.object({
 // Ficheiro
 // ============================================================
 export const FicheiroValidation = z.object({
-    remetente: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
-    requisito: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
-    grupo: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
-    nome: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
+    remetente: z.string().min(0, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
+    requesito: z.string().min(0, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
+    grupo: z.string().min(0, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
+    nome: z.string().min(0, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
     data: z.date({
       required_error: "O prazo final de entrega é necessario",
     }),
@@ -71,12 +71,12 @@ export const FicheiroValidation = z.object({
 // Grupo
 // ============================================================
 export const GrupoValidation = z.object({
-  disciplina: z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
-  nome: z.string().min(5, { message: "Minimum 5 characters." }).max(200, { message: "Maximum 200 caracters" }),
+  disciplina: z.string().min(0, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2,200 caracters" }),
+  nome: z.string().min(0, { message: "Minimum 5 characters." }).max(200, { message: "Maximum 200 caracters" }),
   descricao: z.string().min(1, { message: "This field is required" }).max(2200, { message: "Maximum 1000 characters." }),
-  tema:z.string().min(5, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2200 caracters" }),
+  tema:z.string().min(0, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2200 caracters" }),
   prazo: z.date({
     required_error: "O prazo final de entrega é necessario",
   }),
-  lider: z.string().min(5, { message: "Minimum 5 characters"}),
+  lider: z.string().min(0, { message: "Minimum 5 characters"}),
 });

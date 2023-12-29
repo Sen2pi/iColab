@@ -60,6 +60,23 @@ export enum QUERY_KEYS {
     GET_FICHEIRO_BY_ID = 'getFicheiroById',
     GET_GRUPO_FICHEIROS = 'getGrupoFicheiros',
 
+    
+    //TAREFAS KEYS 
+    GET_TAREFAS = 'getTarefas',
+    GET_INFINITE_TAREFAS = 'getInfiniteTarefas',
+    GET_RECENT_TAREFAS = 'getRecentTarefas',
+    GET_TAREFA_BY_ID = 'getTarefasById',
+    GET_GRUPO_TAREFAS = 'getGrupoTarefas',
+    
+    //REQUESITOS KEYS 
+    GET_REQUESITOS = 'getRequesitos',
+    GET_INFINITE_REQUESITOS = 'getInfiniteRequesitos',
+    GET_RECENT_REQUESITOS = 'getRecentRequesitos',
+    GET_REQUESITO_BY_ID = 'getRequesitoById',
+    GET_GRUPO_REQUESITOS = 'getGrupoRequesitos',
     //  SEARCH KEYS
     SEARCH_DISCIPLINAS = 'getSearchDisciplinas',
+
+    // HISTORICO KEYS
+    GET_RECENT_HISTORICOS = 'getRecentHistoricos',
   }

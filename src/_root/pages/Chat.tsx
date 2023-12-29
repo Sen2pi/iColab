@@ -2,19 +2,20 @@
 import {  useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { toast } from '@/components/ui/use-toast';
-import { createMensagem } from '@/lib/appwrite/api';
+import { createHistorico, createMensagem } from '@/lib/appwrite/api';
 import { useGetCurrentUser, useGetGrupoById, useGetRecentMensagens } from '@/lib/react-query/queriesAndMutations';
-import { INewMensagem } from '@/types';
+import { INewHistorico, INewMensagem } from '@/types';
 import { Models } from 'appwrite';
 import Loader from '@/components/shared/Loader';
 import MensagemCard from '@/components/shared/MensagemCard';
 import { Button } from '@/components/ui/button';
+import Acoes from '@/constants/Acoes';
 
 
 const Chat = () => {
   const [textareaRef, setTextareaRef] = useState<HTMLTextAreaElement | null>(null);
   const { data: user } = useGetCurrentUser();
-  const { d_g: id_g, id_c: id_c } = useParams();
+  const { id_g: id_g, id_c: id_c } = useParams();
   const { data: grupo } = useGetGrupoById(id_g || ' ');
   const { data: mensages, isPending: isMensagemLoading, refetch } = useGetRecentMensagens(id_c || ' ');
   const [mensagem, setMensagem] = useState('');
@@ -30,11 +31,19 @@ const Chat = () => {
       mensagem: mensagem,
       remetente: user?.$id || '',
     };
+    const newHistorico: INewHistorico = {
+      mensagem: `O usuario ${user?.name} enviou a seguinte mensagem no chat "${newMensagem.mensagem}"`,
+      user: user?.$id || '',
+      acao: Acoes.criar,
+      grupo: grupo?.$id || '',
+    }
     try {
       await createMensagem(newMensagem);
+      await createHistorico( newHistorico );
       setMensagens([...mensagens, mensagem]);
       setMensagem('');
       // Refetch para atualizar as mensagens
+      
       refetch();
     } catch (error) {
       toast({
@@ -71,8 +80,8 @@ const Chat = () => {
   }, [textareaRef, handleEnviarMensagem, mensages]);
 
   return (
-    <main className="container">
-      <div className="room--container ">
+    <div className='px-2 py-2 w-full'>
+      <div className="room--container h-5/6 ">
         <div>
           <h2 h3-bold md:h2-bold text-left p-2>{grupo?.nome}</h2>
           <hr className="border w-full border-dark-4/80" />
@@ -103,7 +112,7 @@ const Chat = () => {
           </Button>
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 

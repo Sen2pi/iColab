@@ -24,7 +24,7 @@ const GrupoDetalhe = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link to={`/disciplina/${id}/grupo/${id_g}/chat/${grupo?.chats?.$id}`} className="py-2 px-8">
+                <Link to={`/disciplina/${id}/grupo/${id_g}/chat/${grupo?.chats.$id}`} className="py-2 px-8">
                   <img src="/assets/icons/chat.svg" width={50} height={50} />
                   <p>Chat</p>
                 </Link>
@@ -37,7 +37,7 @@ const GrupoDetalhe = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link to={`/disciplina/${id}/grupo/${id_g}/historico/${grupo?.historico?.$id}`} className="py-2 px-8">
+                <Link to={`/disciplina/${id}/grupo/${id_g}/historicos`} className="py-2 px-8">
                   <img src="/assets/icons/history.png"  width={50} height={50}  />
                   <p>Histórico</p>
                 </Link>

@@ -15,7 +15,9 @@ import { Calendar } from "../ui/calendar"
 import { CalendarIcon } from "@radix-ui/react-icons"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
-
+import { INewHistorico } from "@/types"
+import Acoes from "@/constants/Acoes"
+import { createHistorico } from "@/lib/appwrite/api"
 
 
 const FicheiroForm = () => {
@@ -27,6 +29,9 @@ const FicheiroForm = () => {
   const form = useForm<z.infer<typeof FicheiroValidation>>({
     resolver: zodResolver(FicheiroValidation),
     defaultValues: {
+      remetente: user?.$id,
+      requesito: id_r ? id_r :" ",
+      grupo: id_g ? id_g :" ",
       nome: "Teste",
       data: new Date(),
       file: [],
@@ -38,7 +43,7 @@ const FicheiroForm = () => {
 
   //3 - Handler
   const handleSubmit = async (value: z.infer<typeof FicheiroValidation>) => { 
-    console.log(value);
+    console.log("Form Values:", value);
     // ACTION = CREATE
     const newFicheiro = await createFicheiro({
       ...value,
@@ -46,7 +51,13 @@ const FicheiroForm = () => {
       grupo: id_g ? id_g : "",
       requesito: id_r ? id_r : "",
     });
-    console.log(newFicheiro);
+    const newHistorico: INewHistorico = {
+      mensagem: `O usuario ${user?.name} criou o seguinte ficheiro no grupo "${value?.nome}"`,
+      user: user?.$id || '',
+      acao: Acoes.criar,
+      grupo: id_g || '',
+    }
+    createHistorico(newHistorico);
     if (!newFicheiro) {
       toast({
         title: `Falhou a criar a Ficheiro, por favor tente novamente.`,
@@ -88,8 +99,8 @@ const FicheiroForm = () => {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(data) =>
-                      data > new Date("2030-01-01") || data < new Date("1900-01-01")
+                    disabled={(date) =>
+                      date > new Date("2030-01-01") || date < new Date("1900-01-01")
                     }
                     initialFocus
                   />
@@ -121,7 +132,7 @@ const FicheiroForm = () => {
               <FormControl>
                 <FileUploader
                   fieldChange={field.onChange}
-                  mediaUrl={"/assets/icons/file-upload.svg"}
+                  mediaUrl="/assets/icons/file-upload.svg"
                 />
               </FormControl>
               <FormMessage className="shad-form_message" />
