@@ -122,7 +122,7 @@ export type INavLink = {
     date: Date;
     concluido?: boolean;
     atribuido: string;
-    columnId: string;
+    requesito: string;
     content: string;
   }
 
@@ -131,7 +131,7 @@ export type INavLink = {
     date: Date;
     concluido?: boolean;
     atribuido: string;
-    columnId: string;
+    requesito: string;
     content: string;
   };
 

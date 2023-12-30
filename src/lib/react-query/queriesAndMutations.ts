@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createDisciplina, createFicheiro, createGrupo, createHistorico, createMensagem, createModulo, createRequesito, createTarefa, createUserAccount, deleteDisciplina, deleteFicheiro, deleteGrupo, deleteHistorico, deleteModulo, deleteRequesito, deleteSavedDisciplina, deleteSavedGrupo, deleteTarefa, getChatById, getCurrentUser, getDisciplinaById, getFicheiroById, getGrupoById, getInscricaoById, getMensagemById, getModuloById, getRecentDisciplinas, getRecentFicheiros, getRecentGrupos, getRecentHistoricos, getRecentInscricoes, getRecentMensagens, getRecentModulos, getRecentRequesitos, getRecentSaves, getRecentTarefas, getRecentUsers, getRequesitoById, getSaveById, getTarefaById, getUserById, getUserByNumero, getUserRequesitos, getUserTarefas, saveDisciplina, saveGrupo, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateGrupo, updateModulo } from '../appwrite/api'
-import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo } from '@/types'
+import { createDisciplina, createFicheiro, createGrupo, createHistorico, createMensagem, createModulo, createRequesito, createTarefa, createUserAccount, deleteDisciplina, deleteFicheiro, deleteGrupo, deleteHistorico, deleteModulo, deleteRequesito, deleteSavedDisciplina, deleteSavedGrupo, deleteTarefa, getChatById, getCurrentUser, getDisciplinaById, getFicheiroById, getGrupoById, getInscricaoById, getMensagemById, getModuloById, getRecentDisciplinas, getRecentFicheiros, getRecentGrupos, getRecentHistoricos, getRecentInscricoes, getRecentMensagens, getRecentModulos, getRecentRequesitos, getRecentSaves, getRecentTarefas, getRecentUsers, getRequesitoById, getSaveById, getTarefaById, getUserById, getUserByNumero, getUserRequesitos, getUserTarefas, saveDisciplina, saveGrupo, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateGrupo, updateModulo, updateRequesito, updateTarefa } from '../appwrite/api'
+import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateRequesito, IUpdateTarefa } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 
 
@@ -472,7 +472,17 @@ export const useDeleteTarefa = () => {
     }
   })
 };
-
+export const useUpdateTarefa = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (tarefa: IUpdateTarefa) => updateTarefa(tarefa),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_TAREFA_BY_ID, data]
+      });
+    }
+  })
+}
 export const useGetTarefaById = (tarefaId: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_TAREFA_BY_ID, tarefaId],
@@ -519,10 +529,21 @@ export const useDeleteRequesito = () => {
     }
   })
 };
+export const useUpdateRequesito = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (requesito: IUpdateRequesito) => updateRequesito(requesito),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_REQUESITO_BY_ID, data]
+      });
+    }
+  })
+}
 
 export const useGetRequesitoById = (requesitoId: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_FICHEIRO_BY_ID, requesitoId],
+    queryKey: [QUERY_KEYS.GET_FICHEIRO_BY_ID],
     queryFn: () => getRequesitoById(requesitoId),
     enabled: !!requesitoId
   })
@@ -533,10 +554,10 @@ export const useGetRecentRequesitos = () => {
     queryFn: getRecentRequesitos,
   })
 };
-export const useGetUserRequesitos = (requesitoId: string) => {
+export const useGetUserRequesitos = (userId: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_REQUESITO_BY_ID, requesitoId],
-    queryFn: () => getUserRequesitos(requesitoId),
-    enabled: !!requesitoId
+    queryKey: [QUERY_KEYS.GET_REQUESITOS_BY_USER_ID],
+    queryFn: () => getUserRequesitos(userId),
+    enabled: !!userId
   })
 };

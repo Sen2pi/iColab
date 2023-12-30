@@ -578,13 +578,13 @@ export async function getGrupoById(grupoId: string) {
 //======================TAREFAS ========================
 //======================================================
 export async function getRecentTarefas() {
-  const grupos = await databases.listDocuments(
+  const tarefas = await databases.listDocuments(
     appwriteConfig.databaseId,
     appwriteConfig.tarefaCollectionId,
-    [Query.orderDesc('nome'), Query.limit(2000)],
+    [Query.orderDesc('$createdAt'), Query.limit(2000)],
     );
-  if (!grupos) throw Error;
-  return grupos;
+  if (!tarefas) throw Error;
+  return tarefas;
 }
 export async function createTarefa(tarefa: INewTarefa) {
   try {
@@ -598,7 +598,7 @@ export async function createTarefa(tarefa: INewTarefa) {
         concluido: tarefa.concluido || false,
         atribuido: tarefa.atribuido,
         content: tarefa.content,
-        columnId: tarefa.columnId,
+        requesito: tarefa.requesito,
         /*
           disciplina: string;
           nome: string;
@@ -645,7 +645,7 @@ export async function updateTarefa(tarefa: IUpdateTarefa) {
         atribuido: tarefa.atribuido,
         date: tarefa.date.toDateString(),
         concluido: tarefa.concluido || false,
-        columnId: tarefa.columnId, 
+        requesito: tarefa.requesito, 
       }
     );
     return updatedTarefa
@@ -693,11 +693,12 @@ export async function getRecentRequesitos() {
   const requesitos = await databases.listDocuments(
     appwriteConfig.databaseId,
     appwriteConfig.requesitoCollectionId,
-    [Query.orderDesc('nome'), Query.limit(2000)],
+    [Query.orderAsc('$createdAt'), Query.limit(200)],
     );
   if (!requesitos) throw Error;
   return requesitos;
 }
+
 export async function createRequesito(requesito: INewRequesito) {
   try {
     const newRequesito= await databases.createDocument(
@@ -705,7 +706,6 @@ export async function createRequesito(requesito: INewRequesito) {
       appwriteConfig.requesitoCollectionId,
       ID.unique(),
       {
-        id: "Vazio",
         title: requesito.title,
         grupo: requesito.grupo,
         user: requesito.user,
@@ -714,51 +714,13 @@ export async function createRequesito(requesito: INewRequesito) {
     if (!newRequesito) {
       throw Error;
     }
-    return newRequesito.$id;
+    return newRequesito;
   } catch (error) {
     console.log(error);
     return error;
   }
 }
-export async function deleteRequesitoAndMoveTarefas(requesitoId: string, userId: string) {
-  if (!requesitoId) throw Error;
 
-  try {
-    // Obter todas as tarefas associadas ao requisito a ser excluído
-    const tarefas = await getUserTarefas(userId);
-    const tarefasNoRequesito = tarefas.filter((tarefa) => tarefa.grupo === requesitoId);
-
-    // Obter o requesito mais próximo do usuário
-    const requesitos = await getUserRequesitos(userId);
-    const requesitoMaisProximo = requesitos
-      .filter((r) => r.$id !== requesitoId) // Remover o requesito a ser excluído
-      .sort((a, b) => a.createdAt - b.createdAt) // Ordenar por data de criação para obter o mais próximo
-      .shift();
-
-    // Mover tarefas para o requesito mais próximo
-    const moveTarefasPromises = tarefasNoRequesito.map((tarefa) =>
-      updateTarefa({
-        tarefaId: tarefa.$id,
-        content: tarefa.content,
-        atribuido: tarefa.atribuido,
-        date: tarefa.date,
-        concluido: tarefa.concluido,
-        columnId: requesitoMaisProximo?.$id || "", // Atualizar para o novo requesito
-      })
-    );
-
-    // Excluir o requesito
-    await deleteRequesito(requesitoId);
-
-    // Aguardar todas as promessas de movimentação de tarefas serem concluídas
-    await Promise.all(moveTarefasPromises);
-
-    return { status: 'ok' };
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}
 export async function deleteRequesito(requesitoId: string) {
   if (!requesitoId ) throw Error;
   try {
@@ -804,19 +766,17 @@ export async function getRequesitoById(requesitoId: string) {
   }
 }
 export async function getUserRequesitos(userId: string) {
-  const query = [
-    Query.equal('user',  userId), // Assuming 'user' is the field representing the user in requisito documents
-    Query.limit(1000), // Adjust the limit as needed
-  ];
-
   try {
     const requesitos = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.requesitoCollectionId,
-      query
+      [
+        Query.equal('user',  userId), // Assuming 'user' is the field representing the user in requisito documents
+        Query.limit(100), // Adjust the limit as needed
+      ]
     );
 
-    return requesitos.documents;
+    return requesitos;
   } catch (error) {
     console.error('Error fetching user requisitos', error);
     throw error;
@@ -864,7 +824,9 @@ export async function deleteHistorico(HistoricoId: string) {
       appwriteConfig.historicoCollectionId,
       HistoricoId,
     )
-    return { status: 'ok' }
+    return { 
+      status: 'ok' 
+    }
   } catch (error) {
     console.log(error);
   }

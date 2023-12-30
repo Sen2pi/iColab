@@ -73,6 +73,7 @@ export enum QUERY_KEYS {
     GET_INFINITE_REQUESITOS = 'getInfiniteRequesitos',
     GET_RECENT_REQUESITOS = 'getRecentRequesitos',
     GET_REQUESITO_BY_ID = 'getRequesitoById',
+    GET_REQUESITOS_BY_USER_ID = 'getRequesitosByUserId',
     GET_GRUPO_REQUESITOS = 'getGrupoRequesitos',
     //  SEARCH KEYS
     SEARCH_DISCIPLINAS = 'getSearchDisciplinas',
