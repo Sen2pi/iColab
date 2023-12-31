@@ -3,10 +3,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import {  useCreateRequesito, useGetCurrentUser, useGetGrupoById, useGetRecentRequesitos } from '@/lib/react-query/queriesAndMutations';
 import { Models } from 'appwrite';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import RequesitoCard from '@/components/shared/RequesitoCard';
 import { RequesitoValidation } from '@/lib/validation';
-import { toast, useToast } from '@/components/ui/use-toast';
+import {  useToast } from '@/components/ui/use-toast';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -19,7 +19,7 @@ import { createHistorico } from '@/lib/appwrite/api';
 
 const Tarefa = () => {
   
-  const { id: id, id_g: id_g} = useParams();
+  const {  id_g: id_g} = useParams();
   const {data:grupo} = useGetGrupoById(id_g || "")
   const {data: user} = useGetCurrentUser();
   const navigate = useNavigate();
@@ -70,13 +70,14 @@ const Tarefa = () => {
             });
         }
         const newHistorico: INewHistorico = {
-          mensagem: `O usuario ${user?.name} atualizou a seguinte container das tarefas grupo "${value.title}"`,
+          mensagem: `O usuario ${user?.name} criou o seguinte container de tarefas grupo "${value.title}"`,
           user: user?.$id || '',
           acao: Acoes.criar,
           grupo: id_g || '',
       }
       await createHistorico(newHistorico);
         handleRefresh();
+        hideForm();
         navigate(0);
     };
 
@@ -89,7 +90,7 @@ const Tarefa = () => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button className={`${user?.$id == grupo?.lider?.$id && 'hidden'}`} onClick={() => {
+                  <Button className={`${user?.$id !== grupo?.lider.$id && 'hidden'}`} onClick={() => {
                                             showForm();
                                             setAction("Criar");
                                         }} >
@@ -104,35 +105,35 @@ const Tarefa = () => {
             
           </div>
           <div className={`${!formVisible && "hidden"}`}>
-                            <Form {...form}>
-                                <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-9 w-full max-w-5xl">
-                                    <FormField
-                                        control={form.control}
-                                        name="title"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel className="shad-form_label">Titulo</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder="Bloqueado" className="shad-input" {...field} />
-                                                </FormControl>
-                                                <FormMessage className="shad-form_message" />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <div className="flex gap-4 items-center justify-end">
-                                        <Button type="button" className="shad-button_dark_4" onClick={() => navigate(0)}>Cancelar</Button>
-                                        <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={isLoadingCreate }>{(isLoadingCreate ) && <Loader />}{action}</Button>
-                                    </div>
-                                </form>
-                            </Form>
-                        </div>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-9 w-full max-w-5xl">
+                    <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="shad-form_label">Titulo</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Bloqueado" className="shad-input" {...field} />
+                                </FormControl>
+                                <FormMessage className="shad-form_message" />
+                            </FormItem>
+                        )}
+                    />
+                    <div className="flex gap-4 items-center justify-end">
+                        <Button type="button" className="shad-button_dark_4" onClick={() => hideForm()}>Cancelar</Button>
+                        <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={isLoadingCreate }>{(isLoadingCreate ) && <Loader />}{action}</Button>
+                    </div>
+                </form>
+            </Form>
+        </div>
           {isRequesitoLoading && !requesitos ?
             (<Loader />) : (
               <ul className="message--body w-full flex flex-ln gap-5 p-2">
                 {requesitos?.documents.map((requesito: Models.Document) => {
                   try {
                     
-                    if (requesito?.user?.$id == user?.$id && requesito?.grupo?.$id == id_g)
+                    if (requesito?.grupo?.$id == id_g)
                       return <RequesitoCard requesito={requesito} key={requesito.$createdAt} />;
                   } catch (error) { }
                 })}

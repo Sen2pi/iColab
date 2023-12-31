@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
 import Loader from "./Loader";
 import TarefaCard from "./TarefaCard";
-import { useCreateRequesito, useGetCurrentUser, useGetGrupoById, useGetRecentTarefas, useUpdateRequesito } from "@/lib/react-query/queriesAndMutations";
+import {  useGetCurrentUser, useGetGrupoById, useGetRecentTarefas, useUpdateRequesito } from "@/lib/react-query/queriesAndMutations";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { useToast } from "../ui/use-toast";
 import { useForm } from "react-hook-form";
@@ -55,11 +55,8 @@ const RequesitoCard = ({ requesito }: RequesitoCardProps) => {
     const handleRefresh = () => {
         setRefresh(!refresh); // Toggle the state to trigger a re-render/ Mostrar o formulário ao atualizar
     };
-    //2 -  Query
-    const { mutateAsync: createRequesito, isPending: isLoadingCreate }
-        = useCreateRequesito();
     const { mutateAsync: updateRequesito, isPending: isLoadingUpdate }
-        = useUpdateRequesito();
+    = useUpdateRequesito();
 
     const handleDeleteReqeusito = async () => {
         try {
@@ -105,6 +102,7 @@ const RequesitoCard = ({ requesito }: RequesitoCardProps) => {
             return navigate(0);
         }
     };
+
     return (
         <div >
             <div className="post-card">
@@ -127,8 +125,8 @@ const RequesitoCard = ({ requesito }: RequesitoCardProps) => {
                                         )}
                                     />
                                     <div className="flex gap-4 items-center justify-end">
-                                        <Button type="button" className="shad-button_dark_4" onClick={() => navigate(-1)}>Cancelar</Button>
-                                        <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={isLoadingCreate || isLoadingUpdate}>{(isLoadingCreate || isLoadingUpdate) && <Loader />}{action}</Button>
+                                        <Button type="button" className="shad-button_dark_4" onClick={() => hideForm()}>Cancelar</Button>
+                                        <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={ isLoadingUpdate}>{(isLoadingUpdate) && <Loader />}{action}</Button>
                                     </div>
                                 </form>
                             </Form>
@@ -137,7 +135,7 @@ const RequesitoCard = ({ requesito }: RequesitoCardProps) => {
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Button className={`${user?.$id == grupo?.lider?.$id && 'hidden'}`} onClick={() => {
+                                    <Button className={`${user?.$id !== grupo?.lider.$id && 'hidden'}`} onClick={() => {
                                         showForm();
                                         setAction("Editar");
                                         handleRefresh();
@@ -153,7 +151,7 @@ const RequesitoCard = ({ requesito }: RequesitoCardProps) => {
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Button className={`${user?.$id == grupo?.lider?.$id && 'hidden'}`} onClick={handleDeleteReqeusito}>
+                                    <Button className={`${user?.$id !== grupo?.lider.$id && 'hidden'}`} onClick={handleDeleteReqeusito}>
                                         <img className="flex mb-5" src="/assets/icons/delete.svg" width={35} height={35} aria-placeholder="Apagar" />
                                     </Button>
                                 </TooltipTrigger>
@@ -182,7 +180,7 @@ const RequesitoCard = ({ requesito }: RequesitoCardProps) => {
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Link className={`${user?.$id == grupo?.lider?.$id && 'hidden'}`} to={`/disciplina/${id}/grupo/${id_g}/criar-requesito`}>
+                                <Link className={`${user?.$id !== grupo?.lider.$id && 'hidden'}`} to={`/disciplina/${id}/grupo/${id_g}/criar-tarefa`}>
                                     <img className="flex mb-5" src="/assets/icons/create.png" width={35} height={35} aria-placeholder="Criar" />
                                 </Link>
                             </TooltipTrigger>

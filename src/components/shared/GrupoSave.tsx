@@ -6,8 +6,6 @@ import {
     useGetCurrentUser,
 } from "@/lib/react-query/queriesAndMutations";
 import Loader from "./Loader";
-import { createRequesito, deleteRequesito } from "@/lib/appwrite/api";
-import { INewRequesito } from "@/types";
 
 type GrupoStatsProps = {
     grupo: Models.Document;
@@ -21,8 +19,6 @@ const GrupoSave = ({ grupo, userId }: GrupoStatsProps) => {
     const [isSaved, setIsSaved] = useState(false);
 
     const savedGrupoRecord = currentUser?.inscricoes.find((record: Models.Document) => record.grupo.$id === grupo.$id);
-    const savedRequesitosRecord = currentUser?.requesitos.find((record: Models.Document) => record.grupo.$id === grupo.$id);
-
     useEffect(() => {
         setIsSaved(!!savedGrupoRecord);
     }, [currentUser]);
@@ -38,25 +34,6 @@ const GrupoSave = ({ grupo, userId }: GrupoStatsProps) => {
         }
 
         saveGrupo({ grupoId: grupo.$id, userId: userId });
-
-        const newRequesito1 : INewRequesito = {
-            title: "A Fazer",
-            grupo: grupo.$id,
-            user: userId,
-        }
-        const newRequesito2 : INewRequesito = {
-            title: "Concluido",
-            grupo: grupo.$id,
-            user: userId,
-        }
-        const newRequesito3 : INewRequesito = {
-            title: "Em Progresso",
-            grupo: grupo.$id,
-            user: userId,
-        }
-        createRequesito(newRequesito1);
-        createRequesito(newRequesito2);
-        createRequesito(newRequesito3);
         setIsSaved(true);
 
 

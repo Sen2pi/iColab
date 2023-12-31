@@ -135,12 +135,6 @@ export type INavLink = {
     content: string;
   };
 
-  export type TarefaF = {
-    id: string;
-    columnId: string;
-    content: string;
-    date: string; // You might want to use Date type here depending on your needs
-  };
 
   //=====================================
   //===========REQUESITOS================
@@ -150,11 +144,7 @@ export type INavLink = {
     grupo: string;
     user: string,
   }
-  export type Requesito = {
-    title: string;
-    grupo: string;
-    user: string, // You might want to use Date type here depending on your needs
-  };
+
   export type IUpdateRequesito = {
     requesitoId: string;
     title: string;
@@ -188,20 +178,5 @@ export type INavLink = {
     grupo: string;
     acao: string;
   };
-
-//=====================================
-//===========KANBAN====================
-//=====================================
-export type Column = {
-  id: string;
-  title: string;
-};
-
-export type Task = {
-  id: string;
-  columnId: string;
-  content: string;
-  date: string;
-};
 
 

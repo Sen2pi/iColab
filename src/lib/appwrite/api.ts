@@ -581,7 +581,7 @@ export async function getRecentTarefas() {
   const tarefas = await databases.listDocuments(
     appwriteConfig.databaseId,
     appwriteConfig.tarefaCollectionId,
-    [Query.orderDesc('$createdAt'), Query.limit(2000)],
+    [Query.orderAsc('$createdAt'), Query.limit(2000)],
     );
   if (!tarefas) throw Error;
   return tarefas;
@@ -789,7 +789,7 @@ export async function getRecentHistoricos() {
   const historicos = await databases.listDocuments(
     appwriteConfig.databaseId,
     appwriteConfig.historicoCollectionId,
-    [Query.orderAsc('$createdAt'), Query.limit(20)]
+    [Query.orderDesc('$createdAt'), Query.limit(200)]
   );
   if (!historicos) throw Error;
   return historicos;
