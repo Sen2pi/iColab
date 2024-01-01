@@ -23,7 +23,7 @@ const GrupoCard = ({ grupo }: GrupoCardProps) => {
       <div className="flex-between">
         <div className="flex items-center gap-3">
           <div className="flex flex-col">
-            {inscricao?.inscrito.$id !== user?.$id  && !profOuAluno ? (
+            {inscricao?.inscrito.$id !== user?.$id  && profOuAluno == 'Aluno' ? (
               <span style={{ color: 'gray', cursor: 'not-allowed' }}>
                 <p className="base-medium lg:body-bold text-light-1">
                   {grupo.nome}

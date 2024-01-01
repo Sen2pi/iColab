@@ -80,6 +80,14 @@ export enum QUERY_KEYS {
     //  SEARCH KEYS
     SEARCH_DISCIPLINAS = 'getSearchDisciplinas',
 
+  //NOTA KEYS 
+    GET_NOTAS = 'getNotas',
+    GET_INFINITE_NOTAS = 'getInfiniteNotas',
+    GET_RECENT_NOTAS = 'getRecentNotas',
+    GET_NOTA_BY_ID = 'getNotaById',
+    GET_DISCIPLINA_NOTAS = 'getDisciplinaNotas',
+    GET_NOTAS_BY_USER_ID = 'getUserNotas',
+    
     // HISTORICO KEYS
     GET_RECENT_HISTORICOS = 'getRecentHistoricos',
   }

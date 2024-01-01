@@ -1,5 +1,5 @@
 import { ID, Query } from 'appwrite'
-import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewNota, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateRequesito, IUpdateTarefa } from "@/types";
+import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewNota, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateNota, IUpdateRequesito, IUpdateTarefa } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
 
 
@@ -1270,3 +1270,53 @@ export async function createNota( nota : INewNota) {
   }
 }
 
+export async function updateNota( nota : IUpdateNota) {
+  try {
+    const newNota = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.notaCollectionId,
+      nota.notaId,
+      {
+        nota: nota.nota,
+        momento: nota.momento,
+      }
+    );
+    if (!newNota) {
+      throw Error;
+    }
+    return newNota;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
+export async function deleteNota(notaId: string) {
+  try {
+    const statusCode = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.notaCollectionId,
+      notaId,
+    )
+    if (!statusCode) throw Error;
+    return { status: "ok" };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getUserNotas(userId: string) {
+  try {
+    const notas = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.notaCollectionId,
+      [
+          Query.equal('aluno', [userId]),
+          Query.limit(100),
+      ]
+  );
+    return notas;
+  } catch (error) {
+    console.log(error);
+  }
+}

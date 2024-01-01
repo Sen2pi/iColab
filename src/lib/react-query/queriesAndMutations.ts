@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createDisciplina, createFicheiro, createGrupo, createHistorico, createMensagem, createModulo, createRequesito, createTarefa, createUserAccount, deleteDisciplina, deleteFicheiro, deleteGrupo, deleteHistorico, deleteModulo, deleteRequesito, deleteSavedDisciplina, deleteSavedGrupo, deleteTarefa, getChatById, getCurrentUser, getDisciplinaById, getFicheiroById, getGrupoById, getGrupoInscricao, getInscricaoById, getMensagemById, getModuloById, getRecentDisciplinas, getRecentFicheiros, getRecentGrupos, getRecentHistoricos, getRecentInscricoes, getRecentMensagens, getRecentModulos, getRecentRequesitos, getRecentSaves, getRecentTarefas, getRecentUsers, getRequesitoById, getSaveById, getTarefaById, getUserById, getUserByNumero, getUserRequesitos, getUserSave, getUserTarefas, saveDisciplina, saveGrupo, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateGrupo, updateModulo, updateRequesito, updateTarefa } from '../appwrite/api'
-import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateRequesito, IUpdateTarefa } from '@/types'
+import { createDisciplina, createFicheiro, createGrupo, createHistorico, createMensagem, createModulo, createNota, createRequesito, createTarefa, createUserAccount, deleteDisciplina, deleteFicheiro, deleteGrupo, deleteHistorico, deleteModulo, deleteNota, deleteRequesito, deleteSavedDisciplina, deleteSavedGrupo, deleteTarefa, getChatById, getCurrentUser, getDisciplinaById, getFicheiroById, getGrupoById, getGrupoInscricao, getInscricaoById, getMensagemById, getModuloById, getNotaById, getRecentDisciplinas, getRecentFicheiros, getRecentGrupos, getRecentHistoricos, getRecentInscricoes, getRecentMensagens, getRecentModulos, getRecentNotas, getRecentRequesitos, getRecentSaves, getRecentTarefas, getRecentUsers, getRequesitoById, getSaveById, getTarefaById, getUserById, getUserByNumero, getUserNotas, getUserRequesitos, getUserSave, getUserTarefas, saveDisciplina, saveGrupo, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateGrupo, updateModulo, updateNota, updateRequesito, updateTarefa } from '../appwrite/api'
+import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewNota, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateNota, IUpdateRequesito, IUpdateTarefa } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 
 
@@ -574,6 +574,69 @@ export const useGetUserRequesitos = (userId: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_REQUESITOS_BY_USER_ID],
     queryFn: () => getUserRequesitos(userId),
+    enabled: !!userId
+  })
+};
+
+//===============================================================
+// Notas QUERIES
+//===============================================================
+
+export const useCreateNota = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (nota: INewNota) => createNota(nota),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_NOTAS]
+      });
+    },
+  });
+};
+
+export const useDeleteNota = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ notaId  }: { notaId: string}) => deleteNota(notaId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_NOTAS]
+      })
+    }
+  })
+};
+
+export const useUpdateNota = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (nota: IUpdateNota) => updateNota(nota),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_NOTA_BY_ID, data]
+      });
+    }
+  })
+}
+
+export const useGetNotaById = (notaId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_FICHEIRO_BY_ID],
+    queryFn: () => getNotaById(notaId),
+    enabled: !!notaId
+  })
+};
+
+export const useGetRecentNotas = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_RECENT_NOTAS],
+    queryFn: getRecentNotas,
+  })
+};
+
+export const useGetUserNotas = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_NOTAS_BY_USER_ID],
+    queryFn: () => getUserNotas(userId),
     enabled: !!userId
   })
 };

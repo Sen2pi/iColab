@@ -17,6 +17,7 @@ const GrupoDetalhe = () => {
   const { data: user } = useGetCurrentUser();
   const { data: grupo, isPending } = useGetGrupoById(id_g || " ");
   const handleDeleteGrupo = () => { }
+  let profOuAluno = user?.docente ? 'Professor' : 'Aluno';
   return (
     <div className="post_details-container">
       <div className="post_details-card ">
@@ -24,10 +25,12 @@ const GrupoDetalhe = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
+             
                 <Link to={`/disciplina/${id}/grupo/${id_g}/chat/${grupo?.chats.$id}`} className="py-2 px-8">
                   <img src="/assets/icons/chat.svg" width={50} height={50} />
                   <p>Chat</p>
                 </Link>
+    
               </TooltipTrigger>
               <TooltipContent>
                 <p className="subtle-semibold lg:small-regular">Chat</p>
@@ -37,10 +40,10 @@ const GrupoDetalhe = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link to={`/disciplina/${id}/grupo/${id_g}/historicos`} className="py-2 px-8">
-                  <img src="/assets/icons/history.png"  width={50} height={50}  />
-                  <p>Histórico</p>
-                </Link>
+                  <Link to={`/disciplina/${id}/grupo/${id_g}/historicos`} className="py-2 px-8">
+                    <img src="/assets/icons/history.png"  width={50} height={50}  />
+                    <p>Histórico</p>
+                  </Link>
               </TooltipTrigger>
               <TooltipContent>
                 <p className="subtle-semibold lg:small-regular">Histórico</p>
@@ -50,7 +53,7 @@ const GrupoDetalhe = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link to={`/disciplina/${id}/grupo/${id_g}/ficheiros`} className="py-2 px-8">
+                <Link to={`/disciplina/${id}/grupo/${id_g}/ficheiros`} className={`${profOuAluno == 'Professor' && 'hidden'} py-2 px-8`}>
                   <img src="/assets/icons/ficheiros.png" width={50} height={50} />
                   <p>Ficheiros</p>
                 </Link>
@@ -63,7 +66,7 @@ const GrupoDetalhe = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link to={`/disciplina/${id}/grupo/${id_g}/tarefas`} className="py-2 px-8">
+                <Link to={`/disciplina/${id}/grupo/${id_g}/tarefas`} className={`${profOuAluno == 'Professor' && 'hidden'} py-2 px-8`}>
                   <img src="/assets/icons/tarefas.png" width={50} height={50} 
                    />
                   <p>Tarefas</p>

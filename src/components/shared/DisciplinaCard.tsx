@@ -17,7 +17,6 @@ const DisciplinaCard = ({ disciplina }: DisciplinaCardProps) => {
   const { data: user } = useGetCurrentUser();
   const saveId = useGetSaveByUserAndDisciplinaId(user?.$id || " ", disciplina?.$id || " ");
   const { data: save } = useGetSaveById(saveId.data || "")
-
   const handleRefresh = () => {
     setRefresh(!refresh); // Toggle the state to trigger a re-render
   };
@@ -87,7 +86,7 @@ const DisciplinaCard = ({ disciplina }: DisciplinaCardProps) => {
         </TooltipProvider>
       </div>
       <div>
-        {save?.users.$id !== user?.$id ? (
+        {save?.users.$id !== user?.$id && user?.$id !== disciplina.professor.$id ? (
           <span style={{ color: 'gray', cursor: 'not-allowed' }}>
             <div className="small-medium lg:base-medium py-5">
               <p>
