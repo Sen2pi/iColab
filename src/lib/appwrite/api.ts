@@ -1,7 +1,6 @@
 import { ID, Query } from 'appwrite'
 import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewNota, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateRequesito, IUpdateTarefa } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
-import { error } from 'console';
 
 
 
@@ -1001,7 +1000,9 @@ export async function getSaveById(saveId: string) {
     );
     return save;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    // Return a default value or rethrow the error
+    return null; // or return an empty object, depending on your needs
   }
 }
 export async function getUserSave(userId: string, disciplinaId: string) {
@@ -1016,13 +1017,19 @@ export async function getUserSave(userId: string, disciplinaId: string) {
       ]
     );
 
-    const firstSave = saves.documents[0].$id.toString();
-    console.log(firstSave);
-    return firstSave;
+    if (!saves || saves.documents.length === 0) {
+      // Return a default value or handle the case where no saves are found
+      return null; // or return an empty object, depending on your needs
+    }
+
+    return saves.documents[0]?.$id.toString();
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    // Return a default value or rethrow the error
+    return null; // or return an empty object, depending on your needs
   }
 }
+
 //=================================================================
 //===================== INSCRICOES ================================
 //=================================================================
@@ -1201,7 +1208,7 @@ export async function getNotaById(notaId: string){
     appwriteConfig.notaCollectionId,
     notaId,
   )
-  if (!nota) throw error;
+  if (!nota) throw Error;
   return nota;
 }
 

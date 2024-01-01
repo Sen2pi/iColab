@@ -274,15 +274,18 @@ export const useGetSaveById = (saveId: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_SAVE_BY_ID, saveId],
     queryFn: () => getSaveById(saveId),
-    enabled: !!saveId
-  })
-};
-export const useGetSaveByUserAndDisciplinaId = (userId: string, disciplinaId: string) => {
-  return useQuery({
-    queryKey: [QUERY_KEYS.GET_SAVE_BY_USER_AND_DISCIPLINA_ID, QUERY_KEYS.GET_SAVE_BY_ID],
-    queryFn: () => getUserSave(userId, disciplinaId), // Pass userId and disciplinaId directly
+    enabled: !!saveId,
   });
 };
+
+
+export const useGetSaveByUserAndDisciplinaId = (userId: string, disciplinaId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_SAVE_BY_USER_AND_DISCIPLINA_ID, userId, disciplinaId],
+    queryFn:  () =>  getUserSave(userId, disciplinaId),
+  });
+}
+
 //===============================================================
 // INSCRIÇOES QUERIES
 //===============================================================
