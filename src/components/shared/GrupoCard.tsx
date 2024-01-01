@@ -2,7 +2,7 @@
 import { formatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
 import { Link, useParams } from "react-router-dom";
-import { useGetCurrentUser, useGetRecentInscricoes, useGetRecentUsers } from "@/lib/react-query/queriesAndMutations";
+import { useGetCurrentUser, useGetRecentInscricoes } from "@/lib/react-query/queriesAndMutations";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@radix-ui/react-tooltip";
 import Loader from "./Loader";
 import UserCard from "./UserCard";

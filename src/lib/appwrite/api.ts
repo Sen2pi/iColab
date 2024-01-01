@@ -1,7 +1,7 @@
 import { ID, Query } from 'appwrite'
-import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateRequesito, IUpdateTarefa } from "@/types";
+import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewNota, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateRequesito, IUpdateTarefa } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
-import { useGetSaveById } from '../react-query/queriesAndMutations';
+import { error } from 'console';
 
 
 
@@ -130,7 +130,7 @@ export async function getUserByNumero(numero: string) {
           Query.equal('numero', [numero.toUpperCase()]),
       ]
   );
-    return userId.documents[0];
+    return userId.documents[0].$id;
   } catch (error) {
     console.log(error);
   }
@@ -582,7 +582,7 @@ export async function getRecentTarefas() {
   const tarefas = await databases.listDocuments(
     appwriteConfig.databaseId,
     appwriteConfig.tarefaCollectionId,
-    [Query.orderDesc('$createdAt'), Query.limit(2000)],
+    [Query.orderAsc('$createdAt'), Query.limit(2000)],
     );
   if (!tarefas) throw Error;
   return tarefas;
@@ -790,7 +790,7 @@ export async function getRecentHistoricos() {
   const historicos = await databases.listDocuments(
     appwriteConfig.databaseId,
     appwriteConfig.historicoCollectionId,
-    [Query.orderAsc('$createdAt'), Query.limit(20)]
+    [Query.orderDesc('$createdAt'), Query.limit(200)]
   );
   if (!historicos) throw Error;
   return historicos;
@@ -1015,8 +1015,10 @@ export async function getUserSave(userId: string, disciplinaId: string) {
         Query.limit(1),
       ]
     );
-    
-      return saves?.documents[0]?.$id;
+
+    const firstSave = saves.documents[0].$id.toString();
+    console.log(firstSave);
+    return firstSave;
   } catch (error) {
     console.log(error);
   }
@@ -1188,4 +1190,52 @@ export async function deleteMenssagem(mensagemId: string) {
   }
 }
 
+
 //=================================================================
+//=========================== Notas ================================
+//=================================================================
+
+export async function getNotaById(notaId: string){
+  const nota = await databases.getDocument(
+    appwriteConfig.databaseId,
+    appwriteConfig.notaCollectionId,
+    notaId,
+  )
+  if (!nota) throw error;
+  return nota;
+}
+
+export async function getRecentNotas() {
+  const notas = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.notaCollectionId,
+    [Query.orderDesc('$createdAt'), Query.limit(200)]
+  );
+  if (!notas) throw Error;
+  return notas;
+}
+
+export async function createNota( nota : INewNota) {
+  try {
+    const newNota = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.notaCollectionId,
+      ID.unique(),
+      {
+        aluno: nota.aluno,
+        nota: nota.nota,
+        grupo: nota.grupo,
+        momento: nota.momento,
+        disciplina: nota.disciplina,
+      }
+    );
+    if (!newNota) {
+      throw Error;
+    }
+    return newNota;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
