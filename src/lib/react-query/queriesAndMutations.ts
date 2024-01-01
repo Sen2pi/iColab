@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createDisciplina, createFicheiro, createGrupo, createHistorico, createMensagem, createModulo, createRequesito, createTarefa, createUserAccount, deleteDisciplina, deleteFicheiro, deleteGrupo, deleteHistorico, deleteModulo, deleteRequesito, deleteSavedDisciplina, deleteSavedGrupo, deleteTarefa, getChatById, getCurrentUser, getDisciplinaById, getFicheiroById, getGrupoById, getInscricaoById, getMensagemById, getModuloById, getRecentDisciplinas, getRecentFicheiros, getRecentGrupos, getRecentHistoricos, getRecentInscricoes, getRecentMensagens, getRecentModulos, getRecentRequesitos, getRecentSaves, getRecentTarefas, getRecentUsers, getRequesitoById, getSaveById, getTarefaById, getUserById, getUserByNumero, getUserRequesitos, getUserTarefas, saveDisciplina, saveGrupo, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateGrupo, updateModulo, updateRequesito, updateTarefa } from '../appwrite/api'
+import { createDisciplina, createFicheiro, createGrupo, createHistorico, createMensagem, createModulo, createRequesito, createTarefa, createUserAccount, deleteDisciplina, deleteFicheiro, deleteGrupo, deleteHistorico, deleteModulo, deleteRequesito, deleteSavedDisciplina, deleteSavedGrupo, deleteTarefa, getChatById, getCurrentUser, getDisciplinaById, getFicheiroById, getGrupoById, getInscricaoById, getMensagemById, getModuloById, getRecentDisciplinas, getRecentFicheiros, getRecentGrupos, getRecentHistoricos, getRecentInscricoes, getRecentMensagens, getRecentModulos, getRecentRequesitos, getRecentSaves, getRecentTarefas, getRecentUsers, getRequesitoById, getSaveById, getTarefaById, getUserById, getUserByNumero, getUserRequesitos, getUserSave, getUserTarefas, saveDisciplina, saveGrupo, searchDisciplinas, signInAccount, signOutAccount, updateDisciplina, updateGrupo, updateModulo, updateRequesito, updateTarefa } from '../appwrite/api'
 import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateRequesito, IUpdateTarefa } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 
@@ -276,6 +276,12 @@ export const useGetSaveById = (saveId: string) => {
     queryFn: () => getSaveById(saveId),
     enabled: !!saveId
   })
+};
+export const useGetSaveByUserAndDisciplinaId = (userId: string, disciplinaId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_SAVE_BY_USER_AND_DISCIPLINA_ID, QUERY_KEYS.GET_SAVE_BY_ID],
+    queryFn: () => getUserSave(userId, disciplinaId), // Pass userId and disciplinaId directly
+  });
 };
 //===============================================================
 // INSCRIÇOES QUERIES

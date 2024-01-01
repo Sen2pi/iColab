@@ -1,6 +1,7 @@
 import { ID, Query } from 'appwrite'
 import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateRequesito, IUpdateTarefa } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
+import { useGetSaveById } from '../react-query/queriesAndMutations';
 
 
 
@@ -129,7 +130,7 @@ export async function getUserByNumero(numero: string) {
           Query.equal('numero', [numero.toUpperCase()]),
       ]
   );
-    return userId.documents[0].$id;
+    return userId.documents[0];
   } catch (error) {
     console.log(error);
   }
@@ -1014,10 +1015,8 @@ export async function getUserSave(userId: string, disciplinaId: string) {
         Query.limit(1),
       ]
     );
-
-    const firstSave = saves.documents[0].$id.toString();
-    console.log(firstSave);
-    return firstSave;
+    
+      return saves?.documents[0]?.$id;
   } catch (error) {
     console.log(error);
   }

@@ -37,6 +37,7 @@ export enum QUERY_KEYS {
     GET_RECENT_SAVES = 'getRecentSaves',
     GET_SAVE_BY_ID = 'getSaveById',
     GET_USER_SAVES = 'getUserSaves',
+    GET_SAVE_BY_USER_AND_DISCIPLINA_ID = 'getSaveByUserAndDisciplinaId',
 
     //CHAT KEYS
     GET_MENSAGENS = 'getMensagens',

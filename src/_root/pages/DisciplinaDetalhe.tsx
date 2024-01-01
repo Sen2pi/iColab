@@ -1,54 +1,66 @@
 import Loader from "@/components/shared/Loader";
 import ModuloCard from "@/components/shared/ModuloCard";
 import { Button } from "@/components/ui/button";
-import { useGetCurrentUser, useGetDisciplinaById, useGetRecentModulos } from "@/lib/react-query/queriesAndMutations";
+import { useGetCurrentUser, useGetDisciplinaById, useGetRecentModulos, useGetSaveById, useGetSaveByUserAndDisciplinaId } from "@/lib/react-query/queriesAndMutations";
 import { formatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { deleteDisciplina } from "@/lib/appwrite/api";
 
 const DisciplinaDetalhe = () => {
   const { data: modulos, isPending: isModuloLoading } = useGetRecentModulos();
-  const { id } = useParams();
+  const { id: id } = useParams();
+  const navigate = useNavigate()
   const { data: user } = useGetCurrentUser();
   const { data: disciplina, isPending } = useGetDisciplinaById(id as string);
-  const handleDeleteDisciplina = () => { }
-  
+  const saveId = useGetSaveByUserAndDisciplinaId(user?.$id || " ", disciplina?.$id || " ");
+  const {data: save} = useGetSaveById(saveId.data || " "); 
+  console.log(save)
+  const handleDeleteDisciplina = async () => {
+    try {
+      await deleteDisciplina(disciplina?.$id || " ", disciplina?.imageId);
+      // Atualiza a página
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <div className="post_details-container">
+    <div className={`${!save && 'hidden' && navigate('/') || save?.users.$id !== user?.$id && disciplina?.$id !== save?.disciplina.$id && 'hidden' && navigate('/') } post_details-container`}>
       <div className="post_details-card ">
         <div className="flex-center w-full h-full items-center   text-violet-400">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link to={`/disciplina/${id}/grupos`} className="py-2 px-8">
-                <img src="/assets/icons/people.svg" width={50} height={50} aria-placeholder="Criar" />
-                <p>Grupos</p>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p className="subtle-semibold lg:small-regular">Grupos</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link to={`disciplina/${id}/notas`} >
-                <img src="/assets/icons/grades.png" width={50} height={50} aria-placeholder="Criar" />
-                <p>Notas</p>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p className="subtle-semibold lg:small-regular">Notas</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link to={`/disciplina/${id}/grupos`} className="py-2 px-8">
+                  <img src="/assets/icons/people.svg" width={50} height={50} aria-placeholder="Criar" />
+                  <p>Grupos</p>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="subtle-semibold lg:small-regular">Grupos</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link to={`disciplina/${id}/notas`} >
+                  <img src="/assets/icons/grades.png" width={50} height={50} aria-placeholder="Criar" />
+                  <p>Notas</p>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="subtle-semibold lg:small-regular">Notas</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
       {isPending ? <Loader /> : (

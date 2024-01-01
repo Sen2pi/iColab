@@ -1,15 +1,34 @@
 import { formatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DisciplinaSave from "./DisciplinaSave";
 import { useGetCurrentUser } from "@/lib/react-query/queriesAndMutations";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@radix-ui/react-tooltip";
+import { deleteDisciplina } from "@/lib/appwrite/api";
+import { Button } from "../ui/button";
+import { useState } from "react";
 
 type DisciplinaCardProps = {
     disciplina: Models.Document;
 }
 const DisciplinaCard = ({disciplina}: DisciplinaCardProps) => {
+  const navigate = useNavigate();
+    const [refresh, setRefresh] = useState(false);
     const {data: user} = useGetCurrentUser();
+    const handleRefresh = () => {
+      setRefresh(!refresh); // Toggle the state to trigger a re-render
+    };
+    const handleDeleteDisciplina = async () => {
+      try {
+  
+        await deleteDisciplina(disciplina?.$id || " ", disciplina?.imageId);
+        handleRefresh();
+        navigate(0);
+        // Atualiza a página
+      } catch (error) {
+        console.log(error)
+      }
+    }
     if(!disciplina.professor) return;
   return (
     <div className="post-card">
@@ -48,6 +67,18 @@ const DisciplinaCard = ({disciplina}: DisciplinaCardProps) => {
                         </TooltipTrigger>
                         <TooltipContent>
                           <p className="small-medium lg:base-medium">Editar Disciplina</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+            <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>              
+                            <Button className={`${user?.$id !== disciplina.professor.$id && "hidden"}`} onClick={handleDeleteDisciplina}>
+                                <img src={'/assets/icons/delete.svg'} alt="delete" className="w-12 lg:h-12"/>
+                            </Button >
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p className="small-medium lg:base-medium">Remover Disciplina</p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>

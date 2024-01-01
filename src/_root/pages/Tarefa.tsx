@@ -1,12 +1,12 @@
 import Loader from '@/components/shared/Loader';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import {  useCreateRequesito, useGetCurrentUser, useGetGrupoById, useGetRecentRequesitos } from '@/lib/react-query/queriesAndMutations';
+import { useCreateRequesito, useGetCurrentUser, useGetGrupoById, useGetRecentRequesitos } from '@/lib/react-query/queriesAndMutations';
 import { Models } from 'appwrite';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import RequesitoCard from '@/components/shared/RequesitoCard';
 import { RequesitoValidation } from '@/lib/validation';
-import { toast, useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -19,7 +19,7 @@ import { createHistorico } from '@/lib/appwrite/api';
 
 const Tarefa = () => {
   
-  const { id: id, id_g: id_g} = useParams();
+  const { id_g: id_g} = useParams();
   const {data:grupo} = useGetGrupoById(id_g || "")
   const {data: user} = useGetCurrentUser();
   const navigate = useNavigate();
@@ -48,7 +48,6 @@ const Tarefa = () => {
     // Function to handle refresh
     const handleRefresh = () => {
         setRefresh(!refresh); // Toggle the state to trigger a re-render
-        showForm(); // Mostrar o formulário ao atualizar
     };
     //2 -  Query
     const { mutateAsync: createRequesito, isPending: isLoadingCreate }
@@ -76,6 +75,7 @@ const Tarefa = () => {
           grupo: id_g || '',
       }
       await createHistorico(newHistorico);
+        hideForm();
         handleRefresh();
         navigate(0);
     };
