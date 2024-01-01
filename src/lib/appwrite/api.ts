@@ -1101,6 +1101,30 @@ export async function getGrupoInscrito(userId: string) {
     console.log(error);
   }
 }
+export async function getGrupoInscricao(userId: string, grupoId: string) {
+  try {
+    const inscricao = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.inscricaoCollectionId,
+      [
+        Query.equal('inscrito', userId),
+        Query.equal('grupo', grupoId),
+        Query.limit(1),
+      ]
+    );
+
+    if (!inscricao || inscricao.documents.length === 0) {
+      // Return a default value or handle the case where no saves are found
+      return null; // or return an empty object, depending on your needs
+    }
+
+    return inscricao.documents[0]?.$id.toString();
+  } catch (error) {
+    console.error(error);
+    // Return a default value or rethrow the error
+    return null; // or return an empty object, depending on your needs
+  }
+}
 
 //=================================================================
 //=========================== Chat ================================

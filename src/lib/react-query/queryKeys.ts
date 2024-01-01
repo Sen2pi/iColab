@@ -53,6 +53,7 @@ export enum QUERY_KEYS {
     GET_RECENT_INSCRICOES = 'getRecentInscricoes',
     GET_INSCRICAO_BY_ID = 'getInscricaoById',
     GET_USER_INSCRICOES = 'getUserInscricoes',
+    GET_INSCRICAO_BY_USER_AND_GRUPO_ID = 'getInscricaoByUserAndGrupoID',
 
     //FICHEIROS KEYS 
     GET_FICHEIROS = 'getFicheiros',
