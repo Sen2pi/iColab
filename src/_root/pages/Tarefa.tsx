@@ -129,7 +129,8 @@ const Tarefa = () => {
         </div>
           {isRequesitoLoading && !requesitos ?
             (<Loader />) : (
-              <ul className="message--body w-full flex flex-ln gap-5 p-2">
+              <ul className="post_details-container w-full gap-2">
+
                 {requesitos?.documents.map((requesito: Models.Document) => {
                   try {
                     

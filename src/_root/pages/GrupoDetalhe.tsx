@@ -106,7 +106,7 @@ const GrupoDetalhe = () => {
               </div>
               <hr className="border w-full border-dark-4/80" />
               <div className="flex gap-6 items-center">
-                  <div className='flex-between flex-col w-full items-center '>
+                  <div className='w-full items-center '>
                     <h2 className='h4-bold md:h3-bold text-left p-2'>Alunos</h2>
                     {isSaveLoading && !inscricoes ?
                       (<Loader />) : (

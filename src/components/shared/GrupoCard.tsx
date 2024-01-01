@@ -19,7 +19,7 @@ const GrupoCard = ({ grupo }: GrupoCardProps) => {
   let profOuAluno = user?.docente ? 'Professor' : 'Aluno';
   const { id: id } = useParams();
   return (
-    <div className="post-card">
+    <div className="post-card w-fit-content">
       <div className="flex-between">
         <div className="flex items-center gap-3">
           <div className="flex flex-col">
@@ -80,13 +80,13 @@ const GrupoCard = ({ grupo }: GrupoCardProps) => {
           </Tooltip>
         </TooltipProvider>
       </div>
-      <div className="post_details-card">
+      <div className="message--wrapper">
         <div className='w-full h-full '>
           <div className="text-center h4-bold md:h3-bold p-2">
             <h2>Alunos</h2>
             <hr className="border w-full border-dark-4/80" />
           </div>
-          <div className="profile-container flex-center">
+          <div className="post-card_img w-fit-content">
             {isSaveLoading && !inscricoes ?
               (<Loader />) : (
                 <ul >

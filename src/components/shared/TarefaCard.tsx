@@ -21,8 +21,9 @@ import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+
 import { Checkbox } from "../ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 
 
@@ -35,8 +36,8 @@ const TarefaCard = ({ tarefa }: TarefaCardProps) => {
     const { id_g: id_g } = useParams();
     const { data: user } = useGetCurrentUser();
     const { data: grupo } = useGetGrupoById(id_g || "");
-    const { data: inscricoes, isPending: isInscricaoLoading } = useGetRecentInscricoes()
-    const { data: requesitos, isPending: isRequesitoLoading } = useGetRecentRequesitos()
+    const { data: inscricoes  } = useGetRecentInscricoes()
+    const { data: requesitos } = useGetRecentRequesitos()
     const navigate = useNavigate();
     const { toast } = useToast();
     const [action, setAction] = useState<"Editar" | "Criar">("Editar"); // Estado para controlar a ação
@@ -79,7 +80,7 @@ const TarefaCard = ({ tarefa }: TarefaCardProps) => {
 
             if (!updatedTarefa) {
                 toast({
-                    title: `${action} Falhou ao atualizar a Requesito.`,
+                    title: `${action} Falhou ao atualizar a Tarefa.`,
                 });
             }
             const newHistorico: INewHistorico = {
@@ -91,6 +92,7 @@ const TarefaCard = ({ tarefa }: TarefaCardProps) => {
             await createHistorico(newHistorico);
             hideForm()
             handleRefresh()
+            navigate(0);
         }
 
         // ACTION = CREATE
@@ -179,37 +181,30 @@ const TarefaCard = ({ tarefa }: TarefaCardProps) => {
                                     control={form.control}
                                     name="atribuido"
                                     render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Selecione um membro do grupo: </FormLabel>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Selecione um membro" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent className="w-auto bg-black p-0" >
-                                                    {isInscricaoLoading && !inscricoes ? (
-                                                        <Loader />
-                                                    ) : (
-                                                        <SelectContent className="w-auto bg-black p-0" >
-                                                            {inscricoes?.documents.map((inscricao: Models.Document) => {
-                                                                if (inscricao?.grupo.$id === id_g)
-                                                                    return (
-                                                                        <SelectItem
-                                                                            onSelect={field.onChange}
-                                                                            key={inscricao.$createdAt}
-                                                                            value={inscricao?.inscrito.$id}
-                                                                        >
-                                                                            {inscricao?.inscrito.name + " "}
-                                                                            {inscricao?.inscrito.numero}
-
-                                                                        </SelectItem>
-                                                                    );
-                                                            })}
-                                                        </SelectContent>
-                                                    )}
-                                                </SelectContent>
-                                            </Select>
+                                        <FormItem className="space-y-3">
+                                            <FormLabel>Atribuir tarefa a:</FormLabel>
+                                            <FormControl>
+                                                <RadioGroup
+                                                    onValueChange={field.onChange}
+                                                    defaultValue={field.value}
+                                                    className="flex flex-col space-y-1"
+                                                >
+                                                    {inscricoes?.documents.map((inscricao) => (
+                                                        <FormItem
+                                                            key={inscricao.inscrito.$id}
+                                                            className="flex items-center space-x-3 space-y-0"
+                                                        >
+                                                            <FormControl>
+                                                                <RadioGroupItem value={inscricao.inscrito.$id} />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal">
+                                                                {inscricao.inscrito.name + " "}
+                                                                {inscricao.inscrito.numero}
+                                                            </FormLabel>
+                                                        </FormItem>
+                                                    ))}
+                                                </RadioGroup>
+                                            </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
@@ -218,36 +213,29 @@ const TarefaCard = ({ tarefa }: TarefaCardProps) => {
                                     control={form.control}
                                     name="requesito"
                                     render={({ field }) => (
-                                        <FormItem >
-                                            <FormLabel>Selecione um Container de Tarefa: </FormLabel>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Containers" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent className=" bg-black p-0" >
-                                                    {isRequesitoLoading && !requesitos ? (
-                                                        <Loader />
-                                                    ) : (
-                                                        <SelectContent className=" bg-black p-0">
-                                                            {requesitos?.documents.map((requesito: Models.Document) => {
-                                                                if (requesito?.grupo.$id === id_g)
-                                                                    return (
-                                                                        <SelectItem
-                                                                            onSelect={field.onChange}
-                                                                            key={requesito.$createdAt}
-                                                                            value={requesito?.$id}
-                                                                        >
-                                                                            {requesito?.title}
-
-                                                                        </SelectItem>
-                                                                    );
-                                                            })}
-                                                        </SelectContent>
-                                                    )}
-                                                </SelectContent>
-                                            </Select>
+                                        <FormItem className="space-y-3">
+                                            <FormLabel>Inserir tarefa no container: </FormLabel>
+                                            <FormControl>
+                                                <RadioGroup
+                                                    onValueChange={field.onChange}
+                                                    defaultValue={field.value}
+                                                    className="flex flex-col space-y-1"
+                                                >
+                                                    {requesitos?.documents.map((requesito) => (
+                                                        <FormItem
+                                                            key={requesito.$id}
+                                                            className="flex items-center space-x-3 space-y-0"
+                                                        >
+                                                            <FormControl>
+                                                                <RadioGroupItem value={requesito.$id} />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal">
+                                                                {requesito.title}
+                                                            </FormLabel>
+                                                        </FormItem>
+                                                    ))}
+                                                </RadioGroup>
+                                            </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
@@ -265,8 +253,8 @@ const TarefaCard = ({ tarefa }: TarefaCardProps) => {
                                             </FormControl>
                                             <div className="space-y-1 leading-none">
                                                 <FormLabel>
-                                                    Concluido: 
-                                                </FormLabel>                                    
+                                                    Concluido:
+                                                </FormLabel>
                                             </div>
                                         </FormItem>
                                     )}

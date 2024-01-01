@@ -17,7 +17,6 @@ import EditarGrupo from './_root/pages/EditarGrupo';
 import Tarefa from './_root/pages/Tarefa';
 import CriarTarefa from './_root/pages/CriarTarefa';
 import EditarTarefa from './_root/pages/EditarTarefa';
-import Requesito from './_root/pages/Requesito';
 import EditarRequesito from './_root/pages/EditarRequesito';
 import Ficheiro from './_root/pages/Ficheiro';
 import EnviarFicheiro from './_root/pages/EnviarFicheiro';
@@ -27,9 +26,10 @@ import EditarProfile from './_root/pages/EditarProfile';
 import MinhasDisciplinas from './_root/pages/MinhasDisciplinas';
 import EditarModulo from './_root/pages/EditarModulo';
 import CriarModulo from './_root/pages/CriarModulo';
-import Notas from './_root/pages/Notas';
+import Notas from './_root/pages/notas';
 import CriarRequesito from './_root/pages/CriarRequesito';
 import Historico from './_root/pages/Historico';
+import MinhasNotas from './_root/pages/MinhasNotas';
 
 
 function App() {
@@ -46,6 +46,8 @@ function App() {
             {/* private route */}
             <Route element={<RootLayout/>}>
                 <Route index element={<Home/>}/>
+                <Route path="/notas" element={<MinhasNotas/>}/>
+
                 <Route path="/disciplina" element={<MinhasDisciplinas/>}/>
                 <Route path="/criar-disciplina" element={<CriarDisciplina/>}/>
                
@@ -72,9 +74,6 @@ function App() {
                 <Route path="/disciplina/:id/grupo/:id_g/criar-tarefa" element={<CriarTarefa/>}/>
                 <Route path="/disciplina/:id/grupo/:id_g/editar-tarefa/:id_t" element={<EditarTarefa/>}/>
           
-
-
-                <Route path="/disciplina/:id/grupo/:id_g//requesitos" element={<Requesito/>}/>
                 <Route path="/disciplina/:id/grupo/:id_g/criar-requesito/" element={<CriarRequesito/>}/>
                 <Route path="/disciplina/:id/grupo/:id_g/editar-requesito/:id_r" element={<EditarRequesito/>}/>
 

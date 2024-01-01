@@ -1,4 +1,5 @@
 export {default as Home } from './Home';
+export {default as MinhasNotas } from './notas';
 export {default as Disciplina} from './Disciplina';
 export {default as CriarDisciplina} from './CriarDisciplina';
 export {default as DisciplinaDetalhe} from './DisciplinaDetalhe';
@@ -13,7 +14,6 @@ export {default as CriarTarefa} from './CriarTarefa';
 export {default as TarefaDetalhe} from './TarefaDetalhe';
 export {default as EditarTarefa} from './EditarTarefa';
 
-export {default as Requesito} from './Requesito';
 
 export {default as EditarRequesito} from './EditarRequesito';
 export {default as Ficheiro} from './Ficheiro';

@@ -44,19 +44,6 @@ const DisciplinaDetalhe = () => {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link to={`disciplina/${id}/notas`} >
-                  <img src="/assets/icons/grades.png" width={50} height={50} aria-placeholder="Criar" />
-                  <p>Notas</p>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p className="subtle-semibold lg:small-regular">Notas</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
         </div>
       </div>
       {isPending ? <Loader /> : (

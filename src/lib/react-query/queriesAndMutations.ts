@@ -620,7 +620,7 @@ export const useUpdateNota = () => {
 
 export const useGetNotaById = (notaId: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_FICHEIRO_BY_ID],
+    queryKey: [QUERY_KEYS.GET_NOTA_BY_ID],
     queryFn: () => getNotaById(notaId),
     enabled: !!notaId
   })

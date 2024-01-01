@@ -1247,6 +1247,7 @@ export async function getRecentNotas() {
 }
 
 export async function createNota( nota : INewNota) {
+  const notaValue = Number(nota.nota);
   try {
     const newNota = await databases.createDocument(
       appwriteConfig.databaseId,
@@ -1254,7 +1255,7 @@ export async function createNota( nota : INewNota) {
       ID.unique(),
       {
         aluno: nota.aluno,
-        nota: nota.nota,
+        nota: notaValue,
         grupo: nota.grupo,
         momento: nota.momento,
         disciplina: nota.disciplina,
@@ -1271,13 +1272,14 @@ export async function createNota( nota : INewNota) {
 }
 
 export async function updateNota( nota : IUpdateNota) {
+  const notaValue = Number(nota.nota);
   try {
     const newNota = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.notaCollectionId,
       nota.notaId,
       {
-        nota: nota.nota,
+        nota: notaValue,
         momento: nota.momento,
       }
     );

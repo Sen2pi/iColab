@@ -102,3 +102,11 @@ export const TarefaValidation = z.object({
   }),
   requesito: z.string().min(0, { message: "Minimum 5 characters"}),
 });
+
+// ============================================================
+// NOTAS
+// ============================================================
+export const NotaValidation = z.object({
+  nota: z.string().min(0, { message: "This field is required" }).max(4, { message: "max 4" }),
+  momento:z.string().min(0, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2200 caracters" }),
+});

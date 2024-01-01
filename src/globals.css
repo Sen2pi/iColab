@@ -153,6 +153,7 @@
 
   .post_details-card {
     @apply bg-dark-2 w-full max-w-5xl rounded-[30px] flex-col flex xl:flex-row border border-dark-4 xl:rounded-l-[24px];
+
   }
 
   .post_details-img {
@@ -350,13 +351,15 @@
 .message--body {
   color: var(--textColorSecondary);
   background-color: var(--themeColorMain);
-  padding: 1em;
   border-radius: 20px;
-  width: fit-content;
+  padding: 1em;
+  width: 100%;
   max-width: 100%;
+  
   word-wrap: break-word;
   display: flex;
   flex-wrap: wrap; /* Adicionando flex-wrap para alinhar itens embaixo quando necessário */
+  margin-bottom: 20px;
 }
 
 .message--body > * {
