@@ -179,4 +179,20 @@ export type INavLink = {
     acao: string;
   };
 
+    //=====================================
+  //===========NOTA==================
+  //===================================== 
+  export type INewNota = {
+    aluno: string;
+    disciplina: string;
+    nota: string;
+    momento: string;
+    grupo:string;
+  };
+  export type IUpdateNota = {
+    notaId: string;
+    nota: string;
+    momento: string;
+  };
+
 

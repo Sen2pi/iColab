@@ -1,6 +1,7 @@
 import { ID, Query } from 'appwrite'
-import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateRequesito, IUpdateTarefa } from "@/types";
+import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewNota, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateRequesito, IUpdateTarefa } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
+import { error } from 'console';
 
 
 
@@ -1189,4 +1190,52 @@ export async function deleteMenssagem(mensagemId: string) {
   }
 }
 
+
 //=================================================================
+//=========================== Notas ================================
+//=================================================================
+
+export async function getNotaById(notaId: string){
+  const nota = await databases.getDocument(
+    appwriteConfig.databaseId,
+    appwriteConfig.notaCollectionId,
+    notaId,
+  )
+  if (!nota) throw error;
+  return nota;
+}
+
+export async function getRecentNotas() {
+  const notas = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.notaCollectionId,
+    [Query.orderDesc('$createdAt'), Query.limit(200)]
+  );
+  if (!notas) throw Error;
+  return notas;
+}
+
+export async function createNota( nota : INewNota) {
+  try {
+    const newNota = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.notaCollectionId,
+      ID.unique(),
+      {
+        aluno: nota.aluno,
+        nota: nota.nota,
+        grupo: nota.grupo,
+        momento: nota.momento,
+        disciplina: nota.disciplina,
+      }
+    );
+    if (!newNota) {
+      throw Error;
+    }
+    return newNota;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
