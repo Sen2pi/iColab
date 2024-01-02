@@ -248,7 +248,7 @@
   /* Bottom bar */
   .bottom-bar {
     @apply z-50 flex-between w-full sticky bottom-0 rounded-t-[20px]  px-5 py-4 md:hidden;
-    background-color: var(--mainBgColor);
+    background-color: var(--themeColorSideBar);
     color: var(--textColorMain);
   }
 
@@ -303,7 +303,7 @@
   /* Topbar */
   .topbar {
     @apply sticky top-0 z-50 md:hidden w-full;
-    background-color: var(--mainBgColor);
+    background-color: var(--themeColorSideBar);
     color: var(--textColorMain);
   }
 

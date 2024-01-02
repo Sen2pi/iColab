@@ -38,13 +38,13 @@ const SignupForm = () => {
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
     defaultValues: {
-      name: "",
-      username: "",
-      email: "",
+      name: "Aluno",
+      username: "Colaborativo",
+      email: "AXXXXXXX@umaia.pt",
       password: "",
       docente: false,
-      curso: "",
-      numero:"",
+      curso: "Informática",
+      numero:"A042542",
     },
   })
 
@@ -133,7 +133,7 @@ const SignupForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input type='text' placeholder='numero' className='shad-input' {...field} />
+                  <Input type='text' placeholder='AXXXXXXX / DXXXXXXX'  className='shad-input' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
