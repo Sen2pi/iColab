@@ -199,5 +199,5 @@ Contribuições são bem-vindas! Sinta-se à vontade para criar forks, propor me
 
 
 ## Licença
-Este projeto é licenciado sob a [Nome da Licença] - veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
+Este projeto é licenciado sob a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007- veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
 
