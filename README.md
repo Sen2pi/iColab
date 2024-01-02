@@ -185,6 +185,11 @@ npm start
 - [AppWrite](https://cloud.appwrite.io/).
 - [TailWindcss](https://tailwindcss.com/).
 - [ShadCn](https://ui.shadcn.com/).
+- [Vercel](https://vercel.com/).
+
+## Deployment
+O deploy foi feito atraves do Vercel que é uma plataforma de deploy super rapida e facil de usar em um clique e tudo funciona.
+com integração com github.
 
 ## Contribuição
 Contribuições são bem-vindas! Sinta-se à vontade para criar forks, propor melhorias ou relatar problemas. 
