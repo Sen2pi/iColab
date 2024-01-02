@@ -19,7 +19,7 @@ const Historico = () => {
                 {historicos?.documents.map((historico: Models.Document) => {
                   try {
                     if (historico?.grupo?.$id == id_g)
-                      return <HistoricoCard historico={historico} key={historico.acao} />;
+                      return <HistoricoCard historico={historico} key={historico.$createdAt} />;
                   } catch (error) { }
                 })}
               </ul>

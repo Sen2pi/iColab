@@ -20,7 +20,7 @@ const Notas = () => {
 
     media = totalNotas / (notas.documents.length - 1);
   }
-  console.log(media)
+
 
   return (
     <div className='px-2 py-2 w-full'>

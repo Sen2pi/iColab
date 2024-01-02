@@ -25,25 +25,25 @@ const DisciplinaDetalhe = () => {
     } catch (error) {
       console.log(error)
     }
-  } 
+  }
 
   return (
     <div className={`post_details-container`}>
       <div className="post_details-card ">
         <div className="flex-center w-full h-full items-center   text-violet-400">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link to={`/disciplina/${id}/grupos`} className={`py-2 px-3`}>
-                  <img src="/assets/icons/people.svg" width={50} height={50} aria-placeholder="Criar" />
-                  <p>Grupos</p>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p className="subtle-semibold lg:small-regular">Grupos</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link to={`/disciplina/${id}/grupos`} className={`py-2 px-3`}>
+                    <img src="/assets/icons/people.svg" width={50} height={50} aria-placeholder="Criar" />
+                    <p>Grupos</p>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="subtle-semibold lg:small-regular">Grupos</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
         </div>
       </div>
       {isPending ? <Loader /> : (
@@ -78,7 +78,7 @@ const DisciplinaDetalhe = () => {
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Link to={`/editar-disciplina/${disciplina?.$id}`} className={`${user?.$id !== disciplina?.professor.$id && 'hidden'}`}>
+                          <Link className={`${user?.$id !== disciplina?.professor.$id && 'hidden'}`} to={`/editar-disciplina/${disciplina?.$id}`} >
                             <img src="/assets/icons/edit.svg" width={24} height={24} />
                           </Link>
                         </TooltipTrigger>

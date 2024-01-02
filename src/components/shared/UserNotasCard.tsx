@@ -63,7 +63,6 @@ const UserCard = ({ user, nota }: UserCardProps) => {
         grupo: id_g || '',
     }
     const handleDeleteNota = async () => {
-        console.log("Entrei no remover");
         await deleteNota(nota?.$id);
         await createHistorico(newHistorico);
         // Atualiza a página
@@ -73,7 +72,7 @@ const UserCard = ({ user, nota }: UserCardProps) => {
 
     const handleSubmit = async (value: z.infer<typeof NotaValidation>) => {
         // ACTION = UPDATE
-        console.log(value)
+  
         const updatedNota = await updateNota({
             ...value,
             notaId: nota?.$id,

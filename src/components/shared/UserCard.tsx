@@ -147,7 +147,7 @@ const UserCard = ({ user, id_g }: UserCardProps) => {
                             </form>
                         </Form>
                     </div >
-                    <div className={`${profOuAluno !== 'Professor' && 'hidden ' || currentPath !== `/disciplina/${id}/grupo/${id_g}/Notas` && 'hidden'}`}>
+                    <div className={`${profOuAluno !== 'Professor' && currentPath !== `/disciplina/${id}/grupo/${id_g}/Notas` && 'hidden'}`}>
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>

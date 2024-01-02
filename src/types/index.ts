@@ -24,6 +24,7 @@ export type INavLink = {
     docente: boolean;
     curso: string;
     file: File[];
+    numero:string;
   };
   
   export type IUser = {
@@ -43,6 +44,7 @@ export type INavLink = {
     username: string;
     password: string;
     docente: boolean;
+    numero:string;
     curso:string;
   };
   //================================================================================================

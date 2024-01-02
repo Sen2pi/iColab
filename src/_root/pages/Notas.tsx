@@ -19,6 +19,7 @@ const Notas = () => {
                 <ul >
                   {inscricoes?.documents.map((inscrito: Models.Document) => (
                     id_g === inscrito.grupo.$id && (
+                      
                       <UserCard user={inscrito.inscrito} id_g={id_g} key={inscrito.$createdAt} />
                     )
                   ))}

@@ -80,7 +80,7 @@ const GrupoDetalhe = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link to={`/disciplina/${id}/grupo/${id_g}/Notas`} >
+                <Link to={`/disciplina/${id}/grupo/${id_g}/notas`} >
                   <img src="/assets/icons/grades.png" width={50} height={50}  />
                   <p>Notas</p>
                 </Link>

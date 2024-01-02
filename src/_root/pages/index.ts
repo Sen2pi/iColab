@@ -5,6 +5,8 @@ export {default as CriarDisciplina} from './CriarDisciplina';
 export {default as DisciplinaDetalhe} from './DisciplinaDetalhe';
 export {default as EditarDisciplina} from './EditarDisciplina';
 
+export {default as Notas} from './Notas';
+
 export {default as Grupo} from './Grupo';
 export {default as CriarGrupo} from './CriarGrupo';
 export {default as GrupoDetalhe} from './GrupoDetalhe';

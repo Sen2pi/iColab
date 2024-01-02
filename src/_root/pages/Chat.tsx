@@ -101,7 +101,7 @@ const Chat = () => {
       </div>
       <div className="message--form">
         <textarea
-          className="shad-input w-full text-end py-3 px-3"
+          className=" bg-slate-900 border-2 shad-input w-full text-end py-3 px-3"
           value={mensagem}
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => handleMensagemChange(event)}
           ref={(ref: HTMLTextAreaElement | null) => setTextareaRef(ref)}

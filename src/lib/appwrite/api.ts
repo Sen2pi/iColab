@@ -68,6 +68,7 @@ export async function createUserAccount(user: INewUser) {
       imageUrl: avatarUrl,
       docente: user.docente,
       curso: user.curso,
+      numero: user.numero,
     })
     return newUser;
   } catch (error) {
@@ -83,6 +84,7 @@ export async function saveUserToDB(user: {
   username?: string;
   docente?: boolean;
   curso: string;
+  numero: string;
 }) {
   try {
     const newUser = await databases.createDocument(
@@ -129,7 +131,7 @@ export async function getUserByNumero(numero: string) {
           Query.equal('numero', [numero.toUpperCase()]),
       ]
   );
-    return userId.documents[0].$id;
+    return userId?.documents[0].$id;
   } catch (error) {
     console.log(error);
   }

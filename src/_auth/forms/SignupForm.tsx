@@ -44,6 +44,7 @@ const SignupForm = () => {
       password: "",
       docente: false,
       curso: "",
+      numero:"",
     },
   })
 
@@ -122,6 +123,17 @@ const SignupForm = () => {
               <FormItem>
                 <FormControl>
                   <Input type='text' placeholder='Email' className='shad-input' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
+            <FormField
+            control={form.control}
+            name="numero"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input type='text' placeholder='numero' className='shad-input' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
