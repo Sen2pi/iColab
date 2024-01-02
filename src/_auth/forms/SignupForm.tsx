@@ -168,14 +168,14 @@ const SignupForm = () => {
             control={form.control}
             name="curso"
             render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow-sm ">
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4  ">
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione o seu curso" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className={`${ 'bg-white'||'--secondaryBgColor'}`} >
                     <SelectItem value="Informática">Informática</SelectItem>
                     <SelectItem value="Psicologia">Psicologia</SelectItem>
                     <SelectItem value="Desporto">Informática</SelectItem>

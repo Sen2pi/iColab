@@ -42,7 +42,7 @@ const Topbar = () => {
                 <span className="sr-only">Mudar de Tema</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="center" >
+            <DropdownMenuContent align="center" className={`${ 'bg-white'||'--mainBgColor'}`} >
               <DropdownMenuItem onClick={() => setTheme("light")}>
                 Dia
               </DropdownMenuItem>
