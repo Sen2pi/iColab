@@ -42,7 +42,98 @@ git clone https://github.com/Sen2pi/iColab.git
 npm install 
 ```
 3. Configure as variáveis de ambiente para o Appwrite e outros serviços necessários.
-*Notas ![Notas](public/assets/appwrite/notas.png)
+```javascript AppWrite DB
+    Users:
+      email: string,
+      username: string,
+      imageUrl: URL,
+      docente: boolean,
+      curso: string,
+      numero: string,
+    
+    Disciplinas:
+      professor: string relação com Users (*..1),
+      nome: string,
+      descricao: string,
+      imageId: string,
+      imageUrl: URL,
+      ano: number,
+      inicio: string,
+      fim: string,
+      curso: string,
+    
+    Modulos:
+      disciplinas: string relacao Disciplinas (*..1),
+      nome: string,
+      descricao: string,
+      completed: boolean,
+      fileId: string,
+      fileUrl: fURL,
+      filename: string, 
+    
+    Grupos:
+      disciplina: string relacao Disciplinas (*..1),
+      nome: string,
+      tema: string,
+      prazo: string,
+      descricao: string,
+      lider: string relacao com Users(*..1),
+
+    Requesitos:
+      title: string,
+      grupo: relacao com Grupos(*..1),
+      user: string com Users(*..1),
+
+    Tarefas:
+      grupo: string relacao Grupos (*..1),
+      date: string,
+      concluido: boolean,
+      atribuido: string relacao Users(*..1),
+      content: string,
+      requesito: string relacao com Requesitos(*..1),
+    
+    Historicos:
+      user: string com Users(*..1),
+      mensagem: string,
+      grupo: string relacao Grupos (*..1),
+      acao: string,
+    
+    Ficheiros:
+      remetente: string com Users(*..1),
+      grupo: string relacao Grupos (*..1),
+      requesito: string relacao com Requesitos(*..1),
+      nome: string,
+      data: string,
+      fileId: string,
+      fileUrl: URL,
+      filename: string,
+      extensao: string,
+    
+    Saves:
+      users: string relacao com Users(*..1),
+      disciplina: string relacao com Disciplinas(*..1),
+
+    Inscricoes:
+      inscrito: string relacao com Users(*..1),
+      grupo: string relacao com Grupos(*..1),
+    
+    Chat:
+      grupo: grupo: string relacao com Grupos(1..1)
+    
+    Mensagens:
+      chat:  string relacao com Grupos(*..1),
+      remetente: string relacao com Users(*..1),
+      mensagem: string,
+    
+    Notas:
+      aluno: string relacao com Users(*..1),
+      nota: number,
+      grupo: string relacao com Grupos(*..1),
+      momento: string,
+      disciplina: tring relacao com Disciplinas(*..1),
+
+    
+```
 4. Execute o aplicativo usando `yarn start` ou `npm start`.
 ```javascript CMD
 npm start 
