@@ -1,5 +1,5 @@
 export {default as Home } from './Home';
-export {default as MinhasNotas } from './notas';
+export {default as MinhasNotas } from './MinhasNotas';
 export {default as Disciplina} from './Disciplina';
 export {default as CriarDisciplina} from './CriarDisciplina';
 export {default as DisciplinaDetalhe} from './DisciplinaDetalhe';
