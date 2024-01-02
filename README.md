@@ -134,26 +134,16 @@ npm install
 
     
 ```
-4. Execute o aplicativo usando `yarn start` ou `npm start`.
+4. Instale o Tailwind :
 ```javascript CMD
-npm start 
-```
-## Tecnologias Utilizadas
-- React
-- TypeScript
-- Appwrite (API para gerenciamento de usuários, autenticação, etc.)
-- Tailwind CSS (Framework de estilos)
-- Shadcn (Biblioteca gráfica ou efeitos visuais)
-
-## Contribuição
-Contribuições são bem-vindas! Sinta-se à vontade para criar forks, propor melhorias ou relatar problemas. 
-```javascript CMD
-dr.karim.patata@gmail.com
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init 
 ```
 
-## Licença
-Este projeto é licenciado sob a [Nome da Licença] - veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
-
+5. Instale o ShadCn
+```javascript CMD
+npx shadcn-ui@latest init
+```
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -184,3 +174,25 @@ export default {
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+6. Execute o aplicativo usando `yarn start` ou `npm start`.
+```javascript CMD
+npm start 
+```
+## Tecnologias Utilizadas
+- [React + Vite](https://vitejs.dev/).
+- [TypeScript](https://www.w3schools.com/typescript/index.php).
+- [AppWrite](https://cloud.appwrite.io/).
+- [TailWindcss](https://tailwindcss.com/).
+- [ShadCn](https://ui.shadcn.com/).
+
+## Contribuição
+Contribuições são bem-vindas! Sinta-se à vontade para criar forks, propor melhorias ou relatar problemas. 
+
+**Private Mail: [Dr. Karim Patatas ](mailto:dr.karim.patatas@gmail.com)
+**Academic Mail: [Dr. Karim Patatas ](mailto:A042542@umaia.pt)
+
+
+## Licença
+Este projeto é licenciado sob a [Nome da Licença] - veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
+
