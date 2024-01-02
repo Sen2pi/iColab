@@ -28,11 +28,6 @@ export const bottombarLinks = [
         route: '/disciplina',
         label: 'Minhas Disciplinas',
     },
-    {
-        imgURL: '/assets/icons/people.svg',
-        route: '/disciplina/:id/grupos',
-        label: 'Grupos',
-    },
 ]
 export const sidebarLinksDisciplina = [
     {
