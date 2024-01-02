@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Models } from "appwrite";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useCreateTarefa, useGetGrupoById, useGetRecentInscricoes, useGetRecentRequesitos } from "@/lib/react-query/queriesAndMutations";
@@ -9,7 +8,7 @@ import { useToast } from "../ui/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Input } from "../ui/input";
-import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "../ui/calendar";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,7 +16,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "../ui/checkbox";
 import Loader from "../shared/Loader";
 import { format } from "date-fns";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+
 
 type TarefaFormProps = {
     action: 'Create';
@@ -121,20 +120,21 @@ const TarefaForm = ({ action }: TarefaFormProps) => {
                                     defaultValue={field.value}
                                     className="flex flex-col space-y-1"
                                 >
-                                    {inscricoes?.documents.map((inscricao) => (
-                                        <FormItem
-                                            key={inscricao.inscrito.$id}
-                                            className="flex items-center space-x-3 space-y-0"
-                                        >
-                                            <FormControl>
-                                                <RadioGroupItem value={inscricao.inscrito.$id} />
-                                            </FormControl>
-                                            <FormLabel className="font-normal">
-                                                {inscricao.inscrito.name + " "}
-                                                {inscricao.inscrito.numero}
-                                            </FormLabel>
-                                        </FormItem>
-                                    ))}
+                                    {isInscricaoLoading && !inscricoes ?
+                                        (<Loader />) : (inscricoes?.documents.map((inscricao) => (
+                                            <FormItem
+                                                key={inscricao.inscrito.$id}
+                                                className="flex items-center space-x-3 space-y-0"
+                                            >
+                                                <FormControl>
+                                                    <RadioGroupItem value={inscricao.inscrito.$id} />
+                                                </FormControl>
+                                                <FormLabel className="font-normal">
+                                                    {inscricao.inscrito.name + " "}
+                                                    {inscricao.inscrito.numero}
+                                                </FormLabel>
+                                            </FormItem>
+                                        )))}
                                 </RadioGroup>
                             </FormControl>
                             <FormMessage />
@@ -153,7 +153,8 @@ const TarefaForm = ({ action }: TarefaFormProps) => {
                                     defaultValue={field.value}
                                     className="flex flex-col space-y-1"
                                 >
-                                    {requesitos?.documents.map((requesito) => (
+                                    {isRequesitoLoading && !requesitos ?
+                                        (<Loader />) :requesitos?.documents.map((requesito) => (
                                         <FormItem
                                             key={requesito.$id}
                                             className="flex items-center space-x-3 space-y-0"

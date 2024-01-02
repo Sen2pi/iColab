@@ -16,18 +16,13 @@ import GrupoDetalhe from './_root/pages/GrupoDetalhe';
 import EditarGrupo from './_root/pages/EditarGrupo';
 import Tarefa from './_root/pages/Tarefa';
 import CriarTarefa from './_root/pages/CriarTarefa';
-import EditarTarefa from './_root/pages/EditarTarefa';
-import EditarRequesito from './_root/pages/EditarRequesito';
 import Ficheiro from './_root/pages/Ficheiro';
 import EnviarFicheiro from './_root/pages/EnviarFicheiro';
 import Chat from './_root/pages/Chat';
-import Profile from './_root/pages/Profile';
-import EditarProfile from './_root/pages/EditarProfile';
 import MinhasDisciplinas from './_root/pages/MinhasDisciplinas';
 import EditarModulo from './_root/pages/EditarModulo';
 import CriarModulo from './_root/pages/CriarModulo';
 import Notas from './_root/pages/Notas';
-import CriarRequesito from './_root/pages/CriarRequesito';
 import Historico from './_root/pages/Historico';
 import MinhasNotas from './_root/pages/MinhasNotas';
 
@@ -68,18 +63,10 @@ function App() {
 
                 <Route path="/disciplina/:id/grupo/:id_g/ficheiros" element={<Ficheiro/>}/>
                 <Route path="/disciplina/:id/grupo/:id_g/criar-ficheiro" element={<EnviarFicheiro/>}/>
-      
-                
+       
                 <Route path="/disciplina/:id/grupo/:id_g/tarefas" element={<Tarefa/>}/>
                 <Route path="/disciplina/:id/grupo/:id_g/criar-tarefa" element={<CriarTarefa/>}/>
-                <Route path="/disciplina/:id/grupo/:id_g/editar-tarefa/:id_t" element={<EditarTarefa/>}/>
-          
-                <Route path="/disciplina/:id/grupo/:id_g/criar-requesito/" element={<CriarRequesito/>}/>
-                <Route path="/disciplina/:id/grupo/:id_g/editar-requesito/:id_r" element={<EditarRequesito/>}/>
 
-
-                <Route path="/profile/:id/*" element={<Profile/>}/>
-                <Route path="/profile/:id" element={<EditarProfile/>}/>
                 <Route path="/minhasdisciplinas" element={<MinhasDisciplinas/>}/>
             </Route>
         </Routes>
