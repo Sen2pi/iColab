@@ -83,7 +83,7 @@ const Chat = () => {
     <div className='px-2 py-2 w-full'>
       <div className="room--container h-5/6 ">
         <div>
-          <h2 h3-bold md:h2-bold text-left p-2>{grupo?.nome}</h2>
+          <h2 className='h3-bold md:h2-bold text-left p-2'>{grupo?.nome}</h2>
           <hr className="border w-full border-dark-4/80" />
           {isMensagemLoading && !mensagens ? (
             <Loader />

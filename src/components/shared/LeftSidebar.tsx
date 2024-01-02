@@ -1,9 +1,16 @@
-import { sidebarLinks, sidebarLinksDisciplina,  } from '@/constants';
+import { sidebarLinks, sidebarLinksDisciplina, } from '@/constants';
 import { INavLink } from '@/types';
-import { useEffect } from 'react';
+import { Moon, Sun } from "lucide-react"
 import { Link, NavLink, useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { useGetCurrentUser, useSignOutAccountMutation } from '@/lib/react-query/queriesAndMutations';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useTheme } from "@/components/shared/theme-provider"
 
 
 const LeftSidebar = () => {
@@ -13,12 +20,9 @@ const LeftSidebar = () => {
   const { data: user } = useGetCurrentUser();
   const { id: disciplinaId } = useParams();
   let profOuAluno = user?.docente ? 'Professor' : 'Aluno';
-  useEffect(() => {
-    if (isSuccess) navigate(0);
-  }, [isSuccess]);
-
-  const sidebarToDisplay = disciplinaId ?  sidebarLinksDisciplina : sidebarLinks;
-
+  const sidebarToDisplay = disciplinaId ? sidebarLinksDisciplina : sidebarLinks;
+  const { setTheme } = useTheme()
+  
   return (
     <nav className="leftsidebar">
       <div className="flex flex-col gap-11">
@@ -68,10 +72,29 @@ const LeftSidebar = () => {
           })}
         </ul>
       </div>
-      <Button variant="ghost" className="shad-button_ghost" onClick={() => signOut()}>
+      <div className='flex flex-ln'>
+        <DropdownMenu > 
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon" >
+              <Sun  className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon   className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">Mudar de Tema</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="center" >
+            <DropdownMenuItem onClick={() => setTheme("light")}>
+              Dia
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("dark")}>
+              Noite
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      <Button variant="ghost" className="shad-button_ghost" onClick={() => signOut()}>{isSuccess}
         <img src="/assets/icons/logout.svg" alt="logout" />
         <p className="small-medium lg:base-medium">Desconectar-se</p>
       </Button>
+      </div>
     </nav>
   );
 };

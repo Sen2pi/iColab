@@ -34,7 +34,6 @@ const UserCard = ({ user, id_g }: UserCardProps) => {
     const { data: notas, isPending: isSaveLoading } = useGetRecentNotas();
     const history = useLocation();
     const currentPath = history.pathname;
-    console.log(currentPath == `/disciplina/${id}/grupo/${id_g}/notas`)
     const form = useForm<z.infer<typeof NotaValidation>>({
         resolver: zodResolver(NotaValidation),
         defaultValues: {

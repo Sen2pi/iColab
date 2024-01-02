@@ -66,7 +66,7 @@ const DisciplinaDetalhe = () => {
                   <img src={disciplina?.professor?.imageUrl || '/assets/icons/profile-placeholder.svg'}
                     alt="professor"
                     className="flex rounded-full w-8 h-8 lg:w-12 lg:h-12  mt-2" />
-                  <p className=" flex base-medium lg:body-bold text-light-1 ml-2 mt-5">
+                  <p className=" flex base-medium lg:body-bold  textColorMain ml-2 mt-5">
                     {disciplina?.professor.name}
                   </p>
                   <div className="flex-center gap-2 text-light-3 mt-3 ml-10">

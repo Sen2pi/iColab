@@ -3,6 +3,56 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+  --mainBgColorLight: rgba(255, 255, 255, 1);
+  --secondaryBgColorLight: rgba(244, 244, 244, 1);
+  --borderColor1Light: rgba(219, 219, 219, 1);
+  --borderColor2Light: rgba(204, 204, 204, 1);
+  --textColorMainLight: #000;
+  --textColorSecondaryLight: rgb(91, 91, 91);
+  --themeColorMainLight: rgb(35, 2, 63);
+  --themeColorDarkerLight: rgb(74, 4, 135);
+  --themeColorSecondaryLight: #386fd2;
+  --themeColorSideBarLight: rgb(79, 10, 216);
+
+  --mainBgColorDark: rgba(20, 20, 31, 1);
+  --secondaryBgColorDark: rgba(27, 27, 39, 1);
+  --borderColor1Dark: rgba(40, 41, 57, 1);
+  --borderColor2Dark: rgba(79, 86, 105, 1);
+  --textColorMainDark: #fff;
+  --textColorSecondaryDark: rgb(226, 227, 232);
+  --themeColorMainDark: rgb(35, 2, 63);
+  --themeColorDarkerDark: rgb(74, 4, 135);
+  --themeColorSecondaryDark: #386fd2;
+  --themeColorSideBarDark: rgb(51, 25, 129);
+}
+/* Light Theme */
+:root.light {
+  --mainBgColor: var(--mainBgColorLight);
+  --secondaryBgColor: var(--secondaryBgColorLight);
+  --borderColor1: var(--borderColor1Light);
+  --borderColor2: var(--borderColor2Light);
+  --textColorMain: var(--textColorMainLight);
+  --textColorSecondary: var(--textColorSecondaryLight);
+  --themeColorMain: var(--themeColorMainLight);
+  --themeColorDarker: var(--themeColorDarkerLight);
+  --themeColorSecondary: var(--themeColorSecondaryLight);
+  --themeColorSideBar: var(--themeColorSideBarLight);
+}
+
+/* Dark Theme */
+:root.dark{
+  --mainBgColor: var(--mainBgColorDark);
+  --secondaryBgColor: var(--secondaryBgColorDark);
+  --borderColor1: var(--borderColor1Dark);
+  --borderColor2: var(--borderColor2Dark);
+  --textColorMain: var(--textColorMainDark);
+  --textColorSecondary: var(--textColorSecondaryDark);
+  --themeColorMain: var(--themeColorMainDark);
+  --themeColorDarker: var(--themeColorDarkerDark);
+  --themeColorSecondary: var(--themeColorSecondaryDark);
+  --themeColorSideBar: var(--themeColorSideBarDark);
+}
 
 @layer base {
   * {
@@ -10,7 +60,8 @@
   }
 
   body {
-    @apply bg-dark-1 text-white min-h-screen font-inter;
+    background-color: var(--mainBgColor);
+    color: var(--textColorMain);
   }
 }
 
@@ -111,7 +162,6 @@
   .common-container {
     @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
   }
-
   /* All Users */
   .user-container {
     @apply max-w-5xl flex flex-col items-start w-full gap-6 md:gap-9;
@@ -131,7 +181,9 @@
   }
 
   .explore-search {
-    @apply h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-0 focus-visible:ring-offset-0 ring-offset-0 !important;
+    @apply h-12 border-none placeholder:text-light-4 focus-visible:ring-0 focus-visible:ring-offset-0 ring-offset-0 !important;
+    background-color: var(--mainBgColor);
+    color: var(--textColorMain);
   }
 
   /* Home */
@@ -152,16 +204,21 @@
   }
 
   .post_details-card {
-    @apply bg-dark-2 w-full max-w-5xl rounded-[30px] flex-col flex xl:flex-row border border-dark-4 xl:rounded-l-[24px];
-
+    @apply w-full max-w-5xl rounded-[30px] flex-col flex xl:flex-row border border-dark-4 xl:rounded-l-[24px];
+    background-color: var(--mainBgColor);
+    color: var(--textColorMain);
   }
 
   .post_details-img {
-    @apply h-80 lg:h-[480px] xl:w-[48%] rounded-t-[30px] xl:rounded-l-[24px] xl:rounded-tr-none object-cover p-5 bg-dark-1;
+    @apply h-80 lg:h-[480px] xl:w-[48%] rounded-t-[30px] xl:rounded-l-[24px] xl:rounded-tr-none object-cover p-5;
+    background-color: var(--mainBgColor);
+    color: var(--textColorMain);
   }
 
   .post_details-info {
-    @apply bg-dark-2 flex flex-col gap-5 lg:gap-7 flex-1 items-start p-8 rounded-[30px];
+    @apply flex flex-col gap-5 lg:gap-7 flex-1 items-start p-8 rounded-[30px];
+    background-color: var(--mainBgColor);
+    color: var(--textColorMain);
   }
 
   .post_details-delete_btn {
@@ -178,7 +235,9 @@
   }
 
   .profile-tab {
-    @apply flex-center gap-3 py-4 w-48 bg-dark-2  transition flex-1 xl:flex-initial;
+    @apply flex-center gap-3 py-4 w-48 transition flex-1 xl:flex-initial;
+    background-color: var(--mainBgColor);
+    color: var(--textColorMain);
   }
 
   /* Saved */
@@ -188,7 +247,9 @@
 
   /* Bottom bar */
   .bottom-bar {
-    @apply z-50 flex-between w-full sticky bottom-0 rounded-t-[20px] bg-dark-2 px-5 py-4 md:hidden;
+    @apply z-50 flex-between w-full sticky bottom-0 rounded-t-[20px]  px-5 py-4 md:hidden;
+    background-color: var(--mainBgColor);
+    color: var(--textColorMain);
   }
 
   /* File uploader */
@@ -219,7 +280,9 @@
 
   /* Left sidebar */
   .leftsidebar {
-    @apply hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] bg-dark-2;
+    @apply hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px];
+    background-color: var(--themeColorSideBar);
+    color: var(--textColorMain);
   }
 
   .leftsidebar-link {
@@ -228,7 +291,9 @@
 
   /* Post Card */
   .post-card {
-    @apply bg-dark-2 rounded-3xl border border-dark-4 p-5 lg:p-7 w-full max-w-screen-sm;
+    @apply rounded-3xl border border-dark-4 p-5 lg:p-7 w-full max-w-screen-sm;
+    background-color: var(--mainBgColor);
+    color: var(--textColorMain);
   }
 
   .post-card_img {
@@ -237,7 +302,9 @@
 
   /* Topbar */
   .topbar {
-    @apply sticky top-0 z-50 md:hidden bg-dark-2 w-full;
+    @apply sticky top-0 z-50 md:hidden w-full;
+    background-color: var(--mainBgColor);
+    color: var(--textColorMain);
   }
 
   /* User card */
@@ -258,11 +325,15 @@
   }
 
   .shad-input {
-    @apply h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
+    @apply h-12 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
+    background-color: var(--mainBgColor);
+    color: var(--textColorMain);
   }
 
   .shad-textarea {
-    @apply h-36 bg-dark-3 rounded-xl border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
+    @apply h-36  rounded-xl border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
+    background-color: var(--mainBgColor);
+    color: var(--textColorMain);
   }
 
   /* Button */
@@ -271,7 +342,9 @@
   }
 
   .shad-button_dark_4 {
-    @apply h-12 bg-dark-4 px-5 text-light-1 flex gap-2 !important;
+    @apply h-12 px-5  flex gap-2 !important;
+    background-color: var(--mainBgColor);
+    color: var(--textColorMain);
   }
 
   .shad-button_ghost {
@@ -283,26 +356,14 @@
 /* Adicione este CSS ao seu arquivo de estilo */
 /* Chat containers */
 /* Room Styling */
-:root{
-  --mainBgColor:rgba(20,20,31,11);
-  --secondaryBgColor:rgba(27,27,39,1);
-  --borderColor1:rgba(40,41,57,1);
-  --borderColor2:rgba(79,86,105,1);
-  --textColorMain:#fff;
-  --textColorSecondary:rgb(226, 227, 232);
-  --themeColorMain:rgb(35, 2, 63);
-  --themeColorDarker:rgb(74, 4, 135);
-  --themeColorSecondary:#386fd2;
-}
+
 
 .room--container {
   padding: 1em;
   background-color: var(--secondaryBgColor);
   border-radius: 0 0 10px 10px;
   border: 15px solid var(--borderColor1);
-  /* Adiciona um máximo de altura para evitar que o conteúdo ultrapasse a tela */
   max-width: 100%;
-  /* Adiciona uma barra de rolagem apenas quando necessário */
   overflow-y: auto;
 }
 
@@ -349,8 +410,8 @@
 }
 
 .message--body {
-  color: var(--textColorSecondary);
-  background-color: var(--themeColorMain);
+  color: rgb(255, 255, 255);
+  background-color: rgb(68, 26, 192);
   border-radius: 20px;
   padding: 1em;
   width: 100%;
@@ -367,8 +428,8 @@
   margin-bottom: 10px;
 }
 .message--body--owner{
-  border: 1px solid rgba(219,26,90,1);
-  background-color: var(--secondaryBgColor);
+  border: 1px solid rgba(219, 26, 90, 1);
+  background-color: rgb(18, 52, 245);
 }
 .text-align-right {
   text-align: right;

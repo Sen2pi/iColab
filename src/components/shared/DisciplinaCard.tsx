@@ -49,7 +49,7 @@ const DisciplinaCard = ({ disciplina }: DisciplinaCardProps) => {
             </Tooltip>
           </TooltipProvider>
           <div className="flex flex-col">
-            <p className="base-medium lg:body-bold text-light-1">
+            <p className="base-medium lg:body-bold">
               {disciplina.professor.name}
             </p>
             <div className="flex-center gap-2 text-light-3">
