@@ -1,3 +1,58 @@
+# iColab - Aplicação de Colaboração para Professores e Alunos
+
+## Descrição
+iColab é uma aplicação desenvolvida em React, TypeScript, Appwrite, Tailwind e Shadcn, projetada para facilitar a colaboração entre professores e alunos. A aplicação oferece recursos específicos para cada tipo de usuário, permitindo uma gestão eficiente de disciplinas, módulos, grupos e tarefas.
+
+## Funcionalidades Principais
+
+### Para Professores
+- Gestão de disciplinas e módulos.
+- Criação e gestão de grupos.
+- Visualização do histórico do grupo.
+- Participação no chat do grupo.
+- Atribuição de notas aos grupos e membros.
+- Administração de tarefas para grupos.
+
+### Para Alunos (Líderes de Grupo)
+- Gestão de tarefas para organização do trabalho.
+- Adição, remoção, edição e atribuição de tarefas.
+- Envio de arquivos.
+- Participação no chat do grupo.
+- Visualização das notas dos membros do grupo.
+
+### Para Outros Alunos
+- Participação no chat do grupo.
+- Visualização das notas dos membros do grupo.
+- Execução de tarefas, excluindo criação ou exclusão.
+
+## Detalhes do Projeto
+
+- **Nome da Aplicação:** iColab
+- **Desenvolvida para:** Trabalho da unidade curricular de Desenvolvimento de Interfaces
+- **Alunos:** A042542, A042807, A042045
+- **Copyright:** Karim Patatas @Sen2Pi
+
+## Configuração do Projeto
+1. Clone o repositório.
+<img  src="/assets/appwrite/notas.png" />
+2. Instale as dependências usando `yarn install` ou `npm install`.
+3. Configure as variáveis de ambiente para o Appwrite e outros serviços necessários.
+
+4. Execute o aplicativo usando `yarn start` ou `npm start`.
+
+## Tecnologias Utilizadas
+- React
+- TypeScript
+- Appwrite (API para gerenciamento de usuários, autenticação, etc.)
+- Tailwind CSS (Framework de estilos)
+- Shadcn (Biblioteca gráfica ou efeitos visuais)
+
+## Contribuição
+Contribuições são bem-vindas! Sinta-se à vontade para criar forks, propor melhorias ou relatar problemas.
+
+## Licença
+Este projeto é licenciado sob a [Nome da Licença] - veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
