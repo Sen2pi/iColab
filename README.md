@@ -38,10 +38,15 @@ iColab é uma aplicação desenvolvida em React, TypeScript, Appwrite, Tailwind 
 git clone https://github.com/Sen2pi/iColab.git
 ```
 2. Instale as dependências usando `yarn install` ou `npm install`.
+```javascript CMD
+npm install 
+```
 3. Configure as variáveis de ambiente para o Appwrite e outros serviços necessários.
 *Notas ![Notas](public/assets/appwrite/notas.png)
 4. Execute o aplicativo usando `yarn start` ou `npm start`.
-
+```javascript CMD
+npm start 
+```
 ## Tecnologias Utilizadas
 - React
 - TypeScript
@@ -50,7 +55,10 @@ git clone https://github.com/Sen2pi/iColab.git
 - Shadcn (Biblioteca gráfica ou efeitos visuais)
 
 ## Contribuição
-Contribuições são bem-vindas! Sinta-se à vontade para criar forks, propor melhorias ou relatar problemas.
+Contribuições são bem-vindas! Sinta-se à vontade para criar forks, propor melhorias ou relatar problemas. 
+```javascript CMD
+dr.karim.patata@gmail.com
+```
 
 ## Licença
 Este projeto é licenciado sob a [Nome da Licença] - veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
