@@ -26,7 +26,7 @@ import EditarProfile from './_root/pages/EditarProfile';
 import MinhasDisciplinas from './_root/pages/MinhasDisciplinas';
 import EditarModulo from './_root/pages/EditarModulo';
 import CriarModulo from './_root/pages/CriarModulo';
-import Notas from './_root/pages/notas';
+import Notas from './_root/pages/MinhasNotas';
 import CriarRequesito from './_root/pages/CriarRequesito';
 import Historico from './_root/pages/Historico';
 import MinhasNotas from './_root/pages/MinhasNotas';
