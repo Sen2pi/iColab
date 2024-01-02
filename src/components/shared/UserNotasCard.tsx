@@ -27,7 +27,7 @@ type UserCardProps = {
 
 const UserCard = ({ user, nota }: UserCardProps) => {
     const navigate = useNavigate();
-    const { id: id, id_g: id_g } = useParams()
+    const {id_g: id_g } = useParams()
     const [action, setAction] = useState<"Editar" | "Criar">("Editar"); // Estado para controlar a ação
     const [formVisible, setFormVisible] = useState(false);
     const { data: currenteUser } = useGetCurrentUser();
@@ -67,7 +67,7 @@ const UserCard = ({ user, nota }: UserCardProps) => {
         await createHistorico(newHistorico);
         // Atualiza a página
         handleRefresh();
-        navigate(`/disciplina/${id}/grupo/${id_g}/notas`);
+        navigate(0);
     };
 
     const handleSubmit = async (value: z.infer<typeof NotaValidation>) => {

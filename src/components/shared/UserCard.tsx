@@ -34,6 +34,7 @@ const UserCard = ({ user, id_g }: UserCardProps) => {
     const { data: notas, isPending: isSaveLoading } = useGetRecentNotas();
     const history = useLocation();
     const currentPath = history.pathname;
+    console.log(currentPath !== `/disciplina/${id}/grupo/${id_g}/notas` && profOuAluno !== 'Professor' && 'hidden' )
     const form = useForm<z.infer<typeof NotaValidation>>({
         resolver: zodResolver(NotaValidation),
         defaultValues: {
@@ -147,7 +148,7 @@ const UserCard = ({ user, id_g }: UserCardProps) => {
                             </form>
                         </Form>
                     </div >
-                    <div className={`${profOuAluno !== 'Professor' && currentPath !== `/disciplina/${id}/grupo/${id_g}/Notas` && 'hidden'}`}>
+                    <div className={`${currentPath !== `/disciplina/${id}/grupo/${id_g}/notas` && 'hidden' ||  profOuAluno !== 'Professor' && 'hidden' }`}>
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
