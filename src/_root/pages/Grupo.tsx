@@ -14,7 +14,6 @@ const Grupo = () => {
   return (
     <div className="flex flex-1">
       <div className="home-container p-2">
-        <div className="post_details-card ">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -27,7 +26,6 @@ const Grupo = () => {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      </div>
         <div className="home-creator">
           <h2 className="h3-bold md:h2-bold text-left w-full">Todos os Grupos</h2>
           {isGrupoLoading && !grupos ? (

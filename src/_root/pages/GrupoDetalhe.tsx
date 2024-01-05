@@ -118,6 +118,18 @@ const GrupoDetalhe = () => {
                           ))}
                         </ul>
                       )}
+                    <h2 className='h4-bold md:h3-bold text-left p-2'>Lider</h2>
+                    {isSaveLoading && !inscricoes ?
+                      (<Loader />) : (
+                        <ul className="grid grid-cols-1 md">
+                          {inscricoes?.documents.map((inscrito: Models.Document) => (
+                             id_g === inscrito.grupo.$id && inscrito.inscrito.$id == grupo?.lider.$id && (
+                              <UserCard user={inscrito.inscrito} key={inscrito?.inscrito?.$id} />
+                            )
+                          ))}
+                        </ul>
+                      )}
+                      
                   </div>
                   <div className="flex-center ml-5 mt-3">
                     <TooltipProvider>

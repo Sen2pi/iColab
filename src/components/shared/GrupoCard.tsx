@@ -19,13 +19,13 @@ const GrupoCard = ({ grupo }: GrupoCardProps) => {
   let profOuAluno = user?.docente ? 'Professor' : 'Aluno';
   const { id: id } = useParams();
   return (
-    <div className="post-card w-fit-content">
+    <div className="post-card">
       <div className="flex-between">
         <div className="flex items-center gap-3">
           <div className="flex flex-col">
             {inscricao?.inscrito.$id !== user?.$id  && profOuAluno == 'Aluno' ? (
               <span style={{ color: 'gray', cursor: 'not-allowed' }}>
-                <p className="base-medium lg:body-bold text-light-1">
+                <p className=" text-purple-700 base-medium lg:body-bold">
                   {grupo.nome}
                 </p>
                 <hr className="border w-full border-dark-4/80" />
@@ -47,7 +47,7 @@ const GrupoCard = ({ grupo }: GrupoCardProps) => {
             ) : (
               <div>
                 <Link to={`/disciplina/${id}/grupo/${grupo.$id}`}>
-                  <p className="base-medium lg:body-bold text-light-1">
+                  <p className="base-medium lg:body-bold text-purple-700">
                     {grupo.nome}
                   </p>
                   <hr className="border w-full border-dark-4/80" />
