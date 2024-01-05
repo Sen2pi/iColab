@@ -190,7 +190,7 @@ npm start
 ## Deployment
 O deploy foi feito atraves do Vercel que é uma plataforma de deploy super rapida e facil de usar em um clique e tudo funciona.
 com integração com github.
-
+[Vercel](https://i-colab-git-production-karim-patatas-projects.vercel.app).
 ## Contribuição
 Contribuições são bem-vindas! Sinta-se à vontade para criar forks, propor melhorias ou relatar problemas. 
 
@@ -199,5 +199,5 @@ Contribuições são bem-vindas! Sinta-se à vontade para criar forks, propor me
 
 
 ## Licença
-Este projeto é licenciado sob a [Nome da Licença] - veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
+Este projeto é licenciado sob a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007- veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
 
