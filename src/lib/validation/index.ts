@@ -79,7 +79,7 @@ export const GrupoValidation = z.object({
   prazo: z.date({
     required_error: "O prazo final de entrega é necessario",
   }),
-  lider: z.string().min(0, { message: "Minimum 5 characters"}),
+  lider:z.string().min(0, { message: "Minimum 5 characters." }).max(2200, { message: "Maximum 2200 caracters" }),
 });
 
 // ============================================================

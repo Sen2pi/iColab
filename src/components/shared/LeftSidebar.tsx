@@ -21,7 +21,7 @@ const LeftSidebar = () => {
   const { id: disciplinaId } = useParams();
   let profOuAluno = user?.docente ? 'Professor' : 'Aluno';
   const sidebarToDisplay = disciplinaId ? sidebarLinksDisciplina : sidebarLinks;
-  const { setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
   
   return (
     <nav className="leftsidebar">
@@ -81,7 +81,7 @@ const LeftSidebar = () => {
               <span className="sr-only">Mudar de Tema</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="center" className={`${ 'bg-white'||'--mainBgColor'}`}>
+          <DropdownMenuContent align="center" className={`${theme == 'dark' && 'bg-black' || theme == 'light' && 'bg-white'}`}>
             <DropdownMenuItem onClick={() => setTheme("light")}>
               Dia
             </DropdownMenuItem>

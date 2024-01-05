@@ -86,7 +86,7 @@ const GrupoCard = ({ grupo }: GrupoCardProps) => {
             <h2>Alunos</h2>
             <hr className="border w-full border-dark-4/80" />
           </div>
-          <div className="post-card_img w-fit-content">
+          <div className="room--container">
             {isSaveLoading && !inscricoes ?
               (<Loader />) : (
                 <ul >

@@ -34,7 +34,6 @@ const UserCard = ({ user, id_g }: UserCardProps) => {
     const { data: notas, isPending: isSaveLoading } = useGetRecentNotas();
     const history = useLocation();
     const currentPath = history.pathname;
-    console.log(currentPath !== `/disciplina/${id}/grupo/${id_g}/notas` && profOuAluno !== 'Professor' && 'hidden' )
     const form = useForm<z.infer<typeof NotaValidation>>({
         resolver: zodResolver(NotaValidation),
         defaultValues: {
@@ -83,7 +82,7 @@ const UserCard = ({ user, id_g }: UserCardProps) => {
         navigate(0);
     };
     return (
-        <div className="message--body">
+        <div className="message--body ">
             <div className="flex-between flex-center text-purple-400 text-left w-full">
                 <div className="flex-center gap-2">
                     <img

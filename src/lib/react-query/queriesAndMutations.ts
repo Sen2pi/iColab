@@ -90,7 +90,6 @@ export const useUpdateDisciplina = () => {
   return useMutation({
     mutationFn: (disciplina: IUpdateDisciplina) => updateDisciplina(disciplina),
     onSuccess: (data) => {
-      console.log(data);
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_DISCIPLINA_BY_ID, data]
       });

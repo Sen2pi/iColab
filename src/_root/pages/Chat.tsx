@@ -88,7 +88,7 @@ const Chat = () => {
           {isMensagemLoading && !mensagens ? (
             <Loader />
           ) : (
-            <ul className="">
+            <ul >
               {mensages?.documents.map((mensagem: Models.Document) => {
                 try {
                   if (mensagem.chat.$id === id_c) return <MensagemCard mensagem={mensagem} key={mensagem.mensagem} />;

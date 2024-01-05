@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useGetCurrentUser, useGetDisciplinaById, useGetRecentModulos } from "@/lib/react-query/queriesAndMutations";
 import { formatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import {
   Tooltip,
   TooltipContent,
@@ -16,6 +16,7 @@ import { deleteDisciplina } from "@/lib/appwrite/api";
 const DisciplinaDetalhe = () => {
   const { data: modulos, isPending: isModuloLoading } = useGetRecentModulos();
   const { id: id } = useParams();
+  const navigate = useNavigate()
   const { data: user } = useGetCurrentUser();
   const { data: disciplina, isPending } = useGetDisciplinaById(id as string);
   const handleDeleteDisciplina = async () => {
@@ -31,19 +32,19 @@ const DisciplinaDetalhe = () => {
     <div className={`post_details-container`}>
       <div className="post_details-card ">
         <div className="flex-center w-full h-full items-center   text-violet-400">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link to={`/disciplina/${id}/grupos`} className={`py-2 px-3`}>
-                    <img src="/assets/icons/people.svg" width={50} height={50} aria-placeholder="Criar" />
-                    <p>Grupos</p>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="subtle-semibold lg:small-regular">Grupos</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button onClick={() => navigate(`/disciplina/${id}/grupos`)} className={`py-2 px-3`}>
+                  <img className="flex mb-5" src={`/assets/icons/people.svg`} width={35} height={35} aria-placeholder="Criar" />
+                  <p>Grupos</p>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="subtle-semibold lg:small-regular">Grupos</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
       {isPending ? <Loader /> : (
@@ -78,9 +79,9 @@ const DisciplinaDetalhe = () => {
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Link className={`${user?.$id !== disciplina?.professor.$id && 'hidden'}`} to={`/editar-disciplina/${disciplina?.$id}`} >
-                            <img src="/assets/icons/edit.svg" width={24} height={24} />
-                          </Link>
+                          <div className={`${user?.$id !== disciplina?.professor.$id && 'hidden'}`}>
+                            <img src="/assets/icons/edit.svg" width={24} height={24} onClick={() => navigate(`/editar-disciplina/${disciplina?.$id}`)} />
+                          </div>
                         </TooltipTrigger>
                         <TooltipContent>
                           <p className="small-medium lg:base-medium">Editar Disciplina</p>

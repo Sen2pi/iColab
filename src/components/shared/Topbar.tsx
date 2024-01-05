@@ -17,7 +17,7 @@ const Topbar = () => {
   const { mutate: signOut, isSuccess } = useSignOutAccountMutation()
   const navigate = useNavigate();
   const { user } = useUserContext();
-  const { setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
   useEffect(() => {
     if (isSuccess) navigate(0);
   }, [isSuccess])
@@ -42,7 +42,7 @@ const Topbar = () => {
                 <span className="sr-only">Mudar de Tema</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="center" className={`${ 'bg-white'||'--mainBgColor'}`} >
+            <DropdownMenuContent align="center" className={`${theme == 'dark' && 'bg-black' || theme == 'light' && 'bg-white'}`} >
               <DropdownMenuItem onClick={() => setTheme("light")}>
                 Dia
               </DropdownMenuItem>
