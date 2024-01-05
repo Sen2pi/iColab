@@ -542,18 +542,26 @@ export async function deleteGrupo(grupoId: string) {
 }
 export async function updateGrupo(grupo: IUpdateGrupo) {
   try {
- 
-    //gravar a disciplina no banco de dados :
+    //gravar a Grupo no banco de dados :
     const updatedGrupo = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.grupoCollectionId,
       grupo.grupoId,
       {
         nome: grupo.nome,
-        descricao: grupo.descricao,
-        nota: grupo.nota,
-        tema: grupo.tema,
         lider: grupo.lider,
+        tema: grupo.tema,
+        descricao: grupo.descricao,
+        prazo: grupo.prazo.toDateString(),
+        /*
+        grupoId: string;
+        nome?: string;
+        lider: string;
+        tema?: string;
+        descricao?: string;
+        nota: number;
+        prazo: Date;
+        */
       }
     );
     return updatedGrupo

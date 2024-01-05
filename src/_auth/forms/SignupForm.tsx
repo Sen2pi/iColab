@@ -25,7 +25,9 @@ import { z } from 'zod'
 import Loader from '@/components/shared/Loader'
 import { useCreateUserAccountMutation, useSignInAccountMutation } from '@/lib/react-query/queriesAndMutations'
 import { useUserContext } from '@/context/AuthContext'
-
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { useTheme } from '@/components/shared/theme-provider'
+import { Moon, Sun } from "lucide-react"
 
 const SignupForm = () => {
   const { toast } = useToast();
@@ -33,6 +35,7 @@ const SignupForm = () => {
   const navigate = useNavigate();
   const { mutateAsync: createUserAccount, isPending: isCreatingUser } = useCreateUserAccountMutation();
   const { mutateAsync: signInAccount, isPending: isSigningIn } = useSignInAccountMutation();
+  const { theme, setTheme } = useTheme()
 
   // 1 . define your form
   const form = useForm<z.infer<typeof SignupValidation>>({
@@ -175,7 +178,7 @@ const SignupForm = () => {
                       <SelectValue placeholder="Selecione o seu curso" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className={`${ 'bg-white'||'--secondaryBgColor'}`} >
+                  <SelectContent className='--mainBgColor' >
                     <SelectItem value="Informática">Informática</SelectItem>
                     <SelectItem value="Psicologia">Psicologia</SelectItem>
                     <SelectItem value="Desporto">Informática</SelectItem>
@@ -191,12 +194,29 @@ const SignupForm = () => {
                 <Loader /> Carregar...
               </div>) : ("Criar Conta")}
           </Button>
-          <p className='text-small-regular text-light-2 text-center mt-2'>
+          <p className={`${theme == 'light' &&'text-small-regular text-dark-2 text-center mt-2 gap-3' || theme == 'dark' &&'text-small-regular text-light-2 text-center mt-2 gap-3'}`}>
             Já tem uma conta?
             <Link to="/sign-in" className='text-primary-500 text-small-semibold ml-1'> Connectar-se
             </Link>
           </p>
         </form>
+            <DropdownMenu > 
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon" >
+              <Sun  className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon   className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">Mudar de Tema</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="center" className={`${theme == 'dark' && 'bg-black' || theme == 'light' && 'bg-white'}`}>
+            <DropdownMenuItem onClick={() => setTheme("light")}>
+              Dia
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("dark")}>
+              Noite
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </Form>
   )

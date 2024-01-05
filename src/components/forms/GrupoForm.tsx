@@ -8,7 +8,7 @@ import { Textarea } from "../ui/textarea"
 import { useNavigate, useParams } from "react-router-dom"
 import { useToast } from "../ui/use-toast"
 import { GrupoValidation } from "@/lib/validation"
-import { useCreateGrupo, useUpdateGrupo } from "@/lib/react-query/queriesAndMutations"
+import { useCreateGrupo, useGetRecentInscricoes, useUpdateGrupo } from "@/lib/react-query/queriesAndMutations"
 import Loader from "../shared/Loader"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import { CalendarIcon } from "@radix-ui/react-icons"
@@ -16,7 +16,7 @@ import { Calendar } from "../ui/calendar"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { useForm } from "react-hook-form"
-import { getUserByNumero } from "@/lib/appwrite/api"
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 
 type GrupoFormProps = {
   grupo?: Models.Document;
@@ -26,17 +26,18 @@ type GrupoFormProps = {
 const GrupoForm = ({ grupo, action }: GrupoFormProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { data: inscricoes, isPending: isInscricaoLoading } = useGetRecentInscricoes();
   const { id: id, id_g:id_g} = useParams();
   // 1. Define your form.
   const form = useForm<z.infer<typeof GrupoValidation>>({
     resolver: zodResolver(GrupoValidation),
     defaultValues: {
       disciplina: id,
-      nome: grupo ? grupo.nome : "",
-      descricao: grupo ? grupo.descricao : "",
-      tema: grupo ? grupo.tema : "",
-      prazo: grupo ? grupo.prazo : "",
-      lider: grupo? grupo.lider : "",
+      nome: grupo?.nome ? grupo?.nome : "",
+      descricao: grupo?.descricao ? grupo?.descricao : "",
+      tema: grupo?.tema ? grupo?.tema : "",
+      prazo: grupo?.prazo ? grupo?.prazo : new Date(),
+      lider: grupo?.lider ? grupo?.lider : "",
     }
   })
   //2 -  Query
@@ -47,16 +48,14 @@ const GrupoForm = ({ grupo, action }: GrupoFormProps) => {
 
   //3 - Handler
   const handleSubmit = async (value: z.infer<typeof GrupoValidation>) => {
-    const liderId = await getUserByNumero(value.lider);
     // ACTION = UPDATE
     if (grupo && action === "Update") {  
       
       
       const updatedGrupo = await updateGrupo({
         ...value,
-        grupoId: id_g? id_g : grupo.$id,
-        lider: liderId ? liderId : "",
-        nota: grupo.nota,
+        grupoId: id_g || "",
+        lider: grupo?.lider ? grupo?.lider : "",
       });
       
       if (!updatedGrupo) {
@@ -70,9 +69,9 @@ const GrupoForm = ({ grupo, action }: GrupoFormProps) => {
       const newGrupo = await createGrupo({
         ...value,
         disciplina: id ? id : "",
-        lider: liderId ? liderId : "",
       });
-      console.log(newGrupo);
+   
+      
       if (!newGrupo) {
         toast({
           title: `${action} Falhou a criar a Grupo, por favor tente novamente.`,
@@ -165,18 +164,38 @@ const GrupoForm = ({ grupo, action }: GrupoFormProps) => {
           )}
         />
         <FormField
-          control={form.control}
-          name="lider"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="shad-form_label">Lider do Grupo</FormLabel>
-              <FormControl>
-                <Input placeholder="A042542" className="shad-input" {...field} />
-              </FormControl>
-              <FormMessage className="shad-form_message" />
-            </FormItem>
-          )}
-        />
+                    control={form.control}
+                    name="lider"
+                    render={({ field }) => (
+                        <FormItem className="space-y-3">
+                            <FormLabel>Atribuir tarefa a:</FormLabel>
+                            <FormControl>
+                                <RadioGroup
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                    className="flex flex-col space-y-1"
+                                >
+                                    {isInscricaoLoading && !inscricoes ?
+                                        (<Loader />) : (inscricoes?.documents.map((inscricao) => (
+                                            <FormItem
+                                                key={inscricao?.$createdAt}
+                                                className="flex items-center space-x-3 space-y-0"
+                                            >
+                                                <FormControl>
+                                                    <RadioGroupItem value={inscricao?.inscrito?.$id} />
+                                                </FormControl>
+                                                <FormLabel className="font-normal">
+                                                    {inscricao?.inscrito?.name + " "}
+                                                    {inscricao?.inscrito?.numero}
+                                                </FormLabel>
+                                            </FormItem>
+                                        )))}
+                                </RadioGroup>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
         <div className="flex gap-4 items-center justify-end">
           <Button type="button" className="shad-button_dark_4" onClick={() => navigate(-1)}>Cancelar</Button>
           <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={isLoadingCreate || isLoadingUpdate}>{(isLoadingCreate || isLoadingUpdate) && <Loader />}{action}</Button>

@@ -33,7 +33,7 @@ const Grupo = () => {
           {isGrupoLoading && !grupos ? (
             <Loader />
           ) : (
-            <ul className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
+            <ul className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
               {grupos?.documents.map((grupo: Models.Document) => (
                 <GrupoCard grupo={grupo} key={grupo.nome} />
               ))}

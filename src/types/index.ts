@@ -113,7 +113,6 @@ export type INavLink = {
     lider: string;
     tema?: string;
     descricao?: string;
-    nota: number;
     prazo: Date;
   };
    //=====================================

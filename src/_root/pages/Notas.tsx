@@ -1,6 +1,6 @@
 
 import Loader from '@/components/shared/Loader';
-import {  useGetRecentInscricoes } from '@/lib/react-query/queriesAndMutations';
+import {   useGetRecentInscricoes } from '@/lib/react-query/queriesAndMutations';
 import { Models } from 'appwrite';
 
 import {  useParams } from 'react-router-dom';
@@ -18,8 +18,7 @@ const Notas = () => {
               (<Loader />) : (
                 <ul >
                   {inscricoes?.documents.map((inscrito: Models.Document) => (
-                    id_g === inscrito.grupo.$id && (
-                      
+                    id_g == inscrito.grupo.$id && !inscrito.inscrito.docente && (
                       <UserCard user={inscrito.inscrito} id_g={id_g} key={inscrito.$createdAt} />
                     )
                   ))}
