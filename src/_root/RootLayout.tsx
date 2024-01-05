@@ -6,16 +6,18 @@ import LeftSidebar from "@/components/shared/LeftSidebar";
 
 const RootLayout = () => {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="w-full md:flex">
-        <Topbar />
-        <LeftSidebar />
-        <section className="flex flex-1 h-full">
-          <Outlet />
-        </section>
-        <Bottombar />
-      </div>
-    </ThemeProvider>
+   
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <div className="w-full md:flex">
+          <Topbar />
+          <LeftSidebar />
+          <section className="flex flex-1 h-full">
+            <Outlet />
+          </section>
+          <Bottombar />
+        </div>
+      </ThemeProvider>
+
   );
 };
 
