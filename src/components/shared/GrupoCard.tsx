@@ -23,7 +23,7 @@ const GrupoCard = ({ grupo }: GrupoCardProps) => {
       <div className="flex-between">
         <div className="flex items-center gap-3">
           <div className="flex flex-col">
-            {inscricao?.inscrito.$id !== user?.$id  && profOuAluno == 'Aluno' ? (
+            {inscricao?.inscrito.$id !== user?.$id && profOuAluno == 'Aluno' ? (
               <span style={{ color: 'gray', cursor: 'not-allowed' }}>
                 <p className=" text-purple-700 base-medium lg:body-bold">
                   {grupo.nome}
@@ -46,10 +46,20 @@ const GrupoCard = ({ grupo }: GrupoCardProps) => {
               </span>
             ) : (
               <div>
+
                 <Link to={`/disciplina/${id}/grupo/${grupo.$id}`}>
-                  <p className="base-medium lg:body-bold text-purple-700">
-                    {grupo.nome}
-                  </p>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <p className="base-medium lg:body-bold text-purple-700">
+                          {grupo.nome}
+                        </p>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="small-medium lg:base-medium bg-purple-700 py-2 px-2 ">Entrar no Grupo</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                   <hr className="border w-full border-dark-4/80" />
                   <div className="flex-center gap-2 text-light-3">
                     <p className="subtle-semibold lg:small-regular">
