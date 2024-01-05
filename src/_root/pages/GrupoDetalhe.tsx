@@ -113,7 +113,7 @@ const GrupoDetalhe = () => {
                         <ul className="grid grid-cols-1 md">
                           {inscricoes?.documents.map((inscrito: Models.Document) => (
                              id_g === inscrito.grupo.$id && (
-                              <UserCard user={inscrito.inscrito} key={inscrito.inscrito} />
+                              <UserCard user={inscrito.inscrito} key={inscrito?.inscrito?.$id} />
                             )
                           ))}
                         </ul>
