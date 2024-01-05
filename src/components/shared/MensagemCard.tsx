@@ -26,7 +26,7 @@ const MensagemCard = ({ mensagem }: MensagemCardProps) => {
                     <img src={mensagem.remetente.imageUrl} alt="avatar" className="avatar" />
                 </div>
                 <div>
-                    <p className="message--header">{user?.name}</p>
+                    <p className="message--header">{mensagem?.remetente?.name}</p>
                     <hr className="border w-full border-light-4/80" />
                     <div className={"message--body" + (mensagem.remetente.$id === user?.$id ? ' message--body--owner' : '')}>
                         <span>{mensagem.mensagem}</span>
