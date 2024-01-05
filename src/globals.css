@@ -416,11 +416,11 @@
   padding: 1em;
   width: 100%;
   max-width: 100%;
-  
   word-wrap: break-word;
   display: flex;
   flex-wrap: wrap; /* Adicionando flex-wrap para alinhar itens embaixo quando necessário */
   margin-bottom: 20px;
+  overflow: hidden;
 }
 
 .message--body > * {

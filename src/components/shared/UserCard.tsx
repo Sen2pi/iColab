@@ -82,7 +82,7 @@ const UserCard = ({ user, id_g }: UserCardProps) => {
         navigate(0);
     };
     return (
-        <div className="message--body ">
+        <div className="message--body   ">
             <div className="flex-between flex-center text-purple-400 text-left w-full">
                 <div className="flex-center gap-2">
                     <img

@@ -92,7 +92,7 @@ const GrupoCard = ({ grupo }: GrupoCardProps) => {
                 <ul >
                   {inscricoes?.documents.map((inscrito: Models.Document) => (
 
-                    grupo.$id === inscrito.grupo.$id && (
+                    grupo.$id === inscrito.grupo.$id && !inscrito.inscrito.docente && (
                       <UserCard user={inscrito.inscrito} key={inscrito.$createdAt} />
                     )
                   ))}
