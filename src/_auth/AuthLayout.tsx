@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import { Outlet, Navigate } from "react-router-dom";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const AuthLayout = () => {
   const isAuthenticated = false;
@@ -9,6 +10,7 @@ const AuthLayout = () => {
         {isAuthenticated ? (<Navigate to="/" />) : (<>
           <section className="flex flex-1 justify-center items-center flex-col py-10">
             <Outlet />
+            <SpeedInsights/>
           </section>
 
           <img
