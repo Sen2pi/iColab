@@ -122,19 +122,20 @@ const TarefaForm = ({ action }: TarefaFormProps) => {
                                 >
                                     {isInscricaoLoading && !inscricoes ?
                                         (<Loader />) : (inscricoes?.documents.map((inscricao) => (
-                                            <FormItem
-                                                key={inscricao.inscrito.$id}
-                                                className="flex items-center space-x-3 space-y-0"
-                                            >
-                                                <FormControl>
-                                                    <RadioGroupItem value={inscricao.inscrito.$id} />
-                                                </FormControl>
-                                                <FormLabel className="font-normal">
-                                                    {inscricao.inscrito.name + " "}
-                                                    {inscricao.inscrito.numero}
-                                                </FormLabel>
-                                            </FormItem>
-                                        )))}
+                                            groupId === inscricao.grupo.$id && !inscricao?.inscrito?.docente && (
+                                                <FormItem
+                                                    key={inscricao.$createdAt}
+                                                    className="flex items-center space-x-3 space-y-0"
+                                                >
+                                                    <FormControl>
+                                                        <RadioGroupItem value={inscricao.inscrito.$id} />
+                                                    </FormControl>
+                                                    <FormLabel className="font-normal">
+                                                        {inscricao.inscrito.name + " "}
+                                                        {inscricao.inscrito.numero}
+                                                    </FormLabel>
+                                                </FormItem>
+                                            ))))}
                                 </RadioGroup>
                             </FormControl>
                             <FormMessage />
@@ -154,19 +155,20 @@ const TarefaForm = ({ action }: TarefaFormProps) => {
                                     className="flex flex-col space-y-1"
                                 >
                                     {isRequesitoLoading && !requesitos ?
-                                        (<Loader />) :requesitos?.documents.map((requesito) => (
-                                        <FormItem
-                                            key={requesito.$id}
-                                            className="flex items-center space-x-3 space-y-0"
-                                        >
-                                            <FormControl>
-                                                <RadioGroupItem value={requesito.$id} />
-                                            </FormControl>
-                                            <FormLabel className="font-normal">
-                                                {requesito.title}
-                                            </FormLabel>
-                                        </FormItem>
-                                    ))}
+                                        (<Loader />) : requesitos?.documents.map((requesito) => (
+                                            groupId === requesito.grupo.$id && (
+                                                <FormItem
+                                                    key={requesito.$createdAt}
+                                                    className="flex items-center space-x-3 space-y-0"
+                                                >
+                                                    <FormControl>
+                                                        <RadioGroupItem value={requesito.$id} />
+                                                    </FormControl>
+                                                    <FormLabel className="font-normal">
+                                                        {requesito.title}
+                                                    </FormLabel>
+                                                </FormItem>
+                                            )))}
                                 </RadioGroup>
                             </FormControl>
                             <FormMessage />

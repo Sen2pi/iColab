@@ -22,7 +22,7 @@ const LeftSidebar = () => {
   let profOuAluno = user?.docente ? 'Professor' : 'Aluno';
   const sidebarToDisplay = disciplinaId ? sidebarLinksDisciplina : sidebarLinks;
   const { theme, setTheme } = useTheme()
-  
+
   return (
     <nav className="leftsidebar">
       <div className="flex flex-col gap-11">
@@ -73,11 +73,11 @@ const LeftSidebar = () => {
         </ul>
       </div>
       <div className='flex flex-ln'>
-        <DropdownMenu > 
+        <DropdownMenu >
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon" >
-              <Sun  className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon   className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Mudar de Tema</span>
             </Button>
           </DropdownMenuTrigger>
@@ -90,10 +90,10 @@ const LeftSidebar = () => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      <Button variant="ghost" className="shad-button_ghost" onClick={() => signOut()}>{isSuccess}
-        <img src="/assets/icons/logout.svg" alt="logout" />
-        <p className="small-medium lg:base-medium">Desconectar-se</p>
-      </Button>
+        <Button variant="ghost" className="shad-button_ghost" onClick={() => signOut()}>{isSuccess}
+          <img src="/assets/icons/logout.svg" alt="logout" />
+          <p className="small-medium lg:base-medium">Desconectar-se</p>
+        </Button>
       </div>
     </nav>
   );
