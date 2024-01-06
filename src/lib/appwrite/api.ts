@@ -1,7 +1,7 @@
 import { ID, Query } from 'appwrite'
 import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewNota, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateNota, IUpdateRequesito, IUpdateTarefa } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
-import { Disciplina } from '@/_root/pages';
+
 
 
 
