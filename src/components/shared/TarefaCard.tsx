@@ -190,6 +190,7 @@ const TarefaCard = ({ tarefa }: TarefaCardProps) => {
                                                     className="flex flex-col space-y-1"
                                                 >
                                                     {inscricoes?.documents.map((inscricao) => (
+                                                         id_g === inscricao.grupo.$id && !inscricao?.inscrito?.docente &&(
                                                         <FormItem
                                                             key={inscricao.inscrito.$id}
                                                             className="flex items-center space-x-3 space-y-0"
@@ -202,7 +203,7 @@ const TarefaCard = ({ tarefa }: TarefaCardProps) => {
                                                                 {inscricao.inscrito.numero}
                                                             </FormLabel>
                                                         </FormItem>
-                                                    ))}
+    )))}
                                                 </RadioGroup>
                                             </FormControl>
                                             <FormMessage />
@@ -222,6 +223,7 @@ const TarefaCard = ({ tarefa }: TarefaCardProps) => {
                                                     className="flex flex-col space-y-1"
                                                 >
                                                     {requesitos?.documents.map((requesito) => (
+                                                         id_g === requesito.grupo.$id  &&(
                                                         <FormItem
                                                             key={requesito.$id}
                                                             className="flex items-center space-x-3 space-y-0"
@@ -233,7 +235,7 @@ const TarefaCard = ({ tarefa }: TarefaCardProps) => {
                                                                 {requesito.title}
                                                             </FormLabel>
                                                         </FormItem>
-                                                    ))}
+                                                    )))}
                                                 </RadioGroup>
                                             </FormControl>
                                             <FormMessage />
