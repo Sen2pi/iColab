@@ -1,7 +1,7 @@
 import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
-import { useGetCurrentUser, useGetGrupoById, useGetRecentInscricoes } from "@/lib/react-query/queriesAndMutations";
-import { Link, useParams } from "react-router-dom"
+import {  useGetCurrentUser, useGetGrupoById, useGetRecentInscricoes } from "@/lib/react-query/queriesAndMutations";
+import { Link, useNavigate, useParams } from "react-router-dom"
 import {
   Tooltip,
   TooltipContent,
@@ -10,13 +10,22 @@ import {
 } from "@/components/ui/tooltip"
 import UserCard from "@/components/shared/UserCard";
 import { Models } from "appwrite";
+import { deleteGrupo } from "@/lib/appwrite/api";
 
 const GrupoDetalhe = () => {
   const { data: inscricoes, isPending: isSaveLoading } = useGetRecentInscricoes();
   const { id: id, id_g: id_g} = useParams();
+  const navigate = useNavigate();
   const { data: user } = useGetCurrentUser();
   const { data: grupo, isPending } = useGetGrupoById(id_g || " ");
-  const handleDeleteGrupo = () => { }
+  const handleDeleteGrupo = async () => { 
+    try {
+      await deleteGrupo(grupo?.$id || " ");
+      // Atualiza a página
+    } catch (error) {
+      console.log(error)
+    }
+  }
   let profOuAluno = user?.docente ? 'Professor' : 'Aluno';
   return (
     <div className="post_details-container">
@@ -146,7 +155,11 @@ const GrupoDetalhe = () => {
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                            <img src="/assets/icons/edit.svg" width={24} height={24} />
+                        <Button onClick={()=> navigate(`/disciplina/${id}/editar-grupo/${id_g}`)}
+                            variant="ghost"
+                            className={`ghost_details-delete_btn ${user?.$id !== grupo?.disciplina.professor.$id && 'hidden'}`}>
+                            <img src="/assets/icons/edit.svg" width={60} height={60}/>
+                          </Button>
                         </TooltipTrigger>
                         <TooltipContent>
                           <p className="small-medium lg:base-medium">Editar Grupo</p>
@@ -174,20 +187,6 @@ const GrupoDetalhe = () => {
         </div>
       )}
       <div className="post_details-card">
-        <div className='flex flex-col w-full items-center gap-3'>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link to={`criar-modulo-grupo/${id}`} className={`${user?.$id !== grupo?.disciplina.professor.$id && "hidden"}`}>
-                  <img className="flex mb-5" src="/assets/icons/create.png" width={35} height={35} aria-placeholder="Criar" />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p className="small-medium lg:base-medium">Criar Módulo</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
       </div>
 
     </div>

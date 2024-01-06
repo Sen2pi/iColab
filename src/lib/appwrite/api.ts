@@ -1,6 +1,7 @@
 import { ID, Query } from 'appwrite'
 import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewNota, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateNota, IUpdateRequesito, IUpdateTarefa } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
+import { Disciplina } from '@/_root/pages';
 
 
 
@@ -542,17 +543,18 @@ export async function deleteGrupo(grupoId: string) {
 }
 export async function updateGrupo(grupo: IUpdateGrupo) {
   try {
+    const newPrazo = grupo?.prazo.toDateString();
     //gravar a Grupo no banco de dados :
     const updatedGrupo = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.grupoCollectionId,
-      grupo.grupoId,
+      grupo?.grupoId,
       {
         nome: grupo.nome,
-        lider: grupo.lider,
         tema: grupo.tema,
         descricao: grupo.descricao,
-        prazo: grupo.prazo.toDateString(),
+        prazo: newPrazo,
+        lider: grupo.lider,
         /*
         grupoId: string;
         nome?: string;
@@ -564,6 +566,7 @@ export async function updateGrupo(grupo: IUpdateGrupo) {
         */
       }
     );
+    if(!updateGrupo) throw Error;
     return updatedGrupo
   } catch (error) {
     console.log(error);
@@ -866,8 +869,7 @@ export async function createFicheiro(ficheiro: INewFicheiro) {
       throw Error;
     }
     const extensao = uploadedFile.name.split('.').pop();
-    console.log(extensao);
-    console.log(ficheiro.nome);
+    console.log(ficheiro);
     //gravar a disciplina no banco de dados :
     const newFicheiro = await databases.createDocument(
       appwriteConfig.databaseId,

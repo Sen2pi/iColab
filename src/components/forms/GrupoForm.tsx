@@ -50,12 +50,15 @@ const GrupoForm = ({ grupo, action }: GrupoFormProps) => {
   const handleSubmit = async (value: z.infer<typeof GrupoValidation>) => {
     // ACTION = UPDATE
     if (grupo && action === "Update") {  
-      
-      
       const updatedGrupo = await updateGrupo({
         ...value,
         grupoId: id_g || "",
-        lider: grupo?.lider ? grupo?.lider : "",
+        nome: value.nome,
+        tema: value.tema,
+        descricao: value.descricao,
+        prazo: value.prazo,
+        lider: value.lider,
+        
       });
       
       if (!updatedGrupo) {
@@ -168,7 +171,7 @@ const GrupoForm = ({ grupo, action }: GrupoFormProps) => {
                     name="lider"
                     render={({ field }) => (
                         <FormItem className="space-y-3">
-                            <FormLabel>Atribuir tarefa a:</FormLabel>
+                            <FormLabel>Lider</FormLabel>
                             <FormControl>
                                 <RadioGroup
                                     onValueChange={field.onChange}
@@ -177,19 +180,20 @@ const GrupoForm = ({ grupo, action }: GrupoFormProps) => {
                                 >
                                     {isInscricaoLoading && !inscricoes ?
                                         (<Loader />) : (inscricoes?.documents.map((inscricao) => (
+                                          id_g === inscricao.grupo.$id && !inscricao?.inscrito?.docente &&(
                                             <FormItem
                                                 key={inscricao?.$createdAt}
                                                 className="flex items-center space-x-3 space-y-0"
                                             >
                                                 <FormControl>
-                                                    <RadioGroupItem value={inscricao?.inscrito?.$id} />
+                                                    <RadioGroupItem value={inscricao.inscrito.$id} />
                                                 </FormControl>
                                                 <FormLabel className="font-normal">
                                                     {inscricao?.inscrito?.name + " "}
                                                     {inscricao?.inscrito?.numero}
                                                 </FormLabel>
                                             </FormItem>
-                                        )))}
+                                        ))))}
                                 </RadioGroup>
                             </FormControl>
                             <FormMessage />

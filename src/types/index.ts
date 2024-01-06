@@ -109,9 +109,9 @@ export type INavLink = {
 
   export type IUpdateGrupo = {
     grupoId: string;
-    nome?: string;
+    nome: string;
     lider: string;
-    tema?: string;
+    tema: string;
     descricao?: string;
     prazo: Date;
   };
