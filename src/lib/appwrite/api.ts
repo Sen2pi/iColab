@@ -869,16 +869,15 @@ export async function createFicheiro(ficheiro: INewFicheiro) {
       throw Error;
     }
     const extensao = uploadedFile.name.split('.').pop();
-    console.log(ficheiro);
     //gravar a disciplina no banco de dados :
     const newFicheiro = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.ficheiroCollectionId,
       ID.unique(),
       {
+        tarefa: ficheiro.tarefa,
         remetente: ficheiro.remetente,
         grupo: ficheiro.grupo,
-        tarefa: ficheiro.tarefa || "",
         nome: ficheiro.nome,
         data: ficheiro.data.toDateString(),
         fileId: uploadedFile.$id,

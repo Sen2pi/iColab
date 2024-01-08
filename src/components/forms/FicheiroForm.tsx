@@ -42,9 +42,9 @@ const FicheiroForm = () => {
     resolver: zodResolver(FicheiroValidation),
     defaultValues: {
       tarefa: "",
+      nome: "Teste",
       remetente: user?.$id,
       grupo: id_g ? id_g : " ",
-      nome: "Teste",
       data: new Date(),
       file: [],
     },
@@ -55,11 +55,13 @@ const FicheiroForm = () => {
 
   //3 - Handler
   const handleSubmit = async (value: z.infer<typeof FicheiroValidation>) => {
+    console.log(value)
     // ACTION = CREATE
     const newFicheiro = await createFicheiro({
       ...value,
       remetente: user?.$id ? user.$id : "",
       grupo: id_g ? id_g : "",
+      
     });
     const newHistorico: INewHistorico = {
       mensagem: `O usuario ${user?.name} criou o seguinte ficheiro no grupo "${value?.nome}"`,
@@ -91,7 +93,6 @@ const FicheiroForm = () => {
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
                   className="flex flex-col space-y-1"
                 >
                   {isTarefaLoading && !tarefas ? (

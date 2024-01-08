@@ -102,6 +102,7 @@ const SignupForm = () => {
             name="name"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="shad-form_label">Nome Completo :</FormLabel>
                 <FormControl>
                   <Input type='text' placeholder='Name' className='shad-input' {...field} />
                 </FormControl>
@@ -113,6 +114,7 @@ const SignupForm = () => {
             name="username"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="shad-form_label">Username :</FormLabel>
                 <FormControl>
                   <Input type='text' placeholder='Username' className='shad-input' {...field} />
                 </FormControl>
@@ -124,6 +126,7 @@ const SignupForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="shad-form_label">Email :</FormLabel>
                 <FormControl>
                   <Input type='text' placeholder='Email' className='shad-input' {...field} />
                 </FormControl>
@@ -135,6 +138,7 @@ const SignupForm = () => {
             name="numero"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="shad-form_label">Numero Mecanográfico :</FormLabel>
                 <FormControl>
                   <Input type='text' placeholder='AXXXXXXX / DXXXXXXX'  className='shad-input' {...field} />
                 </FormControl>
@@ -146,6 +150,7 @@ const SignupForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="shad-form_label">Password</FormLabel>
                 <FormControl>
                   <Input type='password' placeholder='Password' className='shad-input' {...field} />
                 </FormControl>
@@ -178,7 +183,7 @@ const SignupForm = () => {
                       <SelectValue placeholder="Selecione o seu curso" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className='--mainBgColor' >
+                  <SelectContent className={`${theme == 'light' &&' text-dark-2 bg-white' || theme == 'dark' &&' text-light-2 bg-black'}`} >
                     <SelectItem value="Informática">Informática</SelectItem>
                     <SelectItem value="Psicologia">Psicologia</SelectItem>
                     <SelectItem value="Desporto">Informática</SelectItem>
