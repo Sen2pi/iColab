@@ -878,7 +878,7 @@ export async function createFicheiro(ficheiro: INewFicheiro) {
       {
         remetente: ficheiro.remetente,
         grupo: ficheiro.grupo,
-        requesito: ficheiro.requesito || "",
+        tarefa: ficheiro.tarefa || "",
         nome: ficheiro.nome,
         data: ficheiro.data.toDateString(),
         fileId: uploadedFile.$id,

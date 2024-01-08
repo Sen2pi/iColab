@@ -165,7 +165,7 @@ export type INavLink = {
   export type INewFicheiro = {
     remetente: string;
     grupo: string;
-    requesito?: string;
+    tarefa?: string;
     nome: string;
     data: Date;
     file: File[];
