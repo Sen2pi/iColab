@@ -1,7 +1,7 @@
 import { ID, Query } from 'appwrite'
 import { INewDisciplina, INewFicheiro, INewGrupo, INewHistorico, INewMensagem, INewModulo, INewNota, INewRequesito, INewTarefa, INewUser, IUpdateDisciplina, IUpdateGrupo, IUpdateModulo, IUpdateNota, IUpdateRequesito, IUpdateTarefa } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
-import { Disciplina } from '@/_root/pages';
+
 
 
 
@@ -869,16 +869,15 @@ export async function createFicheiro(ficheiro: INewFicheiro) {
       throw Error;
     }
     const extensao = uploadedFile.name.split('.').pop();
-    console.log(ficheiro);
     //gravar a disciplina no banco de dados :
     const newFicheiro = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.ficheiroCollectionId,
       ID.unique(),
       {
+        tarefa: ficheiro.tarefa,
         remetente: ficheiro.remetente,
         grupo: ficheiro.grupo,
-        requesito: ficheiro.requesito || "",
         nome: ficheiro.nome,
         data: ficheiro.data.toDateString(),
         fileId: uploadedFile.$id,
