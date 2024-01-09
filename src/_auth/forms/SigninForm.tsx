@@ -6,6 +6,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -16,6 +17,7 @@ import { z } from 'zod'
 import Loader from '@/components/shared/Loader'
 import { useSignInAccountMutation } from '@/lib/react-query/queriesAndMutations'
 import { useUserContext } from '@/context/AuthContext'
+import { useState } from 'react'
 
 
 const SigninForm = () => {
@@ -23,7 +25,7 @@ const SigninForm = () => {
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
   const navigate = useNavigate();
   const { mutateAsync: signInAccount } = useSignInAccountMutation();
-
+  const [showPassword, setShowPassword] = useState(false);
   // 1 . define your form
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
@@ -72,6 +74,7 @@ const SigninForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input type='text' placeholder='Email XXXXXX@umaia.pt' className='shad-input' {...field} />
                 </FormControl>
@@ -83,8 +86,16 @@ const SigninForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type='password' placeholder='Password' className='shad-input' {...field} />
+                  <div className='flex'>
+                  <Input type={
+                        showPassword ? "text" : "password"
+                    } placeholder='Password' className='shad-input' {...field} />
+                    <Button onClick={()=> setShowPassword(!showPassword)}>
+                      <img src={`${showPassword && "/assets/icons/unsee.png" || !showPassword &&"/assets/icons/see.png"}`} alt="" />
+                    </Button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
