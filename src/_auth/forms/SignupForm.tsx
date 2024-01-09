@@ -28,6 +28,7 @@ import { useUserContext } from '@/context/AuthContext'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useTheme } from '@/components/shared/theme-provider'
 import { Moon, Sun } from "lucide-react"
+import { useState } from 'react'
 
 const SignupForm = () => {
   const { toast } = useToast();
@@ -36,18 +37,19 @@ const SignupForm = () => {
   const { mutateAsync: createUserAccount, isPending: isCreatingUser } = useCreateUserAccountMutation();
   const { mutateAsync: signInAccount, isPending: isSigningIn } = useSignInAccountMutation();
   const { theme, setTheme } = useTheme()
+  const [showPassword, setShowPassword] = useState(false);
 
   // 1 . define your form
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
     defaultValues: {
-      name: "Aluno",
-      username: "Colaborativo",
-      email: "AXXXXXXX@umaia.pt",
+      name: "",
+      username: "",
+      email: "",
       password: "",
       docente: false,
       curso: "Informática",
-      numero:"A042542",
+      numero:"",
     },
   })
 
@@ -152,7 +154,14 @@ const SignupForm = () => {
               <FormItem>
                 <FormLabel className="shad-form_label">Password</FormLabel>
                 <FormControl>
-                  <Input type='password' placeholder='Password' className='shad-input' {...field} />
+                  <div className='flex'>
+                  <Input type={
+                        showPassword ? "text" : "password"
+                    } placeholder='Password' className='shad-input' {...field} />
+                    <Button onClick={()=> setShowPassword(!showPassword)}>
+                      <img src={`${showPassword && "/assets/icons/unsee.png" || !showPassword &&"/assets/icons/see.png"}`} alt="" />
+                    </Button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -201,7 +210,7 @@ const SignupForm = () => {
           </Button>
           <p className={`${theme == 'light' &&'text-small-regular text-dark-2 text-center mt-2 gap-3' || theme == 'dark' &&'text-small-regular text-light-2 text-center mt-2 gap-3'}`}>
             Já tem uma conta?
-            <Link to="/sign-in" className='text-primary-500 text-small-semibold ml-1'> Connectar-se
+            <Link to="/sign-in" className='text-primary-500 text-small-semibold ml-1'> Conectar-se
             </Link>
           </p>
         </form>
