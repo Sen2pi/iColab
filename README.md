@@ -203,4 +203,4 @@ Este projeto é licenciado sob a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2
 
 ## Algumas imagens do Projeto 
 ### Login & Login Form
-![alt text](/screenshots/login.png "Login")
+![alt text](/public/screenshots/login.png)
