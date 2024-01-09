@@ -204,3 +204,26 @@ Este projeto é licenciado sob a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2
 ## Algumas imagens do Projeto 
 ### Login & Login Form
 ![alt text](/public/screenshots/login.png)
+![alt text](/public/screenshots/loginform.png)
+
+### Grupo
+Aluno
+![alt text](/public/screenshots/4.png)
+Professor
+![alt text](/public/screenshots/19.png)
+Todos Grupos
+![alt text](/public/screenshots/3.png)
+### Historico
+![alt text](/public/screenshots/20.png)
+### Ficheiros
+![alt text](/public/screenshots/11.png)
+### Tarefas
+![alt text](/public/screenshots/12.png)
+### Chat
+![alt text](/public/screenshots/17.png)
+![alt text](/public/screenshots/18.png)
+### Notas
+![alt text](/public/screenshots/21.png)
+![alt text](/public/screenshots/22.png)
+![alt text](/public/screenshots/23.png)
+![alt text](/public/screenshots/24.png)
